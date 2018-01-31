@@ -15,6 +15,7 @@ Route::get('/', function () {
   // return session('mykey');
   return View::make('welcome');
 });
+//TODO: Remove this route
 Route::get('some{id?}{ram?}', function(Request $request){
   echo 'request '.$request->input('id');
   // echo '<br>'.$request->input('ram','default');

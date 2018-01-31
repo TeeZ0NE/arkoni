@@ -38,7 +38,7 @@ session(['mykey'=>'som V2']);
 // print_r($request->session()->all());
 echo ($request->session()->has('mykey'))?'key is '.session('mykey'):'hasnt key';
 // Log::info('some info appear here',["messag"=>"ohoho"]);
-});
+})->middleware('auth');
 
 
 Auth::routes();

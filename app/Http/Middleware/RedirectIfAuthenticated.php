@@ -23,7 +23,6 @@ class RedirectIfAuthenticated
     		if(Auth::guard($guard)->check()){
     			return redirect()->route('admin.dashboard');
     		}
-    		else {echo 'oops';}
     		break;
 
     		default:

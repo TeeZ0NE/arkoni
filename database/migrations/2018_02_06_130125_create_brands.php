@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdminTable extends Migration
+class CreateBrands extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateAdminTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('job_title')->nullable();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->string('name')->charset('utf8')->unique()->comment('manufacturer (brand) name');
+            $table->string('url_slug')->charset('utf8');
         });
     }
 
@@ -31,6 +27,6 @@ class CreateAdminTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('brands');
     }
 }

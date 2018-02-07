@@ -15,31 +15,31 @@ class AdminloginController extends Controller
 		$this->middleware('guest:admin');
 	}
 
-    public function showLoginForm(){
-			return view('auth.admin-login');
-		}
-		public function login(Request $request){
+	public function showLoginForm(){
+		return view('auth.admin-login');
+	}
+	public function login(Request $request){
 			// return true;
-			$this->validate($request, [
-				'email'    => 'required|email',
-				'password' => 'required|min:6'
-			]);
-			
-			if(Auth::guard('admin')->attempt([
-				'email'    =>$request->email,
-				'password' =>$request->password,
+		$this->validate($request, [
+			'email'    => 'required|email',
+			'password' => 'required|min:6'
+		]);
+		
+		if(Auth::guard('admin')->attempt([
+			'email'    =>$request->email,
+			'password' =>$request->password,
 				// 'remember' =>$request->filled('remember'),
-			]))
-			{
+		]))
+		{
 				//if successful
-				$request->session()->regenerate();
-				return redirect()->intended(route('admin.dashboard'));
-			}
+			$request->session()->regenerate();
+			return redirect()->intended(route('admin.dashboard'));
+		}
 
 			//unsuccessful
 
-			return redirect()->back()->withInput($request->only('email'))->withErrors(['email' => trans('auth.failed')]);
+		return redirect()->back()->withInput($request->only('email'))->withErrors(['email' => trans('auth.failed')]);
 
 			// return redirect()->back()->withInput($request->only('email'))->with(['email' => 'Wrong username/password combination.']);
-		}
+	}
 }

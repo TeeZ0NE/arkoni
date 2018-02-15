@@ -16,7 +16,7 @@ class CreateCategories extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->charset('utf8')->unique();
-            $table->integer('parent_id')->nullable()->unsigned()->comment('id parent');
+            $table->integer('parent_id')->unsigned()->comment('id parent');
             $table->string('url_slug')->charset('utf8');
         });
     }

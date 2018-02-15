@@ -163,6 +163,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        // sanitize inputs
+        Stevebauman\Purify\PurifyServiceProvider::class,
 
         /*
          * Package Service Providers...

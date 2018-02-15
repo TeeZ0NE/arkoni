@@ -24,6 +24,6 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        return view('layouts.admin.admin');
+        return view('admin.admin');
     }
 }

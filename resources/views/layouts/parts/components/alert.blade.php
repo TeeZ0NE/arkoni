@@ -1,3 +1,3 @@
-<div class="alert alert-{{ $error_class }}" role="alert">
-  <center>{{ __($error_text) }}</center>
-</div
+<div class="alert alert-{{ $alert_class }}" role="alert">
+  {{ __($alert_text) }}
+</div>

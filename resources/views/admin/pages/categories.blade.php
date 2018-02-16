@@ -27,11 +27,11 @@
        <form method="post" action="{{ route('cat.store') }}" class="form">
         {{ csrf_field() }}
         <div class="form-group">
-          <input type="text" class="form-control  d-inline mr-sm-1 w-50" id="cat_name" placeholder="Назва категорії" name="name" required>
-            <select class="selectpicker mr-sm-1" name="parent_id">
+          <input type="text" class="form-control  d-inline mr-sm-1 w-50" id="cat_name" placeholder="Назва категорії" name="name" required value={{ old('name') }}>
+            <select class="selectpicker mr-sm-1" name="parent_id" required>
               <option selected value="">Батьківська категорія</option>
-              @foreach ($cats_all as $cat)
-                <option value={{ $cat->id }}>{{ $cat->name }}</option>
+              @foreach ($parent_cats as $parent_cat)
+                <option value={{ $parent_cat->id }}>{{ $parent_cat->name }}</option>
               @endforeach
             </select>
           <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i></button>
@@ -68,10 +68,10 @@
         <input type="hidden" name="id" id="id-edited">
         <div class="form-group">
           <input type="text" class="form-control  d-inline mr-sm-1 w-50" id="new-cat-name" placeholder="Назва категорії" name="name" required>
-            <select class="selectpicker mr-sm-1" name="parent_id" id="parent-select">
+            <select class="selectpicker mr-sm-1" name="parent_id" id="parent-select" required>
               <option selected value="">Батьківська категорія</option>
-              @foreach ($cats_all as $cat)
-                <option value={{ $cat->id }}>{{ $cat->name }}</option>
+              @foreach ($parent_cats as $parent_cat)
+                <option value={{ $parent_cat->id }}>{{ $parent_cat->name }}</option>
               @endforeach
             </select>
           <button type="submit" class="btn btn-primary"><i class="far fa-save"></i></button>
@@ -93,7 +93,7 @@
           <tr>
             <td class="align-middle">{{ $cat->id }}</td>
             <td class="align-middle">{{ $cat->name }}</td>
-            <td class="align-middle">{{ $cat->sub_cat['name'] }}</td>
+            <td class="align-middle">{{ $cat->parent_cat['name'] }}</td>
             <td class="text-right">
               <a href="{{ route('cat.delete',$cat->id) }}" class="btn btn-danger" onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
               <a href="#edit-form" class="btn btn-info change-category" 

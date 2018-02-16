@@ -18,7 +18,7 @@ class Category extends Model
     return $this->attributes['name'] = mb_strtolower($value);
   }
 
-  public function sub_cat()
+  /*public function sub_cat()
   {
     return $this->belongsTo(Category::class,'parent_id','id');
   }
@@ -26,6 +26,11 @@ class Category extends Model
   public function parent_cat()
   {
     return $this->hasMany(Category::class,'id','parent_id');
+  }*/
+
+  public function parent_cat()
+  {
+    return $this->belongsTo(ParentCategory::class,'parent_id');
   }
 
 }

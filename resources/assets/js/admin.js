@@ -13,7 +13,7 @@ $(function(){
     }
     else return false;
   });
-  var old_id=null;
+  // var old_id=null;
   $(".change-category").on("click", function(event){
         // event.preventDefault();
         var old_name = $(this).attr('data-name');
@@ -23,14 +23,14 @@ $(function(){
          $("#new-cat-name").val(old_name);
          $("#id-edited").val(id);
          //enable or disable category
-         if(old_id!=id){
-          $("#parent-select option[value=" + id + "]").prop('disabled',true);
-          $("#parent-select option[value=" + old_id + "]").prop('disabled',false);
-        }
-        else{
-          $("#parent-select option[value=" + id + "]").prop('disabled',true);
-        }
-        old_id=id;
+        //  if(old_id!=id){
+        //   $("#parent-select option[value=" + id + "]").prop('disabled',true);
+        //   $("#parent-select option[value=" + old_id + "]").prop('disabled',false);
+        // }
+        // else{
+        //   $("#parent-select option[value=" + id + "]").prop('disabled',true);
+        // }
+        // old_id=id;
         $("#parent-select").val(sub_id).change();
       })
 });

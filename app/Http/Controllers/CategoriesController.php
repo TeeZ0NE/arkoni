@@ -5,30 +5,48 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException as QE;
 use App\Models\Category as Cat;
+use App\Models\ParentCategory as PCat;
 use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
 class CategoriesController extends AbstractQueryController
 {
+  /**
+   * sub-cateogory
+   * @var Object Model
+   */
   private $cat;
+  /**
+   * parent category
+   * @var Object Model
+   */
+  private $pcat;
+  /**
+   * count of page on pagination
+   * @var integer
+   */
   private $pag_count=10;
+
   public function __construct(Request $request)
   {
     $this->cat = new Cat;
+    $this->pcat = new PCat;
     $this->middleware('auth:admin');
   }
   public function index()
   {
     return view('admin.pages.categories')->with([
-      'cats_all' => $this->cat::with('sub_cat')->orderBy('name')->get(),
-      'cats'     => $this->cat->paginate($this->pag_count,['name','id','parent_id']),
+      // 'cats_all' => $this->cat::with('sub_cat')->orderBy('name')->get(),
+      'parent_cats' => $this->pcat::orderBy('name')->get(),
+      'cats'     => $this->cat::with('parent_cat')->paginate($this->pag_count,['name','id','parent_id']),
       'count'    => $this->cat::count(),
       'sort'     => 'acs']);
   }
   public function store(Request $request)
   {
     $request->validate([
-      'name'=> "max:255|unique:categories|required"
+      'name'=> "max:255|unique:categories|required",
+      'parent_id' => "required"
     ]);
     // sanitize
     $this->cat->name      = $request->name;
@@ -53,6 +71,8 @@ class CategoriesController extends AbstractQueryController
     $request->flash();
     if(empty($request->q))
     {
+// 'cats'     => $this->cat::with('parent_cat')->paginate($this->pag_count,['name','id','parent_id']),
+      
       $cats = $this->cat::orderBy('name',$request->sort)
       ->paginate($this->pag_count,['name','id','parent_id']);
     }
@@ -64,9 +84,10 @@ class CategoriesController extends AbstractQueryController
     }
     return view('admin.pages.categories')
     ->with([
-     'cats_all' => $this->cat::with('sub_cat')->orderBy('name')->get(),
+     // 'cats_all' => $this->cat::with('sub_cat')->orderBy('name')->get(),
      'cats'     => $cats,
      'count'    => $this->cat::count(),
+     'parent_cats' => $this->pcat::orderBy('name')->get(),
      'sort'     => $request->sort]);
   }
 
@@ -88,7 +109,8 @@ class CategoriesController extends AbstractQueryController
   public function update(Request $request)
   {
     $request->validate([
-      'name'=> "max:255|required"
+      'name'=> "max:255|required",
+      'parent_id' => "required"
     ]);
     try {
       $name = $request->name;

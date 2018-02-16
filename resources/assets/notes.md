@@ -12,3 +12,43 @@ $admin->password = Hash::make(111111)
 >>> $admin->save()
 => true
 >>> $admin->all()
+
+# in model if hasnt timestamps
+protected $fillable = array(
+        'name',
+        'url_slug'
+    );
+  public $timestamps  = false;
+
+
+# filter where
+$brand::all()->where('name','brand7') "filter"
+     
+$this->middleware('auth:admin');
+# save request to use in old 
+$request->flash();
+    return view('admin.pages.brands')->with(
+      ['brands'=>
+      $this->brand::where('name','LIKE','%'.$request->q.'%')
+      ->get(['name','id']),
+      'count'=>$this->brand::count()]);
+
+# add to url
+@php $sort or 'acs'; $brands->appends(['sort'=>$sort])->render(); @endphp       
+
+# paginate
+->paginate($this->pag_count,['name','id']);
+{{ $brands->links() }}
+
+# parent categori and sub category from the same class
+public function sub_cat()
+  {
+    return $this->belongsTo(Category::class,'parent_id','id');
+  }
+
+  public function parent_cat()
+  {
+    return $this->hasMany(Category::class,'id','parent_id');
+  }
+
+  

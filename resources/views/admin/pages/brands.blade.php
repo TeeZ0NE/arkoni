@@ -28,7 +28,7 @@
         {{ csrf_field() }}
         <div class="form-group">
           {{-- <label for="brand_name">Виготовник (бренд)</label> --}}
-          <input type="text" class="form-control  d-inline w-75 mr-sm-1" id="brand_name" placeholder="Назва виготовника" name="name" required>
+          <input type="text" class="form-control  d-inline w-75 mr-sm-1" id="brand_name" placeholder="Назва виготовника" name="name" required value="{{ old('name') }}">
           <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i></button>
         </div>
       </form>

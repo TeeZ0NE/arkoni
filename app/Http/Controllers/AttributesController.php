@@ -12,7 +12,7 @@ class AttributesController extends AbstractQueryController
 {
   private $attr;
   private $pag_count=10;
-  public function __construct(Request $request)
+  public function __construct()
   {
     $this->attr = new Attribute;
     $this->middleware('auth:admin');

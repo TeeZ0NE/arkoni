@@ -27,7 +27,7 @@ class CategoriesController extends AbstractQueryController
    */
   private $pag_count=10;
 
-  public function __construct(Request $request)
+  public function __construct()
   {
     $this->cat = new Cat;
     $this->pcat = new PCat;
@@ -48,7 +48,6 @@ class CategoriesController extends AbstractQueryController
       'name'=> "max:255|unique:categories|required",
       'parent_id' => "required"
     ]);
-    // sanitize
     $this->cat->name      = $request->name;
     $this->cat->url_slug  = url_slug($request->name);
     $this->cat->parent_id = $request->parent_id;

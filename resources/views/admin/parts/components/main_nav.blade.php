@@ -2,7 +2,7 @@
 			<a class="nav-link" href="{{ route('brands') }}">Виробники</a>
 			<a class="nav-link" href="{{ route('cats') }}">Категорії</a>
 			<a class="nav-link" href="{{ route('attrs') }}">Аттрибути</a>
-			<a class="nav-link" href="#">Товари</a>
+			<a class="nav-link" href="{{ route('items.index') }}">Товари</a>
 			<a class="nav-link disabled" href="#">Відгуки</a>
 			<a class="nav-link disabled" href="#">Користувачі</a>
 			<a class="nav-link disabled" href="#">Адміністратори</a>

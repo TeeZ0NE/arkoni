@@ -109,6 +109,7 @@ Route::prefix('admin')->group(function()
     
   });
 // Items
+  Route::resource('items', 'ItemsController');
 // Reviews
 // Users
 

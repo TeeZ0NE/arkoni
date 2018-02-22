@@ -2682,3 +2682,6 @@ readers do not read off random characters that represent icons */
 div {
   border: 1px dotted #f00;
 }
+.custom-file-label[for="img_upload"]::after {
+  content: '...' !important;
+}

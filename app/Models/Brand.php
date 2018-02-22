@@ -10,4 +10,8 @@ class Brand extends Model
     'url_slug'
   );
   public $timestamps  = false;
+
+  public function items(){
+    return $this->hasMany(Item::class,'brand_id');
+  }
 }

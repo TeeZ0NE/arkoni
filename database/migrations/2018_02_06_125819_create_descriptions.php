@@ -14,7 +14,7 @@ class CreateDescriptions extends Migration
     public function up()
     {
         Schema::create('descriptions', function (Blueprint $table) {
-            $table->increments('id')->comment('items id');
+            $table->integer('id')->unsigned()->comment('items id');
             $table->longText('desc')->charset('utf8')->nullable()->comment('item description');
         });
     }

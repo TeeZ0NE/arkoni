@@ -27,10 +27,22 @@ class Category extends Model
   {
     return $this->hasMany(Category::class,'id','parent_id');
   }*/
-
+/**
+ * [parent_cat description]
+ * @return [type] [description]
+ */
   public function parent_cat()
   {
     return $this->belongsTo(ParentCategory::class,'parent_id');
+  }
+/**
+ * get list of items in current category
+ * @return Array [description]
+ */
+  public function items() 
+  {
+    return $this->hasManyThrough(Item::class,ItemCategory::class,
+      'category_id','id','id','id');
   }
 
 }

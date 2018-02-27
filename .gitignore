@@ -12,3 +12,6 @@ yarn-error.log
 .env
 .phpintel/*
 /nbproject/private/
+public/images/*
+storage/purify/*
+nbproject/*

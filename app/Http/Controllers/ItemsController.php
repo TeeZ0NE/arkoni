@@ -14,7 +14,7 @@ use App\Models\Attribute as Attr;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
-use Illuminate\Database\QueryException as QE;
+//use Illuminate\Database\QueryException as QE;
 
 class ItemsController extends Controller
 {
@@ -58,6 +58,11 @@ class ItemsController extends Controller
     * @var Array
     */
     private $attrs_vals_arr=[];
+    /**
+     * count items on page
+     * @var Int
+     */
+    private $pag_count=10;
 
     public function __construct()
     {
@@ -71,15 +76,17 @@ class ItemsController extends Controller
         $this->iattr = new IAttr;
     }
 
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-     public function index()
-     {
+    /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index()
+    {
         return view('admin.pages.items')->with([
-            'count'=>$this->item::count()
+            'count'=>$this->item::count(),
+            'sort'=>'acs',
+            'items'=>$this->item::with(['brand'])->paginate($this->pag_count),
         ]);
     }
 
@@ -91,9 +98,9 @@ class ItemsController extends Controller
     public function create()
     {
         return view('admin.pages.items_create')->with([
-            "brands" => $this->brand::all('name','id'),
-            "cats"   => $this->cat::all('name','id'),
-            "attrs" => $this->attr::all('name','id'),
+            "brands" => $this->brand::all('name', 'id'),
+            "cats"   => $this->cat::all('name', 'id'),
+            "attrs" => $this->attr::all('name', 'id'),
         ]);
     }
 
@@ -106,7 +113,6 @@ class ItemsController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'name'       => 'max:255|required|unique:items',
             'brand_id'   => 'required|numeric',
@@ -114,52 +120,55 @@ class ItemsController extends Controller
             'price_new'  => 'required|numeric',
             'categories' => 'required',
         ]);
-        // if(empty($request->cats)){
-        //     $request->flash();
-        //     return redirect()
-        //     ->back()
-        //     ->withErrors(['categories'=>'Виберіть категорію!']); 
-        // }
+        /* if admin want more explicity with categories
+        if(empty($request->cats)){
+            $request->flash();
+            return redirect()
+            ->back()
+            ->withErrors(['categories'=>'Виберіть категорію!']);
+        }*/
         $name = $this->get_name($request);
         //storing photo
         $file_name = $this->set_image($request);
         // store item
         $curr_item_id = $this->set_item($request, $name, $file_name);
-        try{
-
-            if (!$curr_item_id){
+        try {
+            if (!$curr_item_id) {
                 throw new Exception("Неможливо отримати ID товара");
             }
-
-        //description
+            //description
             $res = $this->store_desc($request->desc, $curr_item_id);
-            if (!$res){
+            if (!$res) {
                 throw new Exception("Неможливо записати опис товара");
             }
-        //categories
+            //categories
             $res = $this->set_cats($request->categories, $curr_item_id);
-            if (!$res){
+            if (!$res) {
                 throw new Exception("Неможливо записати категорі-ю(ї) товара");
             }
-        // attributes
-            if(!empty($request->attrs)){
+            // attributes
+            if (!empty($request->attrs)) {
                 $res = $this->set_attrs($request->attrs, $request->values, $curr_item_id);
-                if (!$res){
+                if (!$res) {
                     throw new Exception("Неможливо записати атрибути товара");
                 }
             }
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             return redirect()
             ->back()
             ->withErrors(['Error'=>$e->getMessage()]);
         }
+        session()->flash('msg', 'Новий товар додано до бази!');
+        return view('admin.pages.items')->with([
+            'count'=>$this->item::count(),
+            'items'=>$this->item::with(['brand','categories'])->get(),
+        ]);
     }
 
     /**
      * getting item's name from request
-     * @param  Request $request 
-     * @return String  
+     * @param  Request $request
+     * @return String
      */
     private function get_name($request)
     {
@@ -168,7 +177,7 @@ class ItemsController extends Controller
 
     /**
      * storing main new item to DB
-     * @param  Request $request  
+     * @param  Request $request
      * @param  String  $namame      getting name from get_name method
      * @param  String  $file_name generated file name of image
      * @return Int             if stored return item's ID else false
@@ -183,12 +192,11 @@ class ItemsController extends Controller
         $this->item->brand_id = $request->brand_id;
         $this->item->enabled = $request->enabled;
         $this->item->photo = $file_name;
-        try{
+        try {
             $this->item->save();
             return $this->item->id;
-        }
-        catch(ModelFail $e){
-            Log::error('Error to write item',["mes"=>$e]);
+        } catch (ModelFail $e) {
+            Log::error('Error to write item', ["mes"=>$e]);
             return 0;
         }
     }
@@ -199,30 +207,31 @@ class ItemsController extends Controller
     */
     private function store_desc($desc, $curr_item_id)
     {
-     $this->idesc->id = $curr_item_id;
-     $this->idesc->desc = $desc;
-     try{return $this->idesc->save();}
-     catch(ModelFail $e){
-        Log::error('Error to write description',["mes"=>$e]);
-        return 0;}
-    }   
+        $this->idesc->id = $curr_item_id;
+        $this->idesc->desc = $desc;
+        try {
+            return $this->idesc->save();
+        } catch (ModelFail $e) {
+            Log::error('Error to write description', ["mes"=>$e]);
+            return 0;
+        }
+    }
 
     /**
      * inserting new item's categories
-     * @param  Request $request      
+     * @param  Request $request
      * @param  Int  $curr_item_id current item's ID
      * @return Bool                stored or not
      */
     private function set_cats($categories, $curr_item_id)
     {
         foreach ($categories as $cat) {
-            try{
+            try {
                 $this->icat->insert([
                     'id'          => $curr_item_id,
                     'category_id' => $cat]);
-            }
-            catch(ModelFail $e){
-                Log::error('Error to write categories',["mes"=>$e]);
+            } catch (ModelFail $e) {
+                Log::error('Error to write categories', ["mes"=>$e]);
                 return 0;
             }
         }
@@ -231,30 +240,31 @@ class ItemsController extends Controller
 
     /**
      * getting image file name
-     * @param  Request $request 
+     * @param  Request $request
      * @param  integer $width   image width
      * @param  integer $height  image height
      * @return String           file name with defaults
      */
     private function set_image(Request $request, $width=300, $height=300)
     {
-        if($request->hasFile('img_upload')){
+        if ($request->hasFile('img_upload')) {
             $file = $request->file('img_upload');
             $fileExt = $file->extension();
             $file_name = time().url_slug($request->name).'.'.$fileExt;
             $public_path = config('app.img_path');
-            Storage::putFileAs('public/img',$file,$file_name);
+            Storage::putFileAs('public/img', $file, $file_name);
             $img = Image::make($public_path.$file_name)
             ->fit($width, $height, function ($constraint) {
                 $constraint->upsize();
             })
             // ->text('The quick brown fox jumps over the lazy dog.', 50, 150)
-            ->insert($public_path.'wm.png','center')
+            ->insert($public_path.'wm.png', 'center')
             ->save();
             return $file_name;
-             // print_r(Storage::allFiles('public/img'));
+        // print_r(Storage::allFiles('public/img'));
+        } else {
+            return 'no_image.png';
         }
-        else {return 'no_image.png';}
     }
 
     /**
@@ -264,24 +274,22 @@ class ItemsController extends Controller
      * @param Int $curr_item_id ID of current item
      * @return Bool inserting new attributes with values or not
      */
-    private function set_attrs($attrs,$values,$curr_item_id)
+    private function set_attrs($attrs, $values, $curr_item_id)
     {
         # merge 2 arrays. One are keys of another array
         $attrs_vals_arr=[];
-        foreach ($attrs as $keys =>$key) 
-        {
+        foreach ($attrs as $keys =>$key) {
             $attrs_vals_arr[$key]=$values[$keys];
         }
         foreach ($attrs_vals_arr as $attr => $value) {
-            try{
+            try {
                 $this->iattr->insert([
                    'id'      => $curr_item_id,
                    'attr_id' => $attr,
                    'value'   => $value
-                ]);
-            }
-            catch(ModelFail $e){
-                Log::error('Error to write item attrs',["mes"=>$e]);
+               ]);
+            } catch (ModelFail $e) {
+                Log::error('Error to write item attrs', ["mes"=>$e]);
                 return 0;
             }
         }
@@ -296,7 +304,7 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        //
+        return 'showing '.$id;
     }
 
     /**
@@ -307,7 +315,7 @@ class ItemsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return 'editing '.$id;
     }
 
     /**
@@ -330,6 +338,105 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return 'destroy '.$id;
+    }
+
+    public function search(Request $request)
+    {
+        $request->flash();
+        $order = "asc";
+        $order_by="";
+        $rsort = $request->sort;
+        $q = $request->q;
+        $count = $this->item::count();
+        $asc_arr = array('asc_iname','asc_brand','asc_price','asc_enabled');
+        $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
+
+        if (in_array($rsort, $asc_arr)) {
+            $order = 'asc';
+        }
+        if (in_array($rsort, $desc_arr)) {
+            $order='desc';
+        }
+        switch ($rsort) {
+            case 'asc_iname':
+            case 'desc_iname':
+            $order_by = 'name';
+            break;
+
+            case 'asc_brand':
+            case 'desc_brand':
+            $order_by = 'brand';
+            break;
+
+            case 'asc_price':
+            case 'desc_price':
+            $order_by = 'price';
+            break;
+
+            case 'asc_enabled':
+            case 'desc_enabled':
+            $order_by = 'enabled';
+            break;
+            default:
+            $order_by = 'name';
+            break;
+        }
+        // empty search request
+        if (empty($request->q)){
+            switch ($order_by) {
+                case 'brand':
+                $brands = $this->brand::with(['items'])
+                ->orderBy('name',$order)
+                ->paginate($this->pag_count);
+                break;
+
+                default:
+                $items = $this->item::with(['brand'])
+                ->orderBy($order_by,$order)
+                ->paginate($this->pag_count);
+                break;
+            }
+        }
+        else{
+            switch ($order_by) {
+                case 'brand':
+                $brands = $this->brand::with(['items'])
+                ->where('name','LIKE','%'.$q.'%')
+                ->orderBy('name',$order)
+                ->paginate($this->pag_count);
+                break;
+
+                default:
+                $items = $this->item::with(['brand'])
+                ->where('name','LIKE','%'.$q.'%')
+                ->orWhere('tags','LIKE','%'.$q.'%')
+                ->orderBy($order_by,$order)
+                ->paginate($this->pag_count);
+                break;
+            }
+        }
+        // returning view
+        switch ($order_by) {
+            case 'brand':
+                return view('admin.pages.items')
+                ->with([
+                    'brands'=>$brands,
+                    'count'=>$count,
+                    'sort'=>$rsort
+                ]);
+                break;
+            
+            default:
+                return view('admin.pages.items')
+                ->with([
+                    'items'=>$items,
+                    'count'=>$count,
+                    'sort'=>$rsort
+                ]);
+                break;
+        }
+
+
     }
 }

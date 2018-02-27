@@ -51,4 +51,14 @@ public function sub_cat()
     return $this->hasMany(Category::class,'id','parent_id');
   }
 
-  
+# delete destroy method
+<form method="post" action="{{ route('items.destroy',$item->id) }}">
+                        {{ csrf_field() }}
+                        <input name="_method" type="hidden" value="DELETE">
+                        <button class="btn btn-danger" type="submit" onclick="return confirm('Ви впевнені?')" >
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+
+# confirmation                     
+  onclick="return confirm('Ви впевнені?')" 

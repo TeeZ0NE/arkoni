@@ -14,10 +14,12 @@ mix.autoload({
   jquery: ['$', 'window.jQuery', 'jQuery'],
   moment: 'moment'
 });
-mix.js(['resources/assets/js/app.js',
-  'resources/assets/js/admin.js'], 'public/js/app.js')
+mix.js([
+  'resources/assets/js/app.js',
+  'resources/assets/js/admin.js',
+  ], 'public/js/app.js')
    .stylus('resources/assets/stylus/app.styl', 'public/css');
-  
+
 mix.webpackConfig({
     resolve: {
       modules: [
@@ -31,5 +33,4 @@ mix.webpackConfig({
  });
 if (mix.inProduction()) {
     mix.version();
-} 
-   
+}

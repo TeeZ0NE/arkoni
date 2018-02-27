@@ -44,7 +44,7 @@
 </div>
 <div class="col-12">
   <table class="table table-striped">
-    <thead>
+    <thead class="sticky-top alert-light">
       <tr class="text-center">
         <th scope="col">ID</th>
         <th scope="col">Виробник (бренд)</th>

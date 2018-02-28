@@ -108,3 +108,7 @@ Route::prefix('admin')->group(function () {
     // Reviews
 // Users
 });
+
+Route::prefix('site')->group(function () {
+    Route::get('/', 'SiteController@index')->name('site.index');
+});

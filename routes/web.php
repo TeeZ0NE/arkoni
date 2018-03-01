@@ -65,7 +65,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.resset');
     });
     // Categories
-    Route::prefix('/categories')->group(function () {
+    Route::prefix('/categories')->group(/**
+     *
+     */
+        function () {
         Route::get('/', 'CategoriesController@index')->name('cats');
 
         Route::group(['middleware'=>['purify']], function () {

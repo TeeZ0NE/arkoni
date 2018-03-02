@@ -1,14 +1,15 @@
 $(function(){
+  // Brands. Change name
   $(".change_name").on("click", function(event){
     event.preventDefault();
     var old_name = $(this).attr('data-name');
     var name = prompt('Введіть нову назву', old_name);
     if(name != null && name !=='' && name != old_name)
     {
-      var id = $(this).attr("id");
+      var brand_id = $(this).attr("id");
       var orig_href = $(this).attr('href');
       window.location = orig_href
-      +"?id="+id
+      +"?id="+brand_id
       +"&name="+name;
     }
     else return false;

@@ -6,89 +6,91 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException as QE;
 use App\Models\Brand as Brand;
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
-class BrandsController extends AbstractQueryController {
+//use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
-    private $brand;
+class BrandsController extends AbstractQueryController
+{
+
     private $pag_count = 10;
 
-    public function __construct() {
-        $this->brand = new Brand;
+    public function __construct()
+    {
         $this->middleware('auth:admin');
     }
 
-    public function index() {
+    public function index()
+    {
         return view('admin.pages.brands')
-                        ->with([
-                            // 'brands'=>$this->brand::all('name','id'),
-                            'brands' => $this->brand::paginate($this->pag_count, ['id', 'name']),
-                            'count' => $this->brand::count(),
-                            'sort' => 'acs']);
+            ->with([
+                'brands' => Brand::paginate($this->pag_count),
+                'count' => Brand::count(),
+                'sort' => 'acs']);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'name' => "max:255|unique:brands|required"
         ]);
-        $this->brand->name = $request->name;
-        $this->brand->url_slug = url_slug($request->name);
+        $name = $request->name;
         try {
-            $this->brand->save();
+            Brand::insert(['name' => $name]);
         } catch (QE $qe) {
+            //TODO: remove debug info $qe
             return redirect()
-                            ->back()
-                            ->withErrors(['brand_name' => 'Такий виробник вже існує' . $qe]);
+                ->back()
+                ->withErrors(['brand_name' => 'Такий виробник вже існує' . $qe]);
         }
         session()->flash('msg', 'Виробника додано');
         return redirect()->back();
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $request->flash();
         if (empty($request->q)) {
-            $brands = $this->brand::orderBy('name', $request->sort)
-                    ->paginate($this->pag_count, ['name', 'id']);
+            $brands = Brand::orderBy('name', $request->sort)
+                ->paginate($this->pag_count);
         } else {
-            $brands = $this->brand::where('name', 'LIKE', '%' . $request->q . '%')
-                    ->orderBy('name', $request->sort)
-                    ->paginate($this->pag_count, ['name', 'id']);
+            $brands = Brand::where('name', 'LIKE', '%' . $request->q . '%')
+                ->orderBy('name', $request->sort)
+                ->paginate($this->pag_count);
         }
         return view('admin.pages.brands')
-                        ->with([
-                            'brands' => $brands,
-                            'count' => $this->brand::count(),
-                            'sort' => $request->sort]);
+            ->with([
+                'brands' => $brands,
+                'count' => Brand::count(),
+                'sort' => $request->sort]);
     }
 
 //  public function delete(Request $request)
-    public function delete($id) {
+    public function delete($id)
+    {
         try {
-//            $this->brand::findOrFail($request->id)->delete();
-            $this->brand::findOrFail($id)->delete();
-        } catch (ModelFail $e) {
-            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.']);
+            Brand::findOrFail($id)->delete();
         } catch (QE $qe) {
-            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.']);
+            //TODO: remove debug info $qe
+            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.' . $qe]);
         }
         session()->flash('msg', 'Виробника видалено з бази');
         return redirect()->back();
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $request->validate([
             'name' => "max:255|unique:brands|required"
         ]);
         try {
-            $this->brand::findOrFail($request->id)
-                    ->update([
-                        'name' => $request->name,
-                        'url_slug' => url_slug($request->name)
-            ]);
-        } catch (ModelFail $e) {
-            return redirect()->back()->withErrors(['update' => 'Такого виробника не існує в базі.']);
+            Brand::findOrFail($request->id)
+                ->update([
+                    'name' => $request->name,
+                ]);
         } catch (QE $qe) {
-            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву виробника.']);
+            $request->flash();
+            //TODO: remove debug info $qe
+            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву виробника.' . $qe]);
         }
         session()->flash('msg', 'Назву виробника успішно змінено!');
         return redirect()->back();

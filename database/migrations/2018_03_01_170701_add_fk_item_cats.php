@@ -21,7 +21,7 @@ class AddFkItemCats extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('sub_cat_id')
-                ->references('sub_cat_id')
+                ->references('id')
                 ->on('sub_categories')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');

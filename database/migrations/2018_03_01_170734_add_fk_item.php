@@ -15,7 +15,7 @@ class AddFkItem extends Migration
     {
         Schema::table('items', function (Blueprint $table) {
             $table->foreign('brand_id')
-                ->references('brand_id')
+                ->references('id')
                 ->on('brands')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');

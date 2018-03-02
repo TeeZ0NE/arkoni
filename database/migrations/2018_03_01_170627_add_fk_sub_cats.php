@@ -15,7 +15,7 @@ class AddFkSubCats extends Migration
     {
         Schema::table('sub_categories', function (Blueprint $table) {
             $table->foreign('cat_id')
-                ->references('cat_id')
+                ->references('id')
                 ->on('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

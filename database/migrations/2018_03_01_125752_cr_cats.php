@@ -14,7 +14,7 @@ class CrCats extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->smallIncrements('cat_id')->comment('category ID');
+            $table->smallIncrements('id')->comment('category ID');
             $table->string('cat_url_slug')->charset('utf8')->comment('URL 4 category');
         });
     }

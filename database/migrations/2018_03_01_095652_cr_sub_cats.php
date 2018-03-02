@@ -17,7 +17,7 @@ class CrSubCats extends Migration
          * @param Blueprint $table
          */
             'sub_categories', function (Blueprint $table) {
-            $table->smallIncrements('sub_cat_id');
+            $table->smallIncrements('id');
             $table->unsignedSmallInteger('cat_id')->comment('parent ID');
             $table->string('sub_cat_url_slug')->charset('utf8')->comment('URL slug 4 sub_categories');
         });

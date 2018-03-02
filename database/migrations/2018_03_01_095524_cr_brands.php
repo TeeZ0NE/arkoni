@@ -14,7 +14,7 @@ class CrBrands extends Migration
     public function up()
     {
         Schema::create('brands', function (Blueprint $table) {
-            $table->increments('brand_id')->comment('brand ID');
+            $table->increments('id')->comment('brand ID');
             $table->string('name')->charset('utf8')->unique()->comment('brand name');
         });
     }

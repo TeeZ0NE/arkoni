@@ -21,7 +21,7 @@ class AddFkItemAttrs extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('attr_id')
-                ->references('attr_id')
+                ->references('id')
                 ->on('attributes')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');

@@ -5,41 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException as QE;
 use App\Models\Category as Cat;
-use App\Models\ParentCategory as PCat;
+use App\Models\RuCategory as RuCat;
+use App\Models\UkCategory as UkCat;
 use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
 class CategoriesController extends AbstractQueryController
 {
   /**
-   * sub-cateogory
-   * @var Object Model
-   */
-  private $cat;
-  /**
-   * parent category
-   * @var Object Model
-   */
-  private $pcat;
-  /**
    * count of page on pagination
    * @var integer
    */
-  private $pag_count=10;
+  private $page_count=10;
 
   public function __construct()
   {
-    $this->cat = new Cat;
-    $this->pcat = new PCat;
     $this->middleware('auth:admin');
   }
   public function index()
   {
+      return "index cat";
     return view('admin.pages.categories')->with([
       // 'cats_all' => $this->cat::with('sub_cat')->orderBy('name')->get(),
-      'parent_cats' => $this->pcat::orderBy('name')->get(),
-      'cats'     => $this->cat::with('parent_cat')->paginate($this->pag_count,['name','id','parent_id']),
-      'count'    => $this->cat::count(),
+        'cats'=>RuCat::with('getCategory')->paginate($this->page_count,['cat_id','name']),
+     // 'parent_cats' => $this->pcat::orderBy('name')->get(),
+     // 'cats'     => $this->cat::with('parent_cat')->paginate($this->pag_count,['name','id','parent_id']),
+      'count'    => Cat::count(),
       'sort'     => 'acs']);
   }
   public function store(Request $request)

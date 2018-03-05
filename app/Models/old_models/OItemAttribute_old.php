@@ -19,7 +19,7 @@ class ItemAttribute extends Model
  */
     public function attributes_and_names()
     {
-        return $this->hasOne(Attribute::class,'id','attr_id');
+        return $this->hasOne(Attribute2::class,'id','attr_id');
     }
 
 /**

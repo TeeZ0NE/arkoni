@@ -31,7 +31,7 @@ class Item extends Model
 
     public function attributes_name()
     {
-        return $this->hasManyThrough(Attribute::class, ItemAttribute::class,
+        return $this->hasManyThrough(Attribute2::class, ItemAttribute::class,
             'id','id','id','attr_id');
     }
 

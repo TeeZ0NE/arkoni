@@ -5,9 +5,9 @@
            aria-expanded="false">Категорії</a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="{{route('cats.index')}}">Категорії</a>
-            <a class="dropdown-item" href="#">Підкатегорії</a>
+            <a class="dropdown-item" href="{{route('subcategory.index')}}">Підкатегорії</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Додати підкатегорію</a>
+            <a class="dropdown-item" href="{{route('subcategory.create')}}">Додати підкатегорію</a>
         </div>
     </li>
     <li class="nav-item"><a href="{{route('attrs')}}" class="nav-link">Аттрибути</a></li>

@@ -58,7 +58,7 @@
         <td class="align-middle">{{ $brand->name }}</td>
         <td class="text-right">
           <a href="{{ route('brand.delete',$brand->id) }}" class="btn btn-danger" onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
-          <a href="{{ route('brand.update') }}" class="btn btn-info change_name" id={{ $brand->id }} data-name="{{ $brand->name }}"><i class="fas fa-pencil-alt"></i></a>
+          <a href="{{ route('brand.update') }}" class="btn btn-info change-brand-name" id={{ $brand->id }} data-name="{{ $brand->name }}"><i class="fas fa-pencil-alt"></i></a>
         </td>
       </tr>
       @endforeach

@@ -40,7 +40,7 @@ class BrandController extends AbstractQueryController
             //TODO: remove debug info $qe
             return redirect()
                 ->back()
-                ->withErrors(['brand_name' => 'Такий виробник вже існує' . $qe]);
+                ->withErrors(['brand_name' => 'Такий виробник вже існує' . $qe->getMessage()]);
         }
         session()->flash('msg', 'Виробника додано');
         return redirect()->back();
@@ -71,7 +71,7 @@ class BrandController extends AbstractQueryController
             Brand::findOrFail($id)->delete();
         } catch (QE $qe) {
             //TODO: remove debug info $qe
-            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.' . $qe]);
+            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
         }
         session()->flash('msg', 'Виробника видалено з бази');
         return redirect()->back();
@@ -90,7 +90,7 @@ class BrandController extends AbstractQueryController
         } catch (QE $qe) {
             $request->flash();
             //TODO: remove debug info $qe
-            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву виробника.' . $qe]);
+            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву виробника.' . $qe->getMessage()]);
         }
         session()->flash('msg', 'Назву виробника успішно змінено!');
         return redirect()->back();

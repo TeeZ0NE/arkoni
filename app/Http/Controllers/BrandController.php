@@ -9,7 +9,7 @@ use Auth;
 
 //use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
-class BrandsController extends AbstractQueryController
+class BrandController extends AbstractQueryController
 {
 
     private $pag_count = 10;

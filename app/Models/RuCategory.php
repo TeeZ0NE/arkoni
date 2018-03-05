@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RuCategory extends Model
 {
     public $timestamps = false;
+    public $primaryKey = 'cat_id';
     protected $fillable = array(
-      'cat_id', 'title', 'desc', 'h1', 'h2', 'seo_text',
+      'cat_id', 'name','title', 'desc', 'h1', 'h2', 'seo_text',
     );
 
     public function getCategory(){

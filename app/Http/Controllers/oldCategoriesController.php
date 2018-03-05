@@ -10,7 +10,7 @@ use App\Models\UkCategory as UkCat;
 use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
-class CategoriesController extends AbstractQueryController
+class oldCategoriesController extends AbstractQueryController
 {
   /**
    * count of page on pagination

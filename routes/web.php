@@ -68,9 +68,11 @@ Route::prefix('admin')->group(function () {
     Route::prefix('/categories')->group(function(){
         Route::get('/','CategoryController@index')->name('cats.index');
         Route::get('/delete/{cat}','CategoryController@destroy')->name('cat.destroy');
-        Route::get('/create','CategoryController@create')->name('cats.create');
+        Route::get('/{id}/edit','CategoryController@edit')->name('cat.edit');
         Route::group(['middleware'=>['purify']], function () {
+            Route::get('/create','CategoryController@create')->name('cats.create');
             Route::get('/query', 'CategoryController@search')->name('cats.search');
+            Route::post('/update','CategoryController@update')->name('cat.update');
         });
     });
     /*Route::prefix('/categories')->group(
@@ -85,7 +87,9 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/delete/{id}', 'CategoriesController@delete')->name('cat.delete');
     });*/
-    
+
+   // SubCategory
+    Route::resource('subcategory','SubCategoryController');
     // Brands
     Route::prefix('/brands')->group(function () {
         Route::get('/', 'BrandController@index')->name('brands');
@@ -93,7 +97,7 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware'=>['purify']], function () {
             Route::get('/query', 'BrandController@search')->name('brands.search');
             Route::post('/', 'BrandController@store')->name('brand.store');
-            Route::get('/renname/query', 'BrandController@update')->name('brand.update');
+            Route::get('/update/query', 'BrandController@update')->name('brand.update');
         });
 
         Route::get('/delete/{id}', 'BrandController@delete')->name('brand.delete');
@@ -106,9 +110,8 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware'=>['purify']], function () {
             Route::get('/query', 'AttributesController@search')->name('attrs.search');
             Route::post('/', 'AttributesController@store')->name('attr.store');
-            Route::get('/renname/query', 'AttributesController@update')->name('attr.update');
+            Route::post('/update', 'AttributesController@update')->name('attr.update');
         });
-
         Route::get('/delete/{id}', 'AttributesController@delete')->name('attr.delete');
     });
     // Items

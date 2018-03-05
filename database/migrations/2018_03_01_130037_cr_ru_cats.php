@@ -20,7 +20,7 @@ class CrRuCats extends Migration
             $table->string('desc')->charset('utf8')->nullable()->comment('page description');
             $table->string('h1')->charset('utf8')->nullable();
             $table->string('h2')->charset('utf8')->nullable();
-            $table->string('seo_text')->charset('utf8')->nullable();
+            $table->longText('seo_text')->charset('utf8')->nullable();
         });
     }
 

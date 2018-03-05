@@ -65,9 +65,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.resset');
     });
     // Categories
-    Route::prefix('/categories')->group(/**
-     *
-     */
+    Route::prefix('/categories')->group(function(){
+        Route::get('/','CategoryController@index')->name('cats.index');
+        Route::get('/delete/{cat}','CategoryController@destroy')->name('cat.destroy');
+        Route::get('/create','CategoryController@create')->name('cats.create');
+        Route::group(['middleware'=>['purify']], function () {
+            Route::get('/query', 'CategoryController@search')->name('cats.search');
+        });
+    });
+    /*Route::prefix('/categories')->group(
         function () {
         Route::get('/', 'CategoriesController@index')->name('cats');
 
@@ -78,18 +84,19 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::get('/delete/{id}', 'CategoriesController@delete')->name('cat.delete');
-    });
+    });*/
+    
     // Brands
     Route::prefix('/brands')->group(function () {
-        Route::get('/', 'BrandsController@index')->name('brands');
+        Route::get('/', 'BrandController@index')->name('brands');
 
         Route::group(['middleware'=>['purify']], function () {
-            Route::get('/query', 'BrandsController@search')->name('brands.search');
-            Route::post('/', 'BrandsController@store')->name('brand.store');
-            Route::get('/renname/query', 'BrandsController@update')->name('brand.update');
+            Route::get('/query', 'BrandController@search')->name('brands.search');
+            Route::post('/', 'BrandController@store')->name('brand.store');
+            Route::get('/renname/query', 'BrandController@update')->name('brand.update');
         });
 
-        Route::get('/delete/{id}', 'BrandsController@delete')->name('brand.delete');
+        Route::get('/delete/{id}', 'BrandController@delete')->name('brand.delete');
     });
 
     // Attributes

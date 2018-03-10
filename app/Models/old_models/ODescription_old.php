@@ -10,6 +10,6 @@ class Description extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class, 'id');
+        return $this->belongsTo(Item_old::class, 'id');
     }
 }

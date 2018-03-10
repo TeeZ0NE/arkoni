@@ -41,7 +41,7 @@ class Cat extends Model
  */
   public function items() 
   {
-    return $this->hasManyThrough(Item::class,ItemCategory::class,
+    return $this->hasManyThrough(Item_old::class,ItemCategory::class,
       'category_id','id','id','id');
   }
 

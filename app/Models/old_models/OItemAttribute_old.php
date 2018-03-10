@@ -29,6 +29,6 @@ class ItemAttribute extends Model
  */
     public function attributes()
     {
-        return $this->belongsTo(Item::class,'id');
+        return $this->belongsTo(Item_old::class,'id');
     }
 }

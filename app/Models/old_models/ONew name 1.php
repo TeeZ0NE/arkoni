@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\CustomCollection;
 
-class Item extends Model
+class Item_old extends Model
 {
     protected $attributes =[
         'price'     => 0.00,

@@ -11,7 +11,7 @@
         </div>
     </li>
     <li class="nav-item"><a href="{{route('attrs')}}" class="nav-link">Аттрибути</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">Теги</a></li>
+    <li class="nav-item"><a href="#" class="nav-link disabled">Теги</a></li>
     <li class="nav-item"><a href="#" class="nav-link">Товари</a></li>
     <li class="nav-item"><a href="#" class="nav-link disabled">Користувачі</a></li>
     <li class="nav-item"><a href="#" class="nav-link disabled">Адміністратори</a></li>

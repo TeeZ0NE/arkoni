@@ -234,5 +234,7 @@ return [
     ],
     # where sore image files
     'img_path' =>public_path().'/storage/img/',
+    # default image
+    'img_default' =>'no_image.png',
 
 ];

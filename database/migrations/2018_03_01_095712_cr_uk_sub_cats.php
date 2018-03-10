@@ -15,7 +15,7 @@ class CrUkSubCats extends Migration
     {
         Schema::create('uk_sub_categories', function (Blueprint $table) {
             $table->unsignedSmallInteger('sub_cat_id')->comment('reference to sub_categories main sub_cat_id');
-            $table->string('name')->charset('utf8')->comment('native name of sub_category');
+            $table->string('uk_name')->charset('utf8')->unique()->comment('native name of sub_category');
             $table->string('title')->charset('utf8')->comment('page title');
             $table->string('desc')->charset('utf8')->nullable()->comment('page description');
             $table->string('h1')->charset('utf8')->nullable()->comment('h tag');

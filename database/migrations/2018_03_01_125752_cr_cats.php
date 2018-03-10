@@ -15,6 +15,7 @@ class CrCats extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->smallIncrements('id')->comment('category ID');
+            $table->string('cat_photo')->charset('utf8')->default('no_image.png')->comment('item image file');
             $table->string('cat_url_slug')->charset('utf8')->comment('URL 4 category');
         });
     }

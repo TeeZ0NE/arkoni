@@ -18,7 +18,7 @@ class AddFkSubCats extends Migration
                 ->references('id')
                 ->on('categories')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

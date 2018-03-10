@@ -15,8 +15,8 @@ class CrAttrs extends Migration
     {
         Schema::create('attributes', function (Blueprint $table) {
             $table->mediumIncrements('id')->comment('attribute ID');
-            $table->string('name_ru')->charset('utf8')->unique()->comment('color, weight, etc.');
-            $table->string('name_uk')->charset('utf8')->unique()->comment('color, weight, etc.');
+            $table->string('ru_name')->charset('utf8')->unique()->comment('color, weight, etc.');
+            $table->string('uk_name')->charset('utf8')->unique()->comment('color, weight, etc.');
         });
     }
 

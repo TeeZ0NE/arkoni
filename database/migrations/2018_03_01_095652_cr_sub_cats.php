@@ -20,6 +20,7 @@ class CrSubCats extends Migration
             $table->smallIncrements('id');
             $table->unsignedSmallInteger('cat_id')->comment('parent ID');
             $table->string('sub_cat_url_slug')->charset('utf8')->comment('URL slug 4 sub_categories');
+            $table->string('sub_cat_photo')->charset('utf8')->default('no_image.png')->comment('item image file');
         });
     }
 

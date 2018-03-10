@@ -8,7 +8,7 @@ use App\Models\ItemCategory as ICat;
 use App\Models\ItemAttribute as IAttr;
 use App\Models\Description as IDesc;
 use App\Models\Review as IRev;
-use App\Models\Item as Item;
+use App\Models\Item_old as Item;
 use App\Models\Category as Cat;
 use App\Models\Attribute as Attr;
 use Illuminate\Support\Facades\Storage;
@@ -67,13 +67,6 @@ class ItemsController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->item  = new Item;
-        $this->brand = new Brand;
-        $this->cat   = new Cat;
-        $this->idesc = new IDesc;
-        $this->attr  = new Attr;
-        $this->icat  = new ICat;
-        $this->iattr = new IAttr;
     }
 
     /**

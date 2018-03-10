@@ -10,6 +10,6 @@ class Brand extends Model
     protected $fillable=array('name');
 
     public function items(){
-        return $this->hasMany(Items::class, 'brand_id', 'brand_id');
+        return $this->hasMany(Items::class, 'brand_id', 'id');
     }
 }

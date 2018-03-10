@@ -12,7 +12,7 @@
         <div class="col-12 col-lg-2">
             <strong>Додати</strong>
             <br>
-            <a href="{{ route('cats.create') }}" class="btn btn-primary" role="button"><i
+            <a href="{{ route('cats.create') }}" class="btn btn-primary disabled" role="button"><i
                         class="fas fa-plus"></i></a>
         </div>
         <div class="col col-lg-10">
@@ -45,7 +45,6 @@
                 <tr class="text-center">
                     <th scope="col" rowspan="2" class="align-middle">ID</th>
                     <th scope="col" colspan="2">Назва категорії</th>
-                    <th scope="col" rowspan="2" class="align-middle">Фото</th>
                     <th scope="col" rowspan="2" class="align-middle">Операції</th>
                 </tr>
                 <tr>
@@ -58,11 +57,8 @@
                     <tr>
                         <td class="align-middle">{{ $cat->id }}</td>
                         <td class="align-middle">{{$cat->ru_name}}</td>
-                        <td class="align-middle">{{$cat->uk_name}}</td>
-                        <td class="align-middle text-center">
-                            <img src="{{asset('storage/img').'/'.$cat->cat_photo}}" alt="item photo" class="img-thumbnail w-25">
-                        </td>
-                        <td class="text-right align-middle">
+                        <td>{{$cat->uk_name}}</td>
+                        <td class="text-right">
                             <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-danger"
                                onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
                             <a href="{{route('cat.edit',$cat->id)}}" class="btn btn-info change-category">

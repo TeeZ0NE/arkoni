@@ -29,12 +29,12 @@ class AttributesController extends AbstractQueryController
     public function store(Request $request)
     {
         $request->validate([
-            'name_ru' => "max:255|unique:attributes|required",
-            'name_uk' => "max:255|unique:attributes|required",
+            'ru_name' => "max:255|unique:attributes|required",
+            'uk_name' => "max:255|unique:attributes|required",
         ]);
         $attr = new Attr;
-        $attr->name_ru = $request->name_ru;
-        $attr->name_uk = $request->name_uk;
+        $attr->ru_name = $request->ru_name;
+        $attr->uk_name = $request->uk_name;
         try {
             $attr->save();
         } catch (QE $qe) {
@@ -52,20 +52,11 @@ class AttributesController extends AbstractQueryController
         $request->flash();
         $sort = $request->sort;
         $q = $request->q;
-        if (empty($q)) {
-            $attrs = Attr::orderBy('name_ru', $sort)
-                ->paginate($this->pag_count);
-        } else {
-            $attrs = Attr::where('name_ru', 'LIKE', '%' . $q . '%')
-                ->orWhere('name_uk', 'LIKE', '%' . $q . '%')
-                ->orderBy('name_ru', $sort)
-                ->orderBy('name_uk', $sort)
-                ->paginate($this->pag_count);
-        }
+        $attr = new Attr();
         return view('admin.pages.attributes')
             ->with([
-                'attrs' => $attrs,
-                'count' => Attr::count(),
+                'attrs' => $attr->searchAndSort($q, $sort)->paginate($this->pag_count),
+                'count' => $attr::count(),
                 'sort' => $sort]);
     }
 
@@ -84,19 +75,17 @@ class AttributesController extends AbstractQueryController
     public function update(Request $request)
     {
         $request->validate([
-            'name_ru' => "max:255|required",
-            'name_uk' => "max:255|required"
+            'ru_name' => "max:255|required",
+            'uk_name' => "max:255|required"
         ]);
-        $attr = Attr::find($request->id);
-        $attr->name_ru = $request->name_ru;
-        $attr->name_uk = $request->name_uk;
-        try {
-            $attr->save();
-        } catch (QE $qe) {
-            //TODO::delete debug info $qe
-            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву параметра.' . $qe->getMessage()]);
+        $attr = Attr::where('id',$request->id)
+        ->update(['ru_name' => $request->ru_name,
+        'uk_name' => $request->uk_name]);
+        if(!$attr) {
+            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву параметра.']);
+        }else {
+            session()->flash('msg', 'Назву параметра успішно змінено!');
+            return redirect()->back();
         }
-        session()->flash('msg', 'Назву параметра успішно змінено!');
-        return redirect()->back();
     }
 }

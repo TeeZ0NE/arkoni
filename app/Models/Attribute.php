@@ -3,22 +3,40 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Attribute extends Model
 {
     protected $fillable = array(
-        'name_ru',
-        'name_uk'
+        'ru_name',
+        'uk_name'
     );
     public $timestamps = false;
 
-    public function setNameRuAttribute($value)
+    public function setRuNameAttribute($value)
     {
-        return $this->attributes['name_ru'] = mb_strtolower($value);
+        return $this->attributes['ru_name'] = mb_strtolower($value);
     }
 
-    public function setNameUkAttribute($value)
+    public function setUkNameAttribute($value)
     {
-        return $this->attributes['name_uk'] = mb_strtolower($value);
+        return $this->attributes['uk_name'] = mb_strtolower($value);
+    }
+
+    /**
+     * search query and then sort
+     * @param String $q what we're looking 4
+     * @param string $sort sort method ASC or DESC
+     * @return array of results
+     */
+    public function searchAndSort($q = Null, $sort = 'asc')
+    {
+        return DB::table('attributes')->
+        select('*')->
+        where('ru_name', 'LIKE', '%' . $q . '%')->
+        orWhere('uk_name', 'LIKE', '%' . $q . '%')->
+        orderBy('ru_name', $sort)->
+        orderBy('uk_name', $sort);
     }
 }

@@ -9,7 +9,7 @@
     </p>
 
     <div class="row">
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-5">
             <strong>Додати</strong>
             <form method="post" action="{{ route('attr.store') }}" class="form-inline">
                 {{ csrf_field() }}
@@ -21,14 +21,14 @@
                                     <span class="input-group-text" id="ru-addon">ru</span>
                                 </div>
                                 <input type="text" class="form-control  d-inline"
-                                       placeholder="Атрибут" name="name_ru" required value="{{ old('name_ru') }}">
+                                       placeholder="Атрибут" name="ru_name" required value="{{ old('ru_name') }}">
                             </div>
                             <div class="input-group col-12">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="uk-addon">uk</span>
                                 </div>
                                 <input type="text" class="form-control  d-inline"
-                                       placeholder="Атрибут" name="name_uk" required value="{{ old('name_uk') }}">
+                                       placeholder="Атрибут" name="uk_name" required value="{{ old('uk_name') }}">
                             </div>
                         </div>
                     </div>
@@ -38,10 +38,10 @@
                 </div>
             </form>
         </div>
-        <div class="col col-lg-8">
+        <div class="col col-lg-7">
             <form method="get" action="{{ route('attrs.search') }}" role="search">
                 <div class="row">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-8">
                         <strong>Шукати</strong>
                         <div class="form-group">
                             <input type="text" class="form-control d-inline w-75" placeholder="Назва атрибута" name="q"
@@ -49,7 +49,7 @@
                             <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-4">
                         <strong>Сортувати</strong>
                         <div class="form-group">
                             <select class="selectpicker mr-sm-1" name="sort">
@@ -72,14 +72,14 @@
                         <span class="input-group-text" id="ru-edit">ru</span>
                     </div>
                     <input type="text" class="form-control  d-inline" id="ru-attr-name-ed"
-                           placeholder="Атрибут" name="name_ru" required>
+                           placeholder="Атрибут" name="ru_name" required>
                 </div>
                 <div class="input-group col-5">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="uk-addon">uk</span>
                     </div>
                     <input type="text" class="form-control  d-inline" id="uk-attr-name-ed"
-                           placeholder="Атрибут" name="name_uk" required>
+                           placeholder="Атрибут" name="uk_name" required>
                 </div>
                 <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
             </form>
@@ -101,14 +101,14 @@
                 @foreach ($attrs as $attr)
                     <tr>
                         <td class="align-middle">{{ $attr->id }}</td>
-                        <td class="align-middle">{{ $attr->name_ru }} </td>
-                        <td class="align-middle">{{$attr->name_uk}}</td>
+                        <td class="align-middle">{{ $attr->ru_name }} </td>
+                        <td class="align-middle">{{$attr->uk_name}}</td>
                         <td class="text-right">
                             <a href="{{ route('attr.delete',$attr->id) }}" class="btn btn-danger"
                                onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i>
                             </a>
                             <a href="#edit-attrs" class="btn btn-info change-attr-name"
-                               id={{ $attr->id }} data-lang-ru="{{ $attr->name_ru }}" data-lang-uk="{{$attr->name_uk}}">
+                               id={{ $attr->id }} data-lang-ru="{{ $attr->ru_name }}" data-lang-uk="{{$attr->uk_name}}">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
                         </td>

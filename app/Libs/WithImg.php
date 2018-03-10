@@ -27,7 +27,7 @@ class WithImg
             })
             // ->text('The quick brown fox jumps over the lazy dog.', 50, 150)
             ->insert($public_path . 'wm.png', 'center');
-            $img->save();
+            $img->save(null,75);
         return $file_name;
         // print_r(Storage::allFiles('public/img'));
     }
@@ -39,9 +39,22 @@ class WithImg
      */
     public function delete_photo($photo)
     {
-        if ($photo !== 'no_image.png') {
+        if ($photo !== config('app.img_default')) {
             Storage::delete('public/img/' . $photo);
         }
+    }
+
+    /**
+     * Storing file with name by default it's ru_name transliterate
+     * @param File $file img_upload
+     * @param String $name
+     * @return string image file name
+     */
+    public function getImageFileName($file, $name)
+    {
+        $file_ext = $file->extension();
+        $photo = $this->set_image($file, $name, $file_ext);
+        return $photo;
     }
 }
 

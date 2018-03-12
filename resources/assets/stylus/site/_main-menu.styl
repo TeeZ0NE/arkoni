@@ -1,0 +1,96 @@
+.main-menu {
+  background-color #393939
+  nav {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%
+    > ul {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  a {
+    color: white
+    padding: 11px 20px;
+    font-size 1.125em
+    display: block;
+    line-height: 1em;
+    text-decoration: none;
+    &:hover {
+      color orange-color-hover
+    }
+  }
+  ul {
+    position: relative;
+    z-index: 597;
+  }
+  ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .fa-bars {
+    margin-left 10px
+  }
+  .open > ul {
+    visibility: visible;
+  }
+  .sub-categories-items > a {
+    position relative
+  }
+  .sub-categories-items > a:before {
+    display: block;
+    content: '\f30b';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    right: 15px;
+    font-size: .875em;
+  }
+  ul > li.hover,
+  ul > li:hover {
+    position: relative;
+    z-index: 599;
+    cursor: default;
+  }
+  ul {
+    ul {
+      visibility: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 598;
+      width: 100%;
+      max-width: 260px;
+      bottom: 0;
+      margin-top: 0;
+      min-width: 270px;
+      li {
+        float: none;
+        font-weight: normal;
+      }
+    }
+  }
+  nav > ul ul ul {
+    top: 0;
+    left: auto;
+    right: -100%;
+  }
+  nav > ul li:hover > ul {
+    visibility: visible;
+  }
+  nav:after, nav ul:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  nav > ul ul a {
+    background: rgba(55, 68, 78, .8);
+    line-height: 150%;
+    padding: 8px 20px;
+    height: 40px;
+    border-radius: 5px;
+  }
+}

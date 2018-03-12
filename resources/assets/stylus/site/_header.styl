@@ -1,0 +1,70 @@
+.header {
+  padding 8px 0 16px
+  site-logo(#340e70, #000000)
+  .search {
+    top: 65px;
+    position relative
+  }
+  .mobil, .phone-1, .phone-2, .address, .work-time {
+    position relative
+    padding-left 20px
+    line-height 1.8em
+    i {
+      position absolute
+      left 0
+      top: 6px;
+    }
+  }
+  .phone-1, .phone-2 {
+    i {
+      transform: rotateY(160deg);
+    }
+  }
+  .mobil, .address {
+    margin-top 10px
+  }
+  .form-control {
+    width: 300px;
+    margin-right: 0 !important;
+    position: absolute;
+    right: 0;
+    &::placeholder {
+      color: #747474
+      font-family italic-family
+      font-size .875em
+    }
+  }
+  .btn {
+    background transparent
+    position absolute
+    right 0
+  }
+  .language-switch {
+    position absolute
+    list-style none
+    padding-left 0
+    right 15px
+    &:hover {
+      .active a {
+        border-bottom transparent
+      }
+    }
+    a {
+      color: base-color
+      font-family bold-family
+      &:hover {
+        text-decoration none
+      }
+    }
+    li {
+      float left
+      margin-left 10px
+      &:hover {
+        border-bottom 3px solid orange-color-hover
+      }
+    }
+    .active a {
+      border-bottom 3px solid orange-color-hover
+    }
+  }
+}

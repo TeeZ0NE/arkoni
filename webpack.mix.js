@@ -1,4 +1,4 @@
-let mix             = require('laravel-mix');
+var mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,26 +11,31 @@ let mix             = require('laravel-mix');
  |
  */
 mix.autoload({
-  jquery: ['$', 'window.jQuery', 'jQuery'],
-  moment: 'moment'
+    jquery: ['$', 'window.jQuery', 'jQuery'],
+    moment: 'moment'
 });
 mix.js([
-  'resources/assets/js/app.js',
-  'resources/assets/js/admin.js',
-  ], 'public/js/app.js')
-   .stylus('resources/assets/stylus/app.styl', 'public/css');
+    'resources/assets/js/app.js',
+    'resources/assets/js/admin.js'
+], 'public/js/app.js')
+    .js('resources/assets/js/site.js', 'public/js')
+    .stylus('resources/assets/stylus/app.styl', 'public/css')
+    .stylus('resources/assets/stylus/site.styl', 'public/css')
+    .copyDirectory('resources/assets/images', 'public/images');
+
+// mix.copyDirectory('resources/assets/images', 'public/images');
 
 mix.webpackConfig({
     resolve: {
-      modules: [
-        'node_modules'
-      ],
-      alias: {
-        'vue$': 'vue/dist/vue.js',
-        jquery: 'jquery/src/jquery'
-      }
+        modules: [
+            'node_modules'
+        ],
+        alias: {
+            'vue$': 'vue/dist/vue.js',
+            jquery: 'jquery/src/jquery'
+        }
     }
- });
+});
 if (mix.inProduction()) {
     mix.version();
 }

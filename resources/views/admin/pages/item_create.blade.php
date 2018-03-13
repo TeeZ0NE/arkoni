@@ -95,7 +95,7 @@
                     </span>
                     </div>
                     <input type="number" class="form-control" id="item-price" placeholder="Ціна продукта" name="price"
-                           required value="{{ old('price') }}" aria-label="Ціна продукта" aria-describedby="item-price"
+                           value="{{ old('price') }}" aria-label="Ціна продукта" aria-describedby="item-price"
                            step="any">
                 </div>
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Якщо ціни не співпадають, це виведеться
@@ -109,7 +109,7 @@
                     </span>
                     </div>
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
-                           name="price_new" required value="{{ old('price_new') }}" aria-label="Ціна продукта"
+                           name="new_price" value="{{ old('new_price') }}" aria-label="Ціна продукта"
                            aria-describedby="item-price-new" step="any">
                 </div>
                 {{-- Categories --}}

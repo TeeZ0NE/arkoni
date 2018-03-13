@@ -66,6 +66,13 @@
                             <textarea class="form-control" aria-label="seo text"
                                       name="ru_seo_text"> {{$cat->RuCategory->seo_text}}</textarea>
                         </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">SEO текст 2</span>
+                            </div>
+                            <textarea class="form-control" aria-label="seo text 2"
+                                      name="ru_seo_text_2"> {{$cat->RuCategory->seo_text_2}}</textarea>
+                        </div>
                         {{--/RU--}}
                     </div>
                     <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="profile-tab">
@@ -114,6 +121,13 @@
                             <textarea class="form-control" aria-label="seo text"
                                       name="uk_seo_text"> {{$cat->UkCategory->seo_text}}</textarea>
                         </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">SEO текст 2</span>
+                            </div>
+                            <textarea class="form-control" aria-label="seo text 2"
+                                      name="uk_seo_text_2"> {{$cat->UkCategory->seo_text_2}}</textarea>
+                        </div>
                         {{--/UK--}}
                     </div>
                 </div>
@@ -123,7 +137,7 @@
                     </div>
                     <input type="text" class="form-control" placeholder="URL"
                            aria-label="url" aria-describedby="url-slug"
-                           value="{{$cat->cat_url_slug}}" required name="cat_url_slug">
+                           value="{{mb_substr($cat->cat_url_slug,2)}}" required name="cat_url_slug" maxlength="250">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">

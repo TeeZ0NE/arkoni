@@ -7,8 +7,9 @@
     <div class="row justify-content-center">
         <div class="col col-lg-8">
 
-            <form method="post" action="{{ route('items.store') }}" class="form" enctype="multipart/form-data">
+            <form method="post" action="{{ route('items.update',$id) }}" class="form" enctype="multipart/form-data">
                 {{ csrf_field() }}
+                <input name="_method" type="hidden" value="PUT">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#ru" role="tab"
@@ -29,7 +30,8 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="ru-item-name" placeholder="Название продукта"
-                                   name="ru_name" value="{{ old('ru_name') }}" aria-label="Название продукта"
+                                   name="ru_name" value="{{ $item->getRuItem['ru_name']  }}"
+                                   aria-label="Название продукта"
                                    aria-describedby="ru-item-name" maxlength="255">
                         </div>
                         {{-- Description --}}
@@ -38,7 +40,7 @@
                                 <span class="input-group-text">Описание</span>
                             </div>
                             <textarea class="form-control" aria-label="description"
-                                      name="ru_desc">{{ old('ru_desc') }}</textarea>
+                                      name="ru_desc">{{ $item->getRuItem['desc'] }}</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -51,7 +53,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="uk-item-name" placeholder="Назва продукта"
-                                   name="uk_name" value="{{ old('uk_name') }}" aria-label="Назва продукта"
+                                   name="uk_name" value="{{ $item->getUkItem['uk_name'] }}" aria-label="Назва продукта"
                                    aria-describedby="uk-item-name" maxlength="255">
                         </div>
                         {{-- Description --}}
@@ -60,7 +62,7 @@
                                 <span class="input-group-text">Опис</span>
                             </div>
                             <textarea class="form-control" aria-label="description"
-                                      name="uk_desc">{{ old('uk_desc') }}</textarea>
+                                      name="uk_desc">{{ $item->getUkItem['desc'] }}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
@@ -74,7 +76,9 @@
                     <select class="custom-select" id="brands" required name="brand_id">
                         <option selected value="">Оберіть...</option>
                         @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            <option value="{{ $brand->id }}"
+                                    @if ($brand->id == $item->brand_id) selected @endif
+                            >{{ $brand->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -84,8 +88,8 @@
                         <label class="input-group-text" for="item_enabled">Виводиться на сайті</label>
                     </div>
                     <select class="custom-select" id="item_enabled" name="enabled">
-                        <option selected value="1">Так</option>
-                        <option value="0">Ні</option>
+                        <option value="1" @if ($item->enabled==1) selected @endif>Так</option>
+                        <option value="0" @if($item->enabled==0) selected @endif>Ні</option>
                     </select>
                 </div>
                 {{-- Price --}}
@@ -95,7 +99,7 @@
                     </span>
                     </div>
                     <input type="number" class="form-control" id="item-price" placeholder="Ціна продукта" name="price"
-                           required value="{{ old('price') }}" aria-label="Ціна продукта" aria-describedby="item-price"
+                           value="{{ $item->price }}" aria-label="Ціна продукта" aria-describedby="item-price"
                            step="any">
                 </div>
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Якщо ціни не співпадають, це виведеться
@@ -109,36 +113,23 @@
                     </span>
                     </div>
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
-                           name="price_new" required value="{{ old('price_new') }}" aria-label="Ціна продукта"
+                           name="new_price" value="{{ $item->new_price }}" aria-label="Ціна продукта"
                            aria-describedby="item-price-new" step="any">
                 </div>
                 {{-- Categories --}}
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="categories">Категорії</label>
-                        </div>
-                        <select class="custom-select" multiple size="4" name="sub_categories[]">
-                            @foreach ($sub_cats as $sc)
-                                <option value="{{ $sc->id }}">{{ $sc->ru_name }}</option>
-                            @endforeach
-                        </select>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="categories">Категорії</label>
                     </div>
+                    <select class="custom-select" multiple size="4" name="sub_categories[]">
+                        @foreach ($sub_cats as $sc)
+                            <option value="{{ $sc->id }}" @if (in_array($sc->id,$item_cats)) selected @endif>
+                                {{ $sc->ru_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-                {{--<div class="alert alert-dark">--}}
-                    {{--<div class="input-group mb-3">--}}
-                        {{--<div class="input-group-prepend">--}}
-                            {{--<label class="input-group-text" for="categories">Категорії</label>--}}
-                        {{--</div>--}}
-                        {{--<select class="custom-select" id="cats">--}}
-                            {{--<option selected value="">Оберіть...</option>--}}
-                            {{--@foreach ($sub_cats as $sc)--}}
-                                {{--<option value="{{ $sc->id }}">{{ $sc->ru_name }}</option>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--<a href="#" class="btn btn-primary add_cat" role="button"><i class="fas fa-plus"></i></a>--}}
-                    {{--</div>--}}
-                    {{--<div class="input-group" id="cat_block">Категорії:</div>--}}
-                {{--</div>--}}
 
                 {{-- Tags --}}
                 <select class="custom-select" id="tags" name="tags">
@@ -151,6 +142,7 @@
                 {{-- Attrs --}}
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
                     буде записанний останній</p>
+
                 <div class="alert alert-dark">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -164,9 +156,32 @@
                         </select>
                         <a href="#" class="btn btn-primary add_attr" role="button"><i class="fas fa-plus"></i></a>
                     </div>
-                    <div class="input-group" id="attr_block"></div>
+                    <div class="input-group" id="attr_block">
+                        @foreach($item_attrs as $ia)
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{$ia->attributesLang['ru_name']}}</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Параметри" name="values[]"
+                               aria-label="{{$ia->attributesLang['ru_name']}}" aria-describedby="item-name"
+                               value="{{$ia->value}}" required>
+                        <input type="hidden" name="attrs[]" value="{{$ia->attr_id}}">
+                        <a href="#" class="btn btn-danger remove_attr"
+                           onclick="javascript:void(0);"><i class="fas fa-trash-alt"> </i>
+                        </a>
+                    </div>
+                @endforeach
+                    </div>
                 </div>
-
+                {{--url slug--}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="item-url-slug">URL</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="URL"
+                           aria-label="url" aria-describedby="url-slug"
+                           value="{{mb_substr($item->item_url_slug,2)}}" required name="item_url_slug">
+                </div>
                 {{-- Photo --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -177,7 +192,8 @@
                         <label class="custom-file-label" for="img_upload">Оберіть файл</label>
                     </div>
                 </div>
-
+                <img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo"
+                     class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col text-center">
                     <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
                 </div>

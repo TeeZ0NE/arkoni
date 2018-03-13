@@ -1,13 +1,20 @@
 @import "~bootstrap/dist/css/bootstrap.min.css"
 // @import "~bootstrap-styl/bootstrap/index.styl"
+@import "~markitup/dist/markitup.css"
 @import "_colors"
 @import "_variables"
 @import "_background-images"
 @import "_fonts"
 @import "_mediaqueries"
+@import "fontawesome-free-5.0.6/web-fonts-with-css/css/fontawesome-all.css"
 
 
 /* TODO: delete me */
-div
-  border 1px dotted red
+/*div
+    border: 1px dotted red
+    */
 
+// Change link for label Browse
+
+.custom-file-label[for="img_upload"]::after
+    content: '...' !important

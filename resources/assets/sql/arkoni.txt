@@ -1,0 +1,7 @@
+1. Category
+categories>
+  category1: item1
+  category2: item2
+             item1
+
+2. Export/import to DB

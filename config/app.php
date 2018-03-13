@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,7 +180,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
     ],
 
     /*
@@ -230,7 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
     ],
     # where sore image files
     'img_path' =>public_path().'/storage/img/',

@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+var mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,9 +16,14 @@ mix.autoload({
 });
 mix.js([
     'resources/assets/js/app.js',
-    'resources/assets/js/admin.js',
+    'resources/assets/js/admin.js'
 ], 'public/js/app.js')
-    .stylus('resources/assets/stylus/app.styl', 'public/css');
+    .js('resources/assets/js/site.js', 'public/js')
+    .stylus('resources/assets/stylus/app.styl', 'public/css')
+    .stylus('resources/assets/stylus/site.styl', 'public/css')
+    .copyDirectory('resources/assets/images', 'public/images');
+
+// mix.copyDirectory('resources/assets/images', 'public/images');
 
 mix.webpackConfig({
     resolve: {

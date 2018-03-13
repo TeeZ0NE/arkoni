@@ -1,0 +1,430 @@
+.front {
+  .front-banner {
+    .container {
+      position relative
+    }
+    .shadow {
+      position absolute
+      left 0
+      right 0
+      top 0
+      bottom 0
+      background rgba(0, 0, 0, .6)
+      color: white
+      text-align center
+      margin-left: 15px;
+      margin-right: 15px;
+      padding-left: 260px;
+      padding-top: 100px;
+    }
+    .title, where {
+      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+      font-family bold-family
+    }
+    .title {
+      font-size: 1.75em;
+    }
+    .where {
+      font-size: 1.3em;
+    }
+    img {
+      width 100%
+    }
+    .go-to {
+      go-to()
+      margin-top 50px
+    }
+  }
+
+  .info {
+    padding 30px 0
+    text-align center
+    .title {
+      font-family bold-family
+      margin 10px 0
+      text-align center
+      font-size 1.125em
+    }
+  }
+
+  .competitors {
+    background: linear-gradient(to right, #cccccc 30%, #393939 30%, #393939 100%);
+    color white
+    .container {
+      background url("../images/competitors-bg.png") no-repeat
+      background-position-x: 40px;
+      position relative
+      padding 30px 0 30px
+      background-size: 30% 100%;
+      &:after {
+        display block
+        content ''
+        background url("../images/competitors-items.png") no-repeat
+        width 284px
+        height 143px
+        top: 30%;
+        position absolute
+      }
+    }
+    .title {
+      block-title(15px)
+    }
+    table {
+      border 1px solid #ebebeb
+      border-radius 5px
+    }
+    .top {
+      background: #ebebeb;
+      color black
+    }
+    .price {
+      font-family bold-family
+    }
+    td, th {
+      vertical-align: middle;
+      text-align: center;
+    }
+    td:nth-child(1) {
+      text-align left
+    }
+    .info-block {
+      font-size .875em
+    }
+  }
+
+  .choice {
+    padding-bottom 30px
+    .title {
+      block-title(20px)
+    }
+    ul {
+      list-style none
+      padding-left 0;
+      text-align center
+      color white
+      border-radius 5px
+    }
+    li {
+      height 250px
+      background-size cover
+      float left
+      position relative
+      overflow: hidden;
+      &:before {
+        position: absolute;
+        display: block;
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: all 1s ease;
+      }
+    }
+    .shadow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background rgba(0, 0, 0, .4)
+      padding-top 50px
+    }
+    .go-to {
+      go-to()
+      margin-top 20px
+    }
+    li:nth-child(1) {
+      width: 42%;
+      &:before {
+        background url("../images/choice-ceiling.png") no-repeat
+      }
+    }
+    li:nth-child(2) {
+      width: 32%;
+      &:before {
+        background url("../images/choice-color.png") no-repeat
+      }
+    }
+    li:nth-child(3) {
+      width 26%
+      &:before {
+        background url("../images/choice-concrete.png") no-repeat
+      }
+    }
+    li:nth-child(4) {
+      width: 24%;
+      &:before {
+        background url("../images/choice-chemistry.png") no-repeat
+      }
+    }
+    li:nth-child(5) {
+      width: 43%;
+      &:before {
+        background url("../images/choice-facade.png") no-repeat
+      }
+    }
+    li:nth-child(6) {
+      width: 33%;
+      &:before {
+        background url("../images/choice-foam.png") no-repeat
+      }
+    }
+    .go-to, .price {
+      display none
+    }
+    li:hover {
+      &:before {
+        transform: scale(1.2);
+      }
+      .go-to, .price {
+        display block
+      }
+      .desc {
+        display none
+      }
+      .shadow {
+        background rgba(52, 14, 112, .6)
+      }
+    }
+  }
+
+  .best-offers {
+    padding 40px 0 30px
+    .title {
+      block-title(15px)
+    }
+    .col-md-3 {
+      display: inline-flex;
+    }
+    img {
+      height 160px
+      width 220px
+      display block
+      margin 0 auto 15px
+    }
+    .block {
+      border-radius 4px
+      padding 15px 15px 120px 15px;
+      text-align center
+      position relative
+      box-shadow()
+    }
+    .go-to {
+      go-to()
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      width 180px
+    }
+    .price {
+      font-family bold-family
+      position: absolute;
+      bottom: 90px;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .seo {
+    background-color #d2d1d1
+    padding 40px 0 0
+    .container {
+      position relative
+      z-index 1
+      &:after {
+        position absolute
+        display block
+        bottom 0
+        left: -150px;
+        content ''
+        background url("../images/front-seo-bg.png") no-repeat
+        width 525px
+        height 350px
+        z-index -1
+      }
+    }
+    .title {
+      block-title(0)
+    }
+    p {
+      text-indent 1.5em
+    }
+  }
+
+  .comments {
+    padding 30px 0
+    .fa-quote-right {
+      color: #acacac
+    }
+    img {
+      float left
+      width 120px
+      height 120px
+    }
+    .name {
+      position: absolute;
+      left: 0;
+      top: 126px;
+      color: #acacac;
+      font-size: 0.875em;
+      width: 120px;
+      text-align: center;
+    }
+    .title {
+      font-family bold-family
+      text-align center
+      font-size 1.5em
+      margin-bottom 20px
+      padding-left: 15px;
+    }
+    .frame {
+      position relative
+    }
+    .text-block {
+      margin-left 140px
+      padding-right 15px
+      .title {
+        font-size 1.125em
+      }
+    }
+    .slick-arrow {
+      color: orange-color-hover
+      font-size 2em
+      position: absolute;
+      top: 50%;
+      &:hover {
+        cursor pointer
+      }
+    }
+    .slick-arrow.arrow-prev {
+      left: -25px;
+    }
+    .slick-arrow.arrow-next {
+      right: -25px;
+    }
+  }
+
+  .google-map {
+    height: 400px;
+    .shadow {
+      background-color: rgba(0, 0, 0, .6);
+      height: 400px;
+      width: 46%;
+      position absolute;
+    }
+    .col-md-5 {
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+      padding-left: 50px;
+      padding-top 20px
+      > div {
+        line-height 2em;
+        position relative
+      }
+    }
+    .brand {
+      font-size: 1.5em;
+    }
+    .fas, .far {
+      color: orange-color-hover;
+      position: absolute;
+      left: -26px;
+      font-size: 1.2em;
+      top: 6px;
+    }
+    .work, .call {
+      font-family: bold-family;
+      margin-top: 10px;
+    }
+    #map {
+      width: 100%;
+      height: 400px;
+      position: absolute;
+    }
+    .phone-1, .phone-2 {
+      i {
+        transform: rotateY(160deg);
+      }
+    }
+  }
+}
+
+.services {
+  padding-top 30px
+  .col-md-4 {
+    display: inline-flex;
+  }
+  .block {
+    border-radius 4px
+    padding 35px 15px 120px 15px
+    text-align center
+    position relative
+    z-index 1
+    &:after {
+      display block
+      content ''
+      position absolute
+      bottom 0
+      right 0
+      background url("../images/services.png") no-repeat
+      height: 193px;
+      z-index: -1;
+    }
+    box-shadow()
+  }
+  .block-1 {
+    &:after {
+      width: 200px;
+      left: 0;
+    }
+  }
+  .block-2 {
+    &:after {
+      width: 151px;
+      background-position: -220px 0px;
+    }
+  }
+  .block-3 {
+    &:after {
+      width: 180px;
+      background-position: -372px 0px;
+    }
+  }
+  .title {
+    block-title(10px)
+    font-size 1.125em
+  }
+  .go-to {
+    go-to()
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+  }
+}
+
+.producers {
+  padding-bottom 30px
+  .title {
+    block-title(20px)
+  }
+  img {
+    margin: 0 auto;
+  }
+  .slick-track {
+    display: flex;
+    > div {
+      margin: auto;
+    }
+  }
+  .slick-dots {
+    button:before {
+      font-size: 20px;
+    }
+    .slick-active button:before {
+      color: orange-color-hover
+    }
+  }
+}

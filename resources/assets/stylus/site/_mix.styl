@@ -1,0 +1,53 @@
+base-color = #333
+orange-color = #ff5a09
+orange-color-hover = #ff4e00
+seo-bg-color = #e8e8e8
+
+base-size = 16px
+
+regular-family = OpenSans-Regular, sans-serif
+bold-family = OpenSans-Bold, sans-serif
+italic-family = OpenSans-Italic, sans-serif
+
+go-to()
+  display: block;
+  background: #ff5a09;
+  color: #fff;
+  font-size: 1.125em;
+  border-radius: 5px;
+  margin: 0 auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-align: center;
+  width: 230px;
+  position relative
+  i
+    display: none
+    font-weight: bold
+    padding-left: 5px;
+  &:hover
+    background-color: orange-color-hover
+    font-family: bold-family
+    text-decoration: none
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.75);
+    i
+      display: inline-block;
+
+site-logo(logo-color, text-color)
+  .logo
+    .brand
+      fill: logo-color
+    .text > path
+      fill: text-color
+
+block-title(bottom)
+  font-size 1.5em
+  text-align center
+  font-family bold-family
+  padding-bottom bottom
+
+box-shadow()
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25);
+  &:hover {
+    box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.25)
+  }

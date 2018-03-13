@@ -26,37 +26,4 @@ class SiteController extends Controller
         ]);
     }
 
-    public function categories(Request $request) {
-
-        return view('site.categories', [
-            'class' => 'categories',
-//            'data' => $data,
-            'title' => __('seo.categories-title'),
-            'description' => __('seo.categories-description'),
-            'rating' => $this->stars->index($request),
-        ]);
-    }
-
-    public function sub_categories(Request $request) {
-
-        return view('site.sub-categories', [
-            'class' => 'sub-categories',
-//            'data' => $data,
-            'title' => '',
-            'description' => '',
-            'rating' => $this->stars->index($request),
-        ]);
-    }
-
-    public function products(Request $request) {
-
-        return view('site.products', [
-            'class' => 'products',
-//            'data' => $data,
-            'title' => '',
-            'description' => '',
-            'rating' => $this->stars->index($request),
-        ]);
-    }
-
 }

@@ -6,19 +6,19 @@
                     <ul>
                         <li class="parent @if($class == 'front'){{'open'}}@endif">
                             <a class="nav-item nav-link"
-                               href="{{ LaravelLocalization::LocalizeURL('/categories') }}">@lang('main-menu.catalog')<i
+                               href="{{ LaravelLocalization::LocalizeURL('/catalog') }}">@lang('main-menu.catalog')<i
                                         class="fas fa-bars"></i></a>
                             <ul class="categories-items">
-                                <li class="sub-categories-items"><a href="#">Подпункт 1</a>
+                                <li class="sub-categories-items"><a href="/c-catalog-1">Подпункт 1</a>
                                     <ul>
-                                        <li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 1.1 </a></li>
-                                        <li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 1.2 </a></li>
+                                        <li><a href="{{ LaravelLocalization::LocalizeURL('/s-sub-1') }}">Подпункт 1.1 </a></li>
+                                        <li><a href="{{ LaravelLocalization::LocalizeURL('/s-sub-2') }}">Подпункт 1.2 </a></li>
                                         <li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 1.3 </a></li>
                                         <li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 1.4 </a></li>
                                         <li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 1.5 </a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Подпункт 2</a></li>
+                                <li><a href="/c-catalog-2">Подпункт 2</a></li>
                                 <li class="sub-categories-items"><a href="#">Подпункт 3</a>
                                     <ul>
                                         <li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 3.1 </a></li>

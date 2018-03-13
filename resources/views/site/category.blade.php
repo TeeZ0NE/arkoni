@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="title">Каталог товаров</h1>
+                <h1 class="title">Краска для забора</h1>
                 <p>Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non
                     sapien. Duis sagittis imperdiet eros ac posuere. Nunc sapien diam, sollicitudin commodo posuere non, aliquam nec urna.</p>
                 <p>Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue vulputate quis nec sapien.
@@ -27,7 +27,7 @@
                 {{--<img src="" alt="">--}}
                 <div class="name">Лаки / краски</div>
                 <a class="go-to"
-                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
+                   href="{{ LaravelLocalization::LocalizeURL('/s-sub-1') }}">@lang('general.learn-more')
                     <i class="far fa-long-arrow-alt-right"></i></a>
             </div>
             <div class="col-md-3">
@@ -35,7 +35,7 @@
                 {{--<img src="" alt="">--}}
                 <div class="name">Лаки / краски</div>
                 <a class="go-to"
-                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
+                   href="{{ LaravelLocalization::LocalizeURL('//s-sub-2') }}">@lang('general.learn-more')
                     <i class="far fa-long-arrow-alt-right"></i></a>
             </div>
             <div class="col-md-3">

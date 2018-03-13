@@ -27,7 +27,7 @@
                     {{--<img src="" alt="">--}}
                     <div class="name">Лаки / краски</div>
                     <a class="go-to"
-                       href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
+                       href="{{ LaravelLocalization::LocalizeURL('/c-category-1') }}">@lang('general.learn-more')
                             <i class="far fa-long-arrow-alt-right"></i></a>
                 </div>
                 <div class="col-md-3">
@@ -35,7 +35,7 @@
                     {{--<img src="" alt="">--}}
                     <div class="name">Лаки / краски</div>
                     <a class="go-to"
-                       href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
+                       href="{{ LaravelLocalization::LocalizeURL('/c-category-2') }}">@lang('general.learn-more')
                             <i class="far fa-long-arrow-alt-right"></i></a>
                 </div>
                 <div class="col-md-3">

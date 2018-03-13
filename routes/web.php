@@ -121,14 +121,11 @@ Route::group(
     function()
     {
         Route::get('/', 'Site\SiteController@front')->name('home');
-        Route::get('/categories', 'Site\SiteController@categories')->name('categories');
-//        Delete
-        Route::get('/sub-categories', 'Site\SiteController@sub_categories')->name('sub-categories');
-        Route::get('/products', 'Site\SiteController@products')->name('products');
-        Route::get('/csp', 'Site\CSPController@index')->name('csp');
-//
 
-
+        Route::get('/catalog', 'Site\CSPController@catalog')->name('catalog');
+        Route::get('/c-{name}', 'Site\CSPController@category')->name('category');
+        Route::get('/s-{name}', 'Site\CSPController@sub_category')->name('sub-category');
+        Route::get('/p-{name}', 'Site\CSPController@product')->name('product');
 
         Route::get('/stars', 'Site\StarsController@index');
     });

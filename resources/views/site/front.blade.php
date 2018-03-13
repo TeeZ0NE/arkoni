@@ -11,7 +11,7 @@
                         <h1 class="title">@lang('front.banner.title')</h1>
                         <div class="where">@lang('front.banner.where')</div>
                         <a class="go-to"
-                           href="{{ LaravelLocalization::LocalizeURL('/categories') }}">@lang('general.learn-more')
+                           href="{{ LaravelLocalization::LocalizeURL('/catalog') }}">@lang('general.learn-more')
                                 <i
                                         class="far fa-long-arrow-alt-right"></i></a>
                     </div>

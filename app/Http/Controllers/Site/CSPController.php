@@ -15,7 +15,41 @@ class CSPController extends Controller
         $this->stars = new StarsController();
     }
 
-    public function index(Request $request)
+
+    public function catalog(Request $request) {
+
+        return view('site.catalog', [
+            'class' => 'catalog',
+//            'data' => $data,
+            'title' => __('seo.catalog-title'),
+            'description' => __('seo.catalog-description'),
+            'rating' => $this->stars->index($request),
+        ]);
+    }
+
+    public function category(Request $request) {
+
+        return view('site.category', [
+            'class' => 'category',
+//            'data' => $data,
+            'title' => '',
+            'description' => '',
+            'rating' => $this->stars->index($request),
+        ]);
+    }
+
+    public function sub_category(Request $request) {
+
+        return view('site.sub-category', [
+            'class' => 'sub-category',
+//            'data' => $data,
+            'title' => '',
+            'description' => '',
+            'rating' => $this->stars->index($request),
+        ]);
+    }
+
+    public function product(Request $request)
     {
         return view('site.product', [
             'class' => 'product',

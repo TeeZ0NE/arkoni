@@ -12,6 +12,10 @@ yarn-error.log
 .env
 .phpintel/*
 /nbproject/private/
-public/images/*
 storage/purify/*
 nbproject/*
+public/*
+public/css/*
+public/js/*
+resources/assets/notes.md
+resources/assets/sql/arkoni_script.sql

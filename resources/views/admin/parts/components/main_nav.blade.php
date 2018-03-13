@@ -1,40 +1,44 @@
-		<nav class="col-lg-11 nav">
-			<a class="nav-link" href="{{ route('brands') }}">Виробники</a>
-			<a class="nav-link" href="{{ route('cats') }}">Категорії</a>
-			<a class="nav-link" href="{{ route('attrs') }}">Аттрибути</a>
-			<a class="nav-link" href="{{ route('items.index') }}">Товари</a>
-			<a class="nav-link disabled" href="#">Відгуки</a>
-			<a class="nav-link disabled" href="#">Користувачі</a>
-			<a class="nav-link disabled" href="#">Адміністратори</a>
-		</nav>
-		<div class="col my-auto">
-			@auth
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-						{{ Auth::user()->name }} <span class="caret"></span>
-					</a>
-
-					<ul class="dropdown-menu">
-						<li>
-							<a href="{{ route('logout') }}"
-							onclick="event.preventDefault();
+<ul class="nav col">
+    <li class="nav-item"><a href="{{route('brands')}}" class="nav-link">Виробники (бренди)</a></li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+           aria-expanded="false">Категорії</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{route('cats.index')}}">Категорії</a>
+            <a class="dropdown-item" href="{{route('subcategory.index')}}">Підкатегорії</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{route('subcategory.create')}}">Додати підкатегорію</a>
+        </div>
+    </li>
+    <li class="nav-item"><a href="{{route('attrs')}}" class="nav-link">Аттрибути</a></li>
+    <li class="nav-item"><a href="#" class="nav-link disabled">Теги</a></li>
+    <li class="nav-item"><a href="#" class="nav-link">Товари</a></li>
+    <li class="nav-item"><a href="#" class="nav-link disabled">Користувачі</a></li>
+    <li class="nav-item"><a href="#" class="nav-link disabled">Адміністратори</a></li>
+    @auth
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+               aria-haspopup="true">
+                {{ Auth::user()->name }} <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
 							document.getElementById('logout-form').submit();">
-							Logout
-						</a>
+                    Вийти
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </div>
+        </li>
+    @endauth
+</ul>
 
-						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-							{{ csrf_field() }}
-						</form>
-					</li>
-				</ul>
-			</li>
-		</ul>
-		@endauth
-	</div>
-<script type="text/javascript">
-	// $('a[href="' + this.location.pathname + '"]').parents('li,ul').addClass('active');
-	// console.log($(location.pathname))
-</script>
+
+    {{--<a class="nav-link" href="{{ route('brands') }}">Виробники</a>--}}
+    {{--<a class="nav-link" href="{{ route('cats') }}">Категорії</a>--}}
+    {{--<a class="nav-link" href="{{ route('attrs') }}">Аттрибути</a>--}}
+    {{--<a class="nav-link" href="{{ route('items.index') }}">Товари</a>--}}
 
 

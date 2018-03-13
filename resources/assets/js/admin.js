@@ -1,19 +1,21 @@
 $(function(){
-  $(".change_name").on("click", function(event){
+  // Brands. Change name
+  $(".change-brand-name").on("click", function(event){
     event.preventDefault();
     var old_name = $(this).attr('data-name');
     var name = prompt('Введіть нову назву', old_name);
     if(name != null && name !=='' && name != old_name)
     {
-      var id = $(this).attr("id");
+      var brand_id = $(this).attr("id");
       var orig_href = $(this).attr('href');
       window.location = orig_href
-      +"?id="+id
+      +"?id="+brand_id
       +"&name="+name;
     }
     else return false;
   });
   // var old_id=null;
+    /* Cstegory rename. Old method
   $(".change-category").on("click", function(event){
         // event.preventDefault();
         var old_name = $(this).attr('data-name');
@@ -32,7 +34,18 @@ $(function(){
         // }
         // old_id=id;
         $("#parent-select").val(sub_id).change();
-      })
+      })*/
+    // update attributes
+    $(".change-attr-name").on('click',function () {
+        // event.preventDefault();
+        $('.edit-attrs').removeClass('d-none');
+        var old_ru = $(this).attr("data-lang-ru");
+        var old_uk = $(this).attr("data-lang-uk");
+        var id = $(this).attr("id");
+        $("#uk-attr-name-ed").val(old_uk);
+        $("#ru-attr-name-ed").val(old_ru);
+        $("#id-edited").val(id);
+    });
   // add category checkbox
   $('.add_cat').on('click',function(event){
     event.preventDefault();

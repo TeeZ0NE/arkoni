@@ -3311,11 +3311,12 @@ strong {
   text-align: center;
   margin-left: 15px;
   margin-right: 15px;
-  padding-top: 180px;
+  padding-left: 260px;
+  padding-top: 100px;
 }
 .front .front-banner .title,
 .front .front-banner where {
-  text-shadow: 2px 2px 3px rgba(0,0,0,0.45);
+  text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
   font-family: OpenSans-Bold, sans-serif;
 }
 .front .front-banner .title {

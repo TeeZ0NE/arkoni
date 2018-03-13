@@ -10,7 +10,7 @@ class UkSubCategory extends Model
     public $timestamps = false;
     public $primaryKey = 'sub_cat_id';
     protected $fillable = array(
-        'sub_cat_id', 'uk_name', 'title', 'desc', 'h1', 'h2', 'seo_text',
+        'sub_cat_id', 'uk_name', 'title', 'desc', 'h1', 'h2', 'seo_text', 'seo_text_2'
     );
 
     public function setUkNameAttribute($value)

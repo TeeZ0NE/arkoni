@@ -9,7 +9,7 @@ class RuCategory extends Model
     public $timestamps = false;
     public $primaryKey = 'cat_id';
     protected $fillable = array(
-      'cat_id', 'ru_name','title', 'desc', 'h1', 'h2', 'seo_text',
+      'cat_id', 'ru_name','title', 'desc', 'h1', 'h2', 'seo_text', 'seo_text_2'
     );
 
     public function setRuNameAttribute($value){

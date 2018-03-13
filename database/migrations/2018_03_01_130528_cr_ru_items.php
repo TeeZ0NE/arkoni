@@ -16,7 +16,7 @@ class CrRuItems extends Migration
         Schema::create('ru_items', function (Blueprint $table) {
             $table->unsignedInteger('item_id');
             $table->string('ru_name')->charset('utf8')->unique();
-            $table->string('desc')->charset('utf8');
+            $table->longText('desc')->charset('utf8');
         });
     }
 

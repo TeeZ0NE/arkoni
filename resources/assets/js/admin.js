@@ -1,4 +1,7 @@
 $(function(){
+// var mySettings={onShiftEnter:{keepDefault:!1,replaceWith:"<br />\n"},onCtrlEnter:{keepDefault:!1,openWith:"\n<p>",closeWith:"</p>"},onTab:{keepDefault:!1,replaceWith:"    "},markupSet:[{name:"Bold",key:"B",openWith:"(!(<strong>|!|<b>)!)",closeWith:"(!(</strong>|!|</b>)!)"},{name:"Italic",key:"I",openWith:"(!(<em>|!|<i>)!)",closeWith:"(!(</em>|!|</i>)!)"},{name:"Stroke through",key:"S",openWith:"<del>",closeWith:"</del>"},{separator:"---------------"},{name:"Bulleted List",openWith:"    <li>",closeWith:"</li>",multiline:!0,openBlockWith:"<ul>\n",closeBlockWith:"\n</ul>"},{name:"Numeric List",openWith:"    <li>",closeWith:"</li>",multiline:!0,openBlockWith:"<ol>\n",closeBlockWith:"\n</ol>"},{separator:"---------------"},{name:"Picture",key:"P",replaceWith:'<img src="[![Source:!:http://]!]" alt="[![Alternative text]!]" />'},{name:"Link",key:"L",openWith:'<a href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>',closeWith:"</a>",placeHolder:"Your text to link..."},{separator:"---------------"},{name:"Clean",className:"clean",replaceWith:function(e){return e.selection.replace(/<(.*?)>/g,"")}},{name:"Preview",className:"preview",call:"preview"}]};
+
+    // $(".markItUp").MarkItUp(mySettings);
   // Brands. Change name
   $(".change-brand-name").on("click", function(event){
     event.preventDefault();
@@ -46,14 +49,15 @@ $(function(){
         $("#ru-attr-name-ed").val(old_ru);
         $("#id-edited").val(id);
     });
-  // add category checkbox
-  $('.add_cat').on('click',function(event){
-    event.preventDefault();
-    var id = $('#cats').val();
-    if (id=='') return;
-    var opt_text = $('#cats :selected').text();
-    $('#cat_block').append('<input type="checkbox" name="categories[]" value="'+id+'" checked class="ml-1">'+opt_text);
-  })
+  // add category checkbo
+    // not using
+  // $('.add_cat').on('click',function(event){
+  //   event.preventDefault();
+  //   var id = $('#cats').val();
+  //   if (id=='') return;
+  //   var opt_text = $('#cats :selected').text();
+  //   $('#cat_block').append('<input type="checkbox" name="categories[]" value="'+id+'" checked class="ml-1">'+opt_text);
+  // })
 
     // add input field for adding attributes and own values
     $('.add_attr').on('click',function(event){
@@ -61,7 +65,7 @@ $(function(){
       var id = $('#attrs').val();
       if (id=='') return;
       var opt_text = $('#attrs :selected').text();
-      $('#attr_block').append('<div class="input-group mb-1"><div class="input-group-prepend"><span class="input-group-text">'+opt_text+'</span></div><input type="text" class="form-control" placeholder="Параметри" name="values[]" aria-label="'+opt_text+'" aria-describedby="item-name"><input type="hidden" name="attrs[]" value="'+id+'"><a href="#" class="btn btn-danger remove_attr" onclick="javascript:void(0);"><i class="fas fa-trash-alt"></a></div>');
+      $('#attr_block').append('<div class="input-group mb-1"><div class="input-group-prepend"><span class="input-group-text">'+opt_text+'</span></div><input type="text" class="form-control" placeholder="Параметри" name="values[]" aria-label="'+opt_text+'" aria-describedby="item-name" required><input type="hidden" name="attrs[]" value="'+id+'"><a href="#" class="btn btn-danger remove_attr" onclick="javascript:void(0);"><i class="fas fa-trash-alt"></i></a></div>');
     });
 
     // remove input field from attributes

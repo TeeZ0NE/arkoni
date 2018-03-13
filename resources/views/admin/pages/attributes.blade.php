@@ -52,7 +52,7 @@
                     <div class="col-12 col-lg-4">
                         <strong>Сортувати</strong>
                         <div class="form-group">
-                            <select class="selectpicker mr-sm-1" name="sort">
+                            <select class="custom-select mr-sm-1 w-50" name="sort">
                                 <option value="asc" @if (old('sort')=='asc') selected @endif>А-Я</option>
                                 <option value="desc" @if (old('sort')=='desc') selected @endif>Я-А</option>
                             </select>

@@ -16,7 +16,7 @@ class CrUkItems extends Migration
         Schema::create('uk_items', function (Blueprint $table) {
            $table->unsignedInteger('item_id');
             $table->string('uk_name')->charset('utf8')->unique();
-            $table->string('desc')->charset('utf8');
+            $table->longText('desc')->charset('utf8');
         });
     }
 

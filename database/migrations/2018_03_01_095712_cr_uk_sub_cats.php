@@ -20,7 +20,8 @@ class CrUkSubCats extends Migration
             $table->string('desc')->charset('utf8')->nullable()->comment('page description');
             $table->string('h1')->charset('utf8')->nullable()->comment('h tag');
             $table->string('h2')->charset('utf8')->nullable()->comment('h2 tag');
-            $table->longText('seo_text')->nullable()->comment('seo text');
+            $table->longText('seo_text')->charset('utf8')->nullable()->comment('seo text');
+            $table->longText('seo_text_2')->charset('utf8')->nullable()->comment('secondary seo text');
         });
     }
 

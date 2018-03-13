@@ -32,13 +32,14 @@ class Category extends Model
     public function searchAndSort($q = Null, $sort = 'asc')
     {
         return DB::table('categories')->
-            select('uk_categories.uk_name', 'ru_categories.ru_name', 'id', 'cat_photo')->
-            join('uk_categories', 'uk_categories.cat_id', '=', 'categories.id')->
-            join('ru_categories', 'ru_categories.cat_id', '=', 'categories.id')->
-            where('uk_categories.uk_name', 'LIKE', '%' . $q . '%')->
-            orWhere('ru_categories.ru_name', 'LIKE', '%' . $q . '%')->
-            orderBy('ru_categories.ru_name', $sort)->
-            get();
+        select('uk_categories.uk_name', 'ru_categories.ru_name', 'id', 'cat_photo')->
+        join('uk_categories', 'uk_categories.cat_id', '=', 'categories.id')->
+        join('ru_categories', 'ru_categories.cat_id', '=', 'categories.id')->
+        where('categories.id', 'LIKE', '%' . $q . '%')->
+        orWhere('uk_categories.uk_name', 'LIKE', '%' . $q . '%')->
+        orWhere('ru_categories.ru_name', 'LIKE', '%' . $q . '%')->
+        orderBy('ru_categories.ru_name', $sort)->
+        get();
     }
 
     /** getting URL of categories their names and own URL sub-categories with names

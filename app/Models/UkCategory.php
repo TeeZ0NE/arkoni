@@ -9,7 +9,7 @@ class UkCategory extends Model
     public $timestamps = false;
     public $primaryKey = 'cat_id';
     protected $fillable = array(
-        'cat_id', 'uk_name','title', 'desc', 'h1', 'h2', 'seo_text',
+        'cat_id', 'uk_name','title', 'desc', 'h1', 'h2', 'seo_text', 'seo_text_2'
     );
 
     public function setUkNameAttribute($value){

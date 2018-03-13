@@ -11,6 +11,7 @@ use Illuminate\Database\QueryException as QE;
 use App\Models\Category as Cat;
 use Auth;
 use Illuminate\Mail\Message;
+use Exception;
 
 //use Illuminate\Support\Facades\Storage;
 
@@ -115,7 +116,7 @@ class CategoryController extends Controller
             'ru_title' => 'max:70|required',
             'uk_desc' => 'max:255|required',
             'ru_desc' => 'max:255|required',
-            'cat_url_slug' => 'required|max:255',
+            'cat_url_slug' => 'required|max:250',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $id = $request->id;
@@ -129,7 +130,7 @@ class CategoryController extends Controller
         }
         try {
             $cat::findOrFail($id)->update([
-                'cat_url_slug' => $request->cat_url_slug,
+                'cat_url_slug' => 'c-'.$request->cat_url_slug,
                 'cat_photo' => $photo,
             ]);
             $this->storeLangCat($request, $id);
@@ -212,6 +213,7 @@ class CategoryController extends Controller
             'h1' => $request->ru_h1,
             'h2' => $request->ru_h2,
             'seo_text' => $request->ru_seo_text,
+            'seo_text_2' => $request->ru_seo_text_2,
         ]);
         $uk = $uk_cat::updateOrCreate(['cat_id' => $cat_id], [
             'uk_name' => $request->uk_name,
@@ -220,6 +222,7 @@ class CategoryController extends Controller
             'h1' => $request->uk_h1,
             'h2' => $request->uk_h2,
             'seo_text' => $request->uk_seo_text,
+            'seo_text_2' => $request->uk_seo_text_2,
         ]);
         return ($ru AND $uk) ? 1 : 0;
     }

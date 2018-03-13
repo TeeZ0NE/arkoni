@@ -60,7 +60,7 @@ class SubCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ru_name' => 'required|unique:ru_sub_categories|max:255',
+            'ru_name' => 'required|unique:ru_sub_categories|max:200',
             'uk_name' => 'required|unique:uk_sub_categories|max:255',
             'ru_desc' => 'max:255',
             'uk_desc' => 'max:255',
@@ -84,7 +84,7 @@ class SubCategoryController extends Controller
                 throw  new Exception('Язикові файли не було записано');
             }
         } catch (Exception $e) {
-            Log::error('Error to write subCategory', ['mes' => $e]);
+            Log::error('Error to write subCategory', ['mes' => $e->getMessage()]);
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
         session()->flash('msg', 'Підкатегорію створено');
@@ -130,7 +130,7 @@ class SubCategoryController extends Controller
         $request->validate([
             'cat_id' => 'required',
             'uk_name' => 'max:255|required',
-            'ru_name' => 'max:255|required',
+            'ru_name' => 'max:200|required',
             'ru_title' => 'max:70',
             'uk_title' => 'max:70',
             'uk_desc' => 'max:255',
@@ -139,7 +139,7 @@ class SubCategoryController extends Controller
             'uk_h1' => 'max:255',
             'ru_h2' => 'max:255',
             'uk_h2' => 'max:255',
-            'sub_cat_url_slug' => 'required|max:255',
+            'sub_cat_url_slug' => 'required|max:250',
             'img_upload' => 'image|mimes:jpeg,jpg,png|max:2048',
         ]);
         $sub_cat = new SubCategory();
@@ -152,9 +152,9 @@ class SubCategoryController extends Controller
         try {
             $sub_cat::findOrFail($id)->update([
                 'cat_id' => $request->cat_id,
-                'sub_cat_url_slug' => $request->sub_cat_url_slug,
+                'sub_cat_url_slug' => 's-'.$request->sub_cat_url_slug,
                 'sub_cat_photo' => $photo,
-                'cat_url_slug' => $request->cat_url_slug,
+                'cat_url_slug' => 's-'.$request->cat_url_slug,
                 'cat_photo' => $photo,
             ]);
             $this->storeLangSubCat($request, $id);
@@ -222,6 +222,7 @@ class SubCategoryController extends Controller
             'h1' => $request->ru_h1,
             'h2' => $request->ru_h2,
             'seo_text' => $request->ru_seo_text,
+            'seo_text_2' =>$request->ru_seo_text_2,
         ]);
         $uk = $uk_sub_cat::updateOrCreate(['sub_cat_id' => $sub_cat_id], [
             'uk_name' => $request->uk_name,
@@ -230,6 +231,7 @@ class SubCategoryController extends Controller
             'h1' => $request->uk_h1,
             'h2' => $request->uk_h2,
             'seo_text' => $request->uk_seo_text,
+            'seo_text_2' => $request->uk_seo_text_2,
         ]);
         return ($ru AND $uk) ? 1 : 0;
     }

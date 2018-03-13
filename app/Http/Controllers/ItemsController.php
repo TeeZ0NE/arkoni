@@ -2,67 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Libs\WithImg;
+use App\Models\RuItem;
+use App\Models\SubCategory;
+use App\Models\UkItem;
 use Illuminate\Http\Request;
-use App\Models\Brand as Brand;
-use App\Models\ItemCategory as ICat;
-use App\Models\ItemAttribute as IAttr;
-use App\Models\Description as IDesc;
-use App\Models\Review as IRev;
-use App\Models\Item_old as Item;
-use App\Models\Category as Cat;
+use App\Models\Brand;
+use App\Models\Item;
+use App\Models\ItemCategory;
 use App\Models\Attribute as Attr;
-use Illuminate\Support\Facades\Storage;
-use Image;
-use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
-//use Illuminate\Database\QueryException as QE;
+use Illuminate\Support\Facades\Log;
+//use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
+use App\Models\ItemAttribute;
+use Illuminate\Database\QueryException as QE;
+use Exception;
 
 class ItemsController extends Controller
 {
     /**
-     * category model
-     * @var Object
-     */
-    private $cat;
-    /**
-     * brand (manufacturer) model
-     * @var Object
-     */
-    private $brand;
-    /**
-     * attributes model
-     * @var Object
-     */
-    private $attr;
-    /**
-     * model of item attribubutes
-     * @var Object
-     */
-    private $iattr;
-    /**
-     * item model
-     * @var Object
-     */
-    private $item;
-    /**
-     * item categories model
-     * @var Object
-     */
-    private $icat;
-    /**
-     * model of description
-     * @var Object
-     */
-    private $desc;
-    /**
-    * Array of attributes and values
-    * @var Array
-    */
-    private $attrs_vals_arr=[];
-    /**
      * count items on page
      * @var Int
      */
-    private $pag_count=10;
+    private $pag_count = 10;
 
     public function __construct()
     {
@@ -70,16 +31,17 @@ class ItemsController extends Controller
     }
 
     /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
+        $item = new Item();
         return view('admin.pages.items')->with([
-            'count'=>$this->item::count(),
-            'sort'=>'acs',
-            'items'=>$this->item::with(['brand'])->paginate($this->pag_count),
+            'count' => $item::count(),
+            'sort' => 'acs',
+            'items' => $item->getAllItems()->paginate($this->pag_count),
         ]);
     }
 
@@ -90,201 +52,146 @@ class ItemsController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.items_create')->with([
-            "brands" => $this->brand::all('name', 'id'),
-            "cats"   => $this->cat::all('name', 'id'),
-            "attrs" => $this->attr::all('name', 'id'),
+        $sc = new SubCategory();
+        return view('admin.pages.item_create')->with([
+            "brands" => Brand::all(),
+            "sub_cats" => $sc->getRuSubCategoryIdAndName(),
+            "attrs" => Attr::get(['id', 'ru_name']),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         request()->validate([
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'name'       => 'max:255|required|unique:items',
-            'brand_id'   => 'required|numeric',
-            'price'      => 'required|numeric',
-            'price_new'  => 'required|numeric',
-            'categories' => 'required',
+            'uk_name' => 'max:255|required|unique:uk_items',
+            'ru_name' => 'max:200|required|unique:ru_items',
+            'brand_id' => 'required|numeric',
+            'price' => 'numeric',
+            'price_new' => 'numeric',
+            'sub_categories' => 'required',
         ]);
-        /* if admin want more explicity with categories
-        if(empty($request->cats)){
-            $request->flash();
-            return redirect()
-            ->back()
-            ->withErrors(['categories'=>'Виберіть категорію!']);
-        }*/
-        $name = $this->get_name($request);
-        //storing photo
-        $file_name = $this->set_image($request);
-        // store item
-        $curr_item_id = $this->set_item($request, $name, $file_name);
+        $photo = config('app.img_default');
+        if ($request->hasFile('img_upload')) {
+            $img = new WithImg();
+            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name);
+        }
+        $item_id = $this->storeNewItem($request, $photo);
         try {
-            if (!$curr_item_id) {
-                throw new Exception("Неможливо отримати ID товара");
+            if (!$item_id) {
+                throw new Exception('Основні дані про продукт не було записано');
             }
-            //description
-            $res = $this->store_desc($request->desc, $curr_item_id);
+            $res = $this->storeLang($request, $item_id);
             if (!$res) {
-                throw new Exception("Неможливо записати опис товара");
+                throw new Exception('Язикові файли не було записано');
             }
-            //categories
-            $res = $this->set_cats($request->categories, $curr_item_id);
+            $res = $this->storeItemSubCategories($request->sub_categories, $item_id);
             if (!$res) {
-                throw new Exception("Неможливо записати категорі-ю(ї) товара");
+                throw  new Exception('Виникла помилка з записом підкатегорій');
             }
-            // attributes
-            if (!empty($request->attrs)) {
-                $res = $this->set_attrs($request->attrs, $request->values, $curr_item_id);
+            if (isset($request->attrs)) {
+                $res = $this->storeItemAttributes($request->attrs, $request->values, $item_id);
                 if (!$res) {
-                    throw new Exception("Неможливо записати атрибути товара");
+                    throw new Exception('Виникла помилка з записом атрибутів');
                 }
             }
         } catch (Exception $e) {
             return redirect()
-            ->back()
-            ->withErrors(['Error'=>$e->getMessage()]);
+                ->back()
+                ->withErrors(['Error' => $e->getMessage()]);
         }
         session()->flash('msg', 'Новий товар додано до бази!');
-        return view('admin.pages.items')->with([
-            'count'=>$this->item::count(),
-            'items'=>$this->item::with(['brand','categories'])->get(),
-        ]);
+        return redirect(route('items.index'));
     }
 
-    /**
-     * getting item's name from request
-     * @param  Request $request
-     * @return String
-     */
-    private function get_name($request)
-    {
-        return $request->name;
-    }
 
     /**
      * storing main new item to DB
      * @param  Request $request
-     * @param  String  $namame      getting name from get_name method
-     * @param  String  $file_name generated file name of image
+     * @param  String $namame getting name from get_name method
+     * @param  String $file_name generated file name of image
      * @return Int             if stored return item's ID else false
      */
-    private function set_item(Request $request, $name, $file_name)
+    private function storeNewItem(Request $request, $photo)
     {
-        $this->item->name = $name;
-        $this->item->url_slug = url_slug($name);
-        $this->item->price = $request->price;
-        $this->item->new_price = $request->price_new;
-        $this->item->tags = $request->tags;
-        $this->item->brand_id = $request->brand_id;
-        $this->item->enabled = $request->enabled;
-        $this->item->photo = $file_name;
-        try {
-            $this->item->save();
-            return $this->item->id;
-        } catch (ModelFail $e) {
-            Log::error('Error to write item', ["mes"=>$e]);
-            return 0;
-        }
+        $item = new Item();
+        $item->item_url_slug = 'p-' . url_slug($request->ru_name);
+        $item->price = $request->price;
+        $item->new_price = $request->new_price;
+        $item->brand_id = $request->brand_id;
+        $item->enabled = $request->enabled;
+        $item->item_photo = $photo;
+        $item->save();
+        return $item->id;
     }
-    /**
-    * storing item's description
-    * @param  Int $curr_item_id current item's ID
-    * @return Bool               if saved TRUE else False
-    */
-    private function store_desc($desc, $curr_item_id)
+
+    private function storeLang(Request $request, $id)
     {
-        $this->idesc->id = $curr_item_id;
-        $this->idesc->desc = $desc;
-        try {
-            return $this->idesc->save();
-        } catch (ModelFail $e) {
-            Log::error('Error to write description', ["mes"=>$e]);
-            return 0;
-        }
+        $uk_item = new UkItem();
+        $ru_item = new RuItem();
+        $ru = $ru_item::updateOrCreate(['item_id' => $id], [
+            'ru_name' => $request->ru_name,
+            'desc' => $request->ru_desc,
+        ]);
+        $uk = $uk_item::updateOrCreate(['item_id' => $id], [
+            'uk_name' => $request->uk_name,
+            'desc' => $request->uk_desc,
+        ]);
+        return ($ru AND $uk) ? 1 : 0;
     }
 
     /**
-     * inserting new item's categories
-     * @param  Request $request
-     * @param  Int  $curr_item_id current item's ID
-     * @return Bool                stored or not
+     * storing Item Sub-categor-y(-ies)
+     * first of all deleting existing subcategories then deleting them and store new subcategories
+     * @param mixed $sub_categories
+     * @param Int $id item ID
+     * @return Boolean if store
      */
-    private function set_cats($categories, $curr_item_id)
+    private function storeItemSubCategories($sub_categories, $id)
     {
-        foreach ($categories as $cat) {
-            try {
-                $this->icat->insert([
-                    'id'          => $curr_item_id,
-                    'category_id' => $cat]);
-            } catch (ModelFail $e) {
-                Log::error('Error to write categories', ["mes"=>$e]);
-                return 0;
+        $isc = new ItemCategory();
+        try {
+            $isc::where('item_id', $id)->delete();
+            foreach ($sub_categories as $sc) {
+                $isc->insert([
+                    'item_id' => $id,
+                    'sub_cat_id' => $sc,
+                ]);
             }
+        } catch (QE $qe) {
+            Log::error('Error to write/delete item sub-categories', ['mes' => $qe]);
+            return 0;
         }
         return 1;
     }
 
-    /**
-     * getting image file name
-     * @param  Request $request
-     * @param  integer $width   image width
-     * @param  integer $height  image height
-     * @return String           file name with defaults
-     */
-    private function set_image(Request $request, $width=300, $height=300)
+    private function storeItemAttributes(Array $attrs, Array $values, $id)
     {
-        if ($request->hasFile('img_upload')) {
-            $file = $request->file('img_upload');
-            $fileExt = $file->extension();
-            $file_name = time().url_slug($request->name).'.'.$fileExt;
-            $public_path = config('app.img_path');
-            Storage::putFileAs('public/img', $file, $file_name);
-            $img = Image::make($public_path.$file_name)
-            ->fit($width, $height, function ($constraint) {
-                $constraint->upsize();
-            })
-            // ->text('The quick brown fox jumps over the lazy dog.', 50, 150)
-            ->insert($public_path.'wm.png', 'center')
-            ->save();
-            return $file_name;
-        // print_r(Storage::allFiles('public/img'));
-        } else {
-            return 'no_image.png';
-        }
-    }
-
-    /**
-     * inserting new item attributes
-     * @param Array $attrs        array of attrributes from reqest
-     * @param Array $values       array of values
-     * @param Int $curr_item_id ID of current item
-     * @return Bool inserting new attributes with values or not
-     */
-    private function set_attrs($attrs, $values, $curr_item_id)
-    {
+        $ia = new ItemAttribute();
+        $ia::where('item_id', $id)->delete();
         # merge 2 arrays. One are keys of another array
-        $attrs_vals_arr=[];
-        foreach ($attrs as $keys =>$key) {
-            $attrs_vals_arr[$key]=$values[$keys];
+        $attrs_vals_arr = [];
+        foreach ($attrs as $keys => $key) {
+            $attrs_vals_arr[$key] = $values[$keys];
         }
-        foreach ($attrs_vals_arr as $attr => $value) {
-            try {
-                $this->iattr->insert([
-                   'id'      => $curr_item_id,
-                   'attr_id' => $attr,
-                   'value'   => $value
-               ]);
-            } catch (ModelFail $e) {
-                Log::error('Error to write item attrs', ["mes"=>$e]);
-                return 0;
+        try {
+            $ia::where('item_id', $id)->delete();
+            foreach ($attrs_vals_arr as $attr => $value) {
+                $ia::insert([
+                    'item_id' => $id,
+                    'attr_id' => $attr,
+                    'value' => $value
+                ]);
             }
+        } catch (QE $qe) {
+            Log::error('Error to write/delete attributes', ['msg' => $qe]);
+            return 0;
         }
         return 1;
     }
@@ -292,144 +199,223 @@ class ItemsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return 'showing '.$id;
+        return 'showing ' . $id;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        return 'editing '.$id;
+        $sc = new SubCategory();
+        $ic = new ItemCategory();
+        $ia = new ItemAttribute();
+        $i = new Item();
+        return view('admin.pages.item_edit')->with([
+            "brands" => Brand::all(),
+            "sub_cats" => $sc->getRuSubCategoryIdAndName(),
+            "attrs" => Attr::get(['id', 'ru_name']),
+            "item_attrs" => $ia::with('attributesLang')->where('item_id', $id)->get(),
+            'item' => $i::with(['getUkItem', 'getRuItem'])->findOrFail($id),
+            'item_cats' => $ic->getListOfCategories($id),
+            'id' => $id,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'uk_name' => 'max:255|required',
+            'ru_name' => 'max:200|required',
+            'brand_id' => 'required|numeric',
+            'price' => 'numeric',
+            'price_new' => 'numeric',
+            'sub_categories' => 'required',
+            'item_url_slug' => 'required|max:250',
+        ]);
+        $item = new Item();
+        $photo = $item::find($id)->item_photo;
+        $storeImg = new WithImg();
+        if ($request->hasFile('img_upload')) {
+            $storeImg->delete_photo($photo);
+            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name);
+        }
+        try {
+            $item::findOrFail($id)->update([
+                'price' => $request->price,
+                'new_price' => $request->new_price,
+                'barnd_id' => $request->brand_id,
+                'enabled' => $request->enabled,
+                'item_url_slug' => 'p-' . $request->item_url_slug,
+                'item_photo' => $photo,
+            ]);
+            $res = $this->storeLang($request, $id);
+            if (!$res) {
+                throw new Exception('Язикові файли не було записано');
+            }
+            $res = $this->storeItemSubCategories($request->sub_categories, $id);
+            if (!$res) {
+                throw  new Exception('Виникла помилка з записом підкатегорій');
+            }
+            if (isset($request->attrs)) {
+                $res = $this->storeItemAttributes($request->attrs, $request->values, $id);
+                if (!$res) {
+                    throw new Exception('Виникла помилка з записом атрибутів');
+                }
+            }
+        }catch(Exception $e){
+            Log::error('Error to write item',['mes'=>$e->getMessage()]);
+            return redirect()->back()->withErrors(['error'=>$e->getMessage()]);
+        }
+        session()->flash('msg','Зміни було застосовано');
+        return redirect(route('items.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        return 'destroy '.$id;
+        try {
+            $i = new Item();
+            $photo = $i::findOrFail($id)->item_photo;
+            $i::findOrFail($id)->delete();
+            $img = new WithImg();
+            $img->delete_photo($photo);
+        } catch (QE $qe) {
+            //TODO:: delete $qe debug
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe]);
+        }
+        session()->flash('msg', ' Товар видалено з бази');
+        return redirect(route('items.index'));
     }
 
-    public function search(Request $request)
-    {
+    public function search(Request $request){
         $request->flash();
-        $order = "asc";
-        $order_by="";
-        $rsort = $request->sort;
+        $sort = $request->sort;
         $q = $request->q;
-        $count = $this->item::count();
-        $asc_arr = array('asc_iname','asc_brand','asc_price','asc_enabled');
-        $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
-
-        if (in_array($rsort, $asc_arr)) {
-            $order = 'asc';
-        }
-        if (in_array($rsort, $desc_arr)) {
-            $order='desc';
-        }
-        switch ($rsort) {
-            case 'asc_iname':
-            case 'desc_iname':
-            $order_by = 'name';
-            break;
-
-            case 'asc_brand':
-            case 'desc_brand':
-            $order_by = 'brand';
-            break;
-
-            case 'asc_price':
-            case 'desc_price':
-            $order_by = 'price';
-            break;
-
-            case 'asc_enabled':
-            case 'desc_enabled':
-            $order_by = 'enabled';
-            break;
-            default:
-            $order_by = 'name';
-            break;
-        }
-        // empty search request
-        if (empty($request->q)){
-            switch ($order_by) {
-                case 'brand':
-                $brands = $this->brand::with(['items'])
-                ->orderBy('name',$order)
-                ->paginate($this->pag_count);
-                break;
-
-                default:
-                $items = $this->item::with(['brand'])
-                ->orderBy($order_by,$order)
-                ->paginate($this->pag_count);
-                break;
-            }
-        }
-        else{
-            switch ($order_by) {
-                case 'brand':
-                $brands = $this->brand::with(['items'])
-                ->where('name','LIKE','%'.$q.'%')
-                ->orderBy('name',$order)
-                ->paginate($this->pag_count);
-                break;
-
-                default:
-                $items = $this->item::with(['brand'])
-                ->where('name','LIKE','%'.$q.'%')
-                ->orWhere('tags','LIKE','%'.$q.'%')
-                ->orderBy($order_by,$order)
-                ->paginate($this->pag_count);
-                break;
-            }
-        }
-        // returning view
-        switch ($order_by) {
-            case 'brand':
-                return view('admin.pages.items')
-                ->with([
-                    'brands'=>$brands,
-                    'count'=>$count,
-                    'sort'=>$rsort
-                ]);
-                break;
-            
-            default:
-                return view('admin.pages.items')
-                ->with([
-                    'items'=>$items,
-                    'count'=>$count,
-                    'sort'=>$rsort
-                ]);
-                break;
-        }
-
-
+        $item = new Item();
+        return view('admin.pages.items')->with([
+            'count' => $item::count(),
+            'sort' => 'acs',
+            'items' => $item->searchAndSort($q,$sort)->paginate($this->pag_count),
+        ]);
+        
     }
+//    public function search(Request $request)
+//    {
+//        $request->flash();
+//        $order = "asc";
+//        $order_by = "";
+//        $rsort = $request->sort;
+//        $q = $request->q;
+//        $count = $this->item::count();
+//        $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
+//        $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
+//
+//        if (in_array($rsort, $asc_arr)) {
+//            $order = 'asc';
+//        }
+//        if (in_array($rsort, $desc_arr)) {
+//            $order = 'desc';
+//        }
+//        switch ($rsort) {
+//            case 'asc_iname':
+//            case 'desc_iname':
+//                $order_by = 'name';
+//                break;
+//
+//            case 'asc_brand':
+//            case 'desc_brand':
+//                $order_by = 'brand';
+//                break;
+//
+//            case 'asc_price':
+//            case 'desc_price':
+//                $order_by = 'price';
+//                break;
+//
+//            case 'asc_enabled':
+//            case 'desc_enabled':
+//                $order_by = 'enabled';
+//                break;
+//            default:
+//                $order_by = 'name';
+//                break;
+//        }
+//        // empty search request
+//        if (empty($request->q)) {
+//            switch ($order_by) {
+//                case 'brand':
+//                    $brands = $this->brand::with(['items'])
+//                        ->orderBy('name', $order)
+//                        ->paginate($this->pag_count);
+//                    break;
+//
+//                default:
+//                    $items = $this->item::with(['brand'])
+//                        ->orderBy($order_by, $order)
+//                        ->paginate($this->pag_count);
+//                    break;
+//            }
+//        } else {
+//            switch ($order_by) {
+//                case 'brand':
+//                    $brands = $this->brand::with(['items'])
+//                        ->where('name', 'LIKE', '%' . $q . '%')
+//                        ->orderBy('name', $order)
+//                        ->paginate($this->pag_count);
+//                    break;
+//
+//                default:
+//                    $items = $this->item::with(['brand'])
+//                        ->where('name', 'LIKE', '%' . $q . '%')
+//                        ->orWhere('tags', 'LIKE', '%' . $q . '%')
+//                        ->orderBy($order_by, $order)
+//                        ->paginate($this->pag_count);
+//                    break;
+//            }
+//        }
+//        // returning view
+//        switch ($order_by) {
+//            case 'brand':
+//                return view('admin.pages.items')
+//                    ->with([
+//                        'brands' => $brands,
+//                        'count' => $count,
+//                        'sort' => $rsort
+//                    ]);
+//                break;
+//
+//            default:
+//                return view('admin.pages.items')
+//                    ->with([
+//                        'items' => $items,
+//                        'count' => $count,
+//                        'sort' => $rsort
+//                    ]);
+//                break;
+//        }
+//
+//
+//    }
 }

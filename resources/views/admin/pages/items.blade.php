@@ -73,7 +73,9 @@
                 @foreach ($items as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>{{ $item->ru_name }}<br>{{$item->uk_name}}</td>
+                        <td>
+                            <span class="alert-info">RU</span> {{ $item->ru_name }}<br>
+                            <span class="alert-info">UK</span> {{$item->uk_name}}</td>
                         <td>{{ $item->b_name }}</td>
                         <td>{{ $item->enabled }}</td>
                         <td>{{ $item->item_url_slug }}</td>
@@ -82,9 +84,6 @@
                         <td>{{ $item->created_at }}</td>
                         <td>{{ $item->updated_at }}</td>
                         <td class="text-center">
-                            <a href="{{ route('items.show',$item->id) }}" class="btn btn-info">
-                                <i class="fas fa-eye"></i>
-                            </a>
                             <form method="post" action="{{ route('items.destroy',$item->id) }}" class="mt-1 mb-1">
                                 {{ csrf_field() }}
                                 <input name="_method" type="hidden" value="DELETE">

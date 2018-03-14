@@ -11,6 +11,7 @@ use Illuminate\Database\QueryException as QE;
 use App\Models\Category as Cat;
 use Auth;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 //use Illuminate\Support\Facades\Storage;
@@ -126,7 +127,7 @@ class CategoryController extends Controller
         if ($request->hasFile('img_upload')) {
             // removing old photo
             $storeImg->delete_photo($photo);
-            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
         try {
             $cat::findOrFail($id)->update([
@@ -162,7 +163,7 @@ class CategoryController extends Controller
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg();
-            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
         $cat_id = $this->storeNewCat($request->ru_name, $photo);
         try {

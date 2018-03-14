@@ -9,6 +9,7 @@ use App\Models\RuSubCategory;
 use App\Models\UkSubCategory;
 use Illuminate\Database\QueryException as QE;
 use Auth;
+use Illuminate\Support\Facades\Log;
 
 class SubCategoryController extends Controller
 {
@@ -72,7 +73,7 @@ class SubCategoryController extends Controller
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg;
-            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
         $sub_cat_id = $this->storeNewSubCat($request->cat_id, $request->ru_name, $photo);
         try {
@@ -147,7 +148,7 @@ class SubCategoryController extends Controller
         $photo = $sub_cat::find($id)->sub_cat_photo;
         if ($request->hasFile('img_upload')) {
             $storeImg->delete_photo($photo);
-            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
         try {
             $sub_cat::findOrFail($id)->update([

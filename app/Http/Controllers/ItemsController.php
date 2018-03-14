@@ -254,7 +254,7 @@ class ItemsController extends Controller
         $storeImg = new WithImg();
         if ($request->hasFile('img_upload')) {
             $storeImg->delete_photo($photo);
-            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name, True);
         }
         try {
             $item::findOrFail($id)->update([
@@ -319,103 +319,5 @@ class ItemsController extends Controller
             'sort' => 'acs',
             'items' => $item->searchAndSort($q,$sort)->paginate($this->pag_count),
         ]);
-        
     }
-//    public function search(Request $request)
-//    {
-//        $request->flash();
-//        $order = "asc";
-//        $order_by = "";
-//        $rsort = $request->sort;
-//        $q = $request->q;
-//        $count = $this->item::count();
-//        $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
-//        $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
-//
-//        if (in_array($rsort, $asc_arr)) {
-//            $order = 'asc';
-//        }
-//        if (in_array($rsort, $desc_arr)) {
-//            $order = 'desc';
-//        }
-//        switch ($rsort) {
-//            case 'asc_iname':
-//            case 'desc_iname':
-//                $order_by = 'name';
-//                break;
-//
-//            case 'asc_brand':
-//            case 'desc_brand':
-//                $order_by = 'brand';
-//                break;
-//
-//            case 'asc_price':
-//            case 'desc_price':
-//                $order_by = 'price';
-//                break;
-//
-//            case 'asc_enabled':
-//            case 'desc_enabled':
-//                $order_by = 'enabled';
-//                break;
-//            default:
-//                $order_by = 'name';
-//                break;
-//        }
-//        // empty search request
-//        if (empty($request->q)) {
-//            switch ($order_by) {
-//                case 'brand':
-//                    $brands = $this->brand::with(['items'])
-//                        ->orderBy('name', $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//
-//                default:
-//                    $items = $this->item::with(['brand'])
-//                        ->orderBy($order_by, $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//            }
-//        } else {
-//            switch ($order_by) {
-//                case 'brand':
-//                    $brands = $this->brand::with(['items'])
-//                        ->where('name', 'LIKE', '%' . $q . '%')
-//                        ->orderBy('name', $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//
-//                default:
-//                    $items = $this->item::with(['brand'])
-//                        ->where('name', 'LIKE', '%' . $q . '%')
-//                        ->orWhere('tags', 'LIKE', '%' . $q . '%')
-//                        ->orderBy($order_by, $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//            }
-//        }
-//        // returning view
-//        switch ($order_by) {
-//            case 'brand':
-//                return view('admin.pages.items')
-//                    ->with([
-//                        'brands' => $brands,
-//                        'count' => $count,
-//                        'sort' => $rsort
-//                    ]);
-//                break;
-//
-//            default:
-//                return view('admin.pages.items')
-//                    ->with([
-//                        'items' => $items,
-//                        'count' => $count,
-//                        'sort' => $rsort
-//                    ]);
-//                break;
-//        }
-//
-//
-//    }
 }

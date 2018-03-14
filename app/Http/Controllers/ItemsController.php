@@ -260,7 +260,7 @@ class ItemsController extends Controller
             $item::findOrFail($id)->update([
                 'price' => $request->price,
                 'new_price' => $request->new_price,
-                'barnd_id' => $request->brand_id,
+                'brand_id' => $request->brand_id,
                 'enabled' => $request->enabled,
                 'item_url_slug' => 'p-' . $request->item_url_slug,
                 'item_photo' => $photo,

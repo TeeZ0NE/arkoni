@@ -9,7 +9,7 @@ use Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
-class AttributesController extends AbstractQueryController
+class AttributesController extends Controller
 {
     private $pag_count = 10;
 

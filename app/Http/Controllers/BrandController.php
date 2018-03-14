@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 //use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 
-class BrandController extends AbstractQueryController
+class BrandController extends Controller
 {
 
     private $pag_count = 10;

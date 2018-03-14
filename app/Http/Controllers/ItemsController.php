@@ -12,10 +12,10 @@ use App\Models\Item;
 use App\Models\ItemCategory;
 use App\Models\Attribute as Attr;
 use Illuminate\Support\Facades\Log;
-//use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 use App\Models\ItemAttribute;
 use Illuminate\Database\QueryException as QE;
 use Exception;
+use Auth;
 
 class ItemsController extends Controller
 {
@@ -77,6 +77,7 @@ class ItemsController extends Controller
             'price_new' => 'numeric',
             'sub_categories' => 'required',
         ]);
+        $user = Auth::user()->name;
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg();
@@ -102,10 +103,12 @@ class ItemsController extends Controller
                 }
             }
         } catch (Exception $e) {
+            Log::error('Item add', ['msg' => $e->getMessage(), 'user' => $user]);
             return redirect()
                 ->back()
                 ->withErrors(['Error' => $e->getMessage()]);
         }
+        Log::info('Item add', ['user' => $user]);
         session()->flash('msg', 'Новий товар додано до бази!');
         return redirect(route('items.index'));
     }
@@ -171,6 +174,13 @@ class ItemsController extends Controller
         return 1;
     }
 
+    /**
+     * Storing item attributes
+     * @param array $attrs
+     * @param array $values
+     * @param $id
+     * @return Integer Boolean if strored
+     */
     private function storeItemAttributes(Array $attrs, Array $values, $id)
     {
         $ia = new ItemAttribute();
@@ -204,7 +214,6 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        return 'showing ' . $id;
     }
 
     /**
@@ -249,6 +258,7 @@ class ItemsController extends Controller
             'sub_categories' => 'required',
             'item_url_slug' => 'required|max:250',
         ]);
+        $user = Auth::user()->name;
         $item = new Item();
         $photo = $item::find($id)->item_photo;
         $storeImg = new WithImg();
@@ -279,11 +289,12 @@ class ItemsController extends Controller
                     throw new Exception('Виникла помилка з записом атрибутів');
                 }
             }
-        }catch(Exception $e){
-            Log::error('Error to write item',['mes'=>$e->getMessage()]);
-            return redirect()->back()->withErrors(['error'=>$e->getMessage()]);
+        } catch (Exception $e) {
+            Log::error('Item update', ['msg' => $e->getMessage(), 'user' => $user]);
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-        session()->flash('msg','Зміни було застосовано');
+        Log::info('Item update', ['user' => $user]);
+        session()->flash('msg', 'Зміни було застосовано');
         return redirect(route('items.index'));
     }
 
@@ -295,6 +306,7 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user()->name;
         try {
             $i = new Item();
             $photo = $i::findOrFail($id)->item_photo;
@@ -302,6 +314,7 @@ class ItemsController extends Controller
             $img = new WithImg();
             $img->delete_photo($photo);
         } catch (QE $qe) {
+            Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user]);
             //TODO:: delete $qe debug
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe]);
         }
@@ -309,7 +322,8 @@ class ItemsController extends Controller
         return redirect(route('items.index'));
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $request->flash();
         $sort = $request->sort;
         $q = $request->q;
@@ -317,7 +331,7 @@ class ItemsController extends Controller
         return view('admin.pages.items')->with([
             'count' => $item::count(),
             'sort' => 'acs',
-            'items' => $item->searchAndSort($q,$sort)->paginate($this->pag_count),
+            'items' => $item->searchAndSort($q, $sort)->paginate($this->pag_count),
         ]);
     }
 }

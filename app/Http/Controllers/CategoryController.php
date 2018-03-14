@@ -22,7 +22,7 @@ class CategoryController extends Controller
      * Count of page on paginate
      * @var int
      */
-    private $page_count = 10;
+//    private $page_count = 10;
 
     public function __construct()
     {
@@ -46,6 +46,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user()->name;
         try {
             $cat = new Cat;
             $photo = $cat::findOrFail($id)->cat_photo;
@@ -53,9 +54,11 @@ class CategoryController extends Controller
             $img = new WithImg();
             $img->delete_photo($photo);
         } catch (QE $qe) {
+            Log::error('Category delete', ['msg' => $qe->getMessage(), 'user' => $user]);
             //TODO: remove debug info below $me
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.' . '<br>' . $qe]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.' . $qe]);
         }
+        Log::info('Category delete', ['user' => $user]);
         session()->flash('msg', 'Категорію видалено з бази');
         return redirect(route('cats.index'));
     }
@@ -120,6 +123,7 @@ class CategoryController extends Controller
             'cat_url_slug' => 'required|max:250',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        $user = Auth::user()->name;
         $id = $request->id;
         $cat = new Cat;
         $storeImg = new WithImg;
@@ -131,15 +135,17 @@ class CategoryController extends Controller
         }
         try {
             $cat::findOrFail($id)->update([
-                'cat_url_slug' => 'c-'.$request->cat_url_slug,
+                'cat_url_slug' => 'c-' . $request->cat_url_slug,
                 'cat_photo' => $photo,
             ]);
             $this->storeLangCat($request, $id);
         } catch (QE $qe) {
+            Log::error('Category update', ['msg' => $qe->getMessage(), 'user' => $user]);
             return redirect()
                 ->back()
                 ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n" . $qe]);
         }
+        Log::info('Category update', ['user' => $user]);
         session()->flash('msg', 'Зміни внесено!');
         return redirect()->back();
     }
@@ -160,6 +166,7 @@ class CategoryController extends Controller
             'ru_desc' => 'max:255|required',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        $user = Auth::user()->name;
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg();
@@ -176,9 +183,10 @@ class CategoryController extends Controller
                 throw new Exception('Язикові файли не було записано');
             }
         } catch (Exception $e) {
-            Log::error('Error to write category', ["mes" => $e]);
+            Log::error('Category create', ["msg" => $e->getMessage(), 'user' => $user]);
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
+        Log::info('Category create', ['user' => $user]);
         session()->flash('msg', 'Категорію створено');
         return redirect(route('cats.index'));
     }
@@ -191,7 +199,7 @@ class CategoryController extends Controller
     private function storeNewCat($ru_name, $photo)
     {
         $cat = new Category;
-        $cat->cat_url_slug = 'c-'.url_slug($ru_name);
+        $cat->cat_url_slug = 'c-' . url_slug($ru_name);
         $cat->cat_photo = $photo;
         $cat->save();
         return $cat->id;

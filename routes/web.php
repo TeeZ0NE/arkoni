@@ -21,7 +21,6 @@ Auth::routes();
 
 
 
-
 Route::prefix('admin')->group(function () {
     Route::get('/', 'AdminController@index')->name('admin.dashboard');
     Route::get('/login', 'Auth\AdminloginController@showLoginForm')->name('admin.login');

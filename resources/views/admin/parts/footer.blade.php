@@ -1,2 +1,2 @@
-<div class="col-lg">Im a footer</div>
+<div class="col-lg"></div>
 

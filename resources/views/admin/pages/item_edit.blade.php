@@ -24,9 +24,10 @@
                     <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-language-tab">
                         {{--RU--}}
                         {{-- item name --}}
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 mt-lg-2">
                             <div class="input-group-prepend">
-                    <span class="input-group-text" id="ru-item-name">Название продукта
+                    <span class="input-group-text" id="ru-item-name">
+                        <strong>Название продукта<sup>*</sup></strong>
                     </span>
                             </div>
                             <input type="text" class="form-control" id="ru-item-name" placeholder="Название продукта"
@@ -40,16 +41,17 @@
                                 <span class="input-group-text">Описание</span>
                             </div>
                             <textarea class="form-control" aria-label="description"
-                                      name="ru_desc">{{ $item->getRuItem['desc'] }}</textarea>
+                                      name="ru_desc" rows="5">{{ $item->getRuItem['desc'] }}</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
                     <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-language-tab">
                         {{--UK--}}
                         {{-- item name --}}
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 mt-lg-2">
                             <div class="input-group-prepend">
-                    <span class="input-group-text" id="uk-item-name">Назва продукта
+                    <span class="input-group-text" id="uk-item-name">
+                        <strong>Назва продукта<sup>*</sup></strong>
                     </span>
                             </div>
                             <input type="text" class="form-control" id="uk-item-name" placeholder="Назва продукта"
@@ -62,16 +64,15 @@
                                 <span class="input-group-text">Опис</span>
                             </div>
                             <textarea class="form-control" aria-label="description"
-                                      name="uk_desc">{{ $item->getUkItem['desc'] }}</textarea>
+                                      name="uk_desc" rows="5">{{ $item->getUkItem['desc'] }}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
                 </div>
-
                 {{-- Brand --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="brands">Виробник</label>
+                        <label class="input-group-text" for="brands"><strong>Виробник<sup>*</sup></strong></label>
                     </div>
                     <select class="custom-select" id="brands" required name="brand_id">
                         <option selected value="">Оберіть...</option>
@@ -121,7 +122,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="categories">Категорії</label>
                     </div>
-                    <select class="custom-select" multiple size="4" name="sub_categories[]">
+                    <select class="custom-select" multiple size="4" name="sub_categories[]" required>
                         @foreach ($sub_cats as $sc)
                             <option value="{{ $sc->id }}" @if (in_array($sc->id,$item_cats)) selected @endif>
                                 {{ $sc->ru_name }}
@@ -129,11 +130,9 @@
                         @endforeach
                     </select>
                 </div>
-
-
                 {{-- Tags --}}
-                <select class="custom-select" id="tags" name="tags">
-                    <option selected value="" disabled>Оберіть...</option>
+                <select class="custom-select" id="tags" name="tags" disabled>
+                    <option selected value="">Оберіть...</option>
                     {{--@foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach--}}
@@ -176,7 +175,7 @@
                 {{--url slug--}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="item-url-slug">URL</span>
+                        <span class="input-group-text" id="item-url-slug"><strong>URL<sup>*</sup></strong></span>
                     </div>
                     <input type="text" class="form-control" placeholder="URL"
                            aria-label="url" aria-describedby="url-slug"
@@ -200,36 +199,4 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript">
-
-        // // add category checkbox
-        // $('.add_cat').on('click',function(event){
-        //     event.preventDefault();
-        //     var id = $('#cats').val();
-        //     if (id=='') return;
-        //     var opt_text = $('#cats :selected').text();
-        //     $('#cat_block').append('<input type="checkbox" name="cats[]" value="'+id+'" checked class="ml-1">'+opt_text);
-        // })
-
-        // // add input field for adding attributes and own values
-        // $('.add_attr').on('click',function(event){
-        //     event.preventDefault();
-        //     var id = $('#attrs').val();
-        //     if (id=='') return;
-        //     var opt_text = $('#attrs :selected').text();
-        //     $('#attr_block').append('<div class="input-group mb-1"><div class="input-group-prepend"><span class="input-group-text">'+opt_text+'</span></div><input type="text" class="form-control" placeholder="Параметри" name="values[]" aria-label="'+opt_text+'" aria-describedby="item-name"><input type="hidden" name="attrs[]" value="'+id+'"><a href="#" class="btn btn-danger remove_attr" onclick="javascript:void(0);"><i class="fas fa-trash-alt"></a></div>');
-        // });
-
-        // // remove input field from attributes
-        // $(document).on('click','a.remove_attr',function(event){
-        //     event.preventDefault();
-        //     $(this).parent().remove();
-        // })
-
-        // // change label on getting file in admin
-        // $('#img_upload').on('change',function(){
-        //     var file_name = $(this).val().split('\\').slice(-1)[0];
-        //     $(this).next('.custom-file-label').html(file_name);
-        // })
-    </script>
-@endsection
+   @endsection

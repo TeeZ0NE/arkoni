@@ -28,7 +28,7 @@ class WithImg
             });
         if ($water_mark) {
             // ->text('The quick brown fox jumps over the lazy dog.', 50, 150)
-            $img->insert($public_path . 'wm.png', 'center');
+            $img->insert($public_path . 'wm.png', 'bottom-right');
         }
 
         $img->save(null, 75);

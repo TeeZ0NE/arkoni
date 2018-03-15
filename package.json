@@ -20,12 +20,11 @@
     "vue": "^2.5.15"
   },
   "dependencies": {
-    "jquery": "^3.2",
     "bootstrap": "^4.0.0",
     "bootstrap-rating": "0.0.1",
     "datatables.net-dt": "^1.10.16",
+    "jquery": "^3.2",
     "jquery.cookie": "^1.4.1",
-    "markitup": "^3.0.0-0",
     "popper.js": "^1.14.0",
     "slick-carousel": "^1.8.1"
   }

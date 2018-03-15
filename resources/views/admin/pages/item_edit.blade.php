@@ -102,7 +102,7 @@
                     @php $price = (old('price'))?old('price'):$item->price  @endphp
                     <input type="number" class="form-control" id="item-price" placeholder="Ціна продукта" name="price"
                            value="{{$price}}" aria-label="Ціна продукта" aria-describedby="item-price"
-                           step="any">
+                           step="0.01">
                 </div>
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При заповненні поля "Стара ціна" на
                     сайті зявитсья перекреслена ціна, поруч із основною. Цe поле повинно бути завжди більше основної
@@ -117,7 +117,7 @@
                     @php $new_price = (old('new_price'))?old('new_price'):$item->new_price @endphp
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
                            name="new_price" value="{{$new_price}}" aria-label="Перекреслена ціна продукта"
-                           aria-describedby="item-price-new" step="any">
+                           aria-describedby="item-price-new" step="0.01">
                 </div>
                 {{-- Categories --}}
                 <div class="input-group mb-3">

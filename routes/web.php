@@ -22,7 +22,7 @@ Auth::routes();
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', 'AdminController@index')->name('admin.dashboard');
+    Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
     Route::get('/login', 'Auth\AdminloginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminloginController@login')->name('admin.login.submit');
     // Restoring (resseting) Admin passwords
@@ -34,47 +34,47 @@ Route::prefix('admin')->group(function () {
     });
     // Categories
     Route::prefix('/categories')->group(function () {
-        Route::get('/', 'CategoryController@index')->name('cats.index');
-        Route::get('/delete/{cat}', 'CategoryController@destroy')->name('cat.destroy');
-        Route::get('/{id}/edit', 'CategoryController@edit')->name('cat.edit');
+        Route::get('/', 'Admin\CategoryController@index')->name('cats.index');
+        Route::get('/delete/{cat}', 'Admin\CategoryController@destroy')->name('cat.destroy');
+        Route::get('/{id}/edit', 'Admin\CategoryController@edit')->name('cat.edit');
         Route::group(['middleware' => ['purify']], function () {
-            Route::get('/create', 'CategoryController@create')->name('cats.create');
-            Route::get('/query', 'CategoryController@search')->name('cats.search');
-            Route::post('/update', 'CategoryController@update')->name('cat.update');
-            Route::post('/store', 'CategoryController@store')->name('cat.store');
+            Route::get('/create', 'Admin\CategoryController@create')->name('cats.create');
+            Route::get('/query', 'Admin\CategoryController@search')->name('cats.search');
+            Route::post('/update', 'Admin\CategoryController@update')->name('cat.update');
+            Route::post('/store', 'Admin\CategoryController@store')->name('cat.store');
         });
     });
 
     // SubCategory
     Route::group(['middleware' => ['purify']], function () {
-        Route::get('subcategory/query','SubCategoryController@search')->name('subcategory.search');
-        Route::resource('subcategory', 'SubCategoryController');
+        Route::get('subcategory/query','Admin\SubCategoryController@search')->name('subcategory.search');
+        Route::resource('subcategory', 'Admin\SubCategoryController');
     });
     // Brands
     Route::prefix('/brands')->group(function () {
-        Route::get('/', 'BrandController@index')->name('brands');
+        Route::get('/', 'Admin\BrandController@index')->name('brands');
 
         Route::group(['middleware' => ['purify']], function () {
-            Route::get('/query', 'BrandController@search')->name('brands.search');
-            Route::post('/', 'BrandController@store')->name('brand.store');
-            Route::get('/update/query', 'BrandController@update')->name('brand.update');
+            Route::get('/query', 'Admin\BrandController@search')->name('brands.search');
+            Route::post('/', 'Admin\BrandController@store')->name('brand.store');
+            Route::post('/update', 'Admin\BrandController@update')->name('brand.update');
         });
-        Route::get('/delete/{id}', 'BrandController@delete')->name('brand.delete');
+        Route::get('/delete/{id}', 'Admin\BrandController@delete')->name('brand.delete');
     });
 
     // Attributes
     Route::prefix('/attributes')->group(function () {
-        Route::get('/', 'AttributesController@index')->name('attrs');
+        Route::get('/', 'Admin\AttributesController@index')->name('attrs');
         Route::group(['middleware' => ['purify']], function () {
-            Route::get('/query', 'AttributesController@search')->name('attrs.search');
-            Route::post('/', 'AttributesController@store')->name('attr.store');
-            Route::post('/update', 'AttributesController@update')->name('attr.update');
+            Route::get('/query', 'Admin\AttributesController@search')->name('attrs.search');
+            Route::post('/', 'Admin\AttributesController@store')->name('attr.store');
+            Route::post('/update', 'Admin\AttributesController@update')->name('attr.update');
         });
-        Route::get('/delete/{id}', 'AttributesController@delete')->name('attr.delete');
+        Route::get('/delete/{id}', 'Admin\AttributesController@delete')->name('attr.delete');
     });
     // Items
-    Route::get('items/query', 'ItemsController@search')->name('items.search');
-    Route::resource('items', 'ItemsController');
+    Route::get('items/query', 'Admin\ItemsController@search')->name('items.search');
+    Route::resource('items', 'Admin\ItemsController');
 
     // Reviews
 // Users

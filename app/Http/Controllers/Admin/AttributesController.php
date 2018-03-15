@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException as QE;
 use App\Models\Attribute as Attr;
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
-class AttributesController extends AbstractQueryController
+
+class AttributesController extends Controller
 {
     private $pag_count = 10;
 
@@ -35,16 +37,18 @@ class AttributesController extends AbstractQueryController
         $attr = new Attr;
         $attr->ru_name = $request->ru_name;
         $attr->uk_name = $request->uk_name;
+        $user = Auth::user()->name;
         try {
             $attr->save();
         } catch (QE $qe) {
             //TODO: remove debug info $qe
+            Log::error("Can't store attributes", ['mes' => $qe->getMessage(), 'user' => $user]);
             return redirect()
                 ->back()
                 ->withErrors(['name' => 'Такий параметр вже існує' . $qe->getMessage()]);
         }
-        session()->flash('msg', 'Параметр додано');
-        return redirect()->back();
+        Log::info('Attributes add', ['user' => $user]);
+        return redirect(route('attrs'))->with('msg', 'Параметр додано');
     }
 
     public function search(Request $request)
@@ -62,14 +66,18 @@ class AttributesController extends AbstractQueryController
 
     public function delete(Request $request)
     {
+        $user = Auth::user()->name;
         try {
             Attr::findOrFail($request->id)->delete();
         } catch (QE $qe) {
+            Log::error("Can't delete attributes", [
+                'mes' => $qe->getMessage(),
+                'user' => $user]);
             //TODO: remove debug $qe
             return redirect()->back()->withErrors(['attr_name' => 'Виникла проблема з видаленням параметра. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
         }
-        session()->flash('msg', 'Параметр видалено з бази');
-        return redirect()->back();
+        Log::info('Attributes delete', ['user' => $user]);
+        return redirect(route('attrs'))->with('msg', 'Параметр видалено з бази');
     }
 
     public function update(Request $request)
@@ -78,14 +86,16 @@ class AttributesController extends AbstractQueryController
             'ru_name' => "max:255|required",
             'uk_name' => "max:255|required"
         ]);
-        $attr = Attr::where('id',$request->id)
-        ->update(['ru_name' => $request->ru_name,
-        'uk_name' => $request->uk_name]);
-        if(!$attr) {
+        $user = Auth::user()->name;
+        $attr = Attr::where('id', $request->id)
+            ->update(['ru_name' => $request->ru_name,
+                'uk_name' => $request->uk_name]);
+        if (!$attr) {
+            Log::warning("Can't update Attribute", ['user' => $user]);
             return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву параметра.']);
-        }else {
-            session()->flash('msg', 'Назву параметра успішно змінено!');
-            return redirect()->back();
+        } else {
+            Log::info("Attributes updated", ['user' => $user]);
+            return redirect(route('attrs'))->with('msg', 'Параметр змінено');
         }
     }
 }

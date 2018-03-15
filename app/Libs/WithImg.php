@@ -13,9 +13,10 @@ class WithImg
      * @param $ru_name file name
      * @param $file_ext file extension
      * @param int $width
+     * @param Boolean $water_mark boolean set or not watermark
      * @return string
      */
-    public function set_image($file, $ru_name, $file_ext, $width = 300)
+    public function set_image($file, $ru_name, $file_ext,  $water_mark, $width = 300)
     {
         $file_name = time() . url_slug($ru_name) . '.' . $file_ext;
         $public_path = config('app.img_path');
@@ -24,13 +25,17 @@ class WithImg
             ->resize($width, null, function ($constraint) {
                 $constraint->AspectRatio();
 //                $constraint->upsize();
-            })
+            });
+        if ($water_mark) {
             // ->text('The quick brown fox jumps over the lazy dog.', 50, 150)
-            ->insert($public_path . 'wm.png', 'center');
-            $img->save(null,75);
+            $img->insert($public_path . 'wm.png', 'bottom-right');
+        }
+
+        $img->save(null, 75);
         return $file_name;
         // print_r(Storage::allFiles('public/img'));
     }
+
     /**
      * removing file from disk
      * if file doesn't default file 'no_image.png' remove it
@@ -48,12 +53,13 @@ class WithImg
      * Storing file with name by default it's ru_name transliterate
      * @param File $file img_upload
      * @param String $name
+     * @param  boolean $water_mark
      * @return string image file name
      */
-    public function getImageFileName($file, $name)
+    public function getImageFileName($file, $name, $water_mark = True)
     {
         $file_ext = $file->extension();
-        $photo = $this->set_image($file, $name, $file_ext);
+        $photo = $this->set_image($file, $name, $file_ext, $water_mark);
         return $photo;
     }
 }

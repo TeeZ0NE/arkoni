@@ -11,7 +11,7 @@
                 <input name="_method" type="hidden" value="PUT">
                 <div class="input-group mb-3 mt-lg-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="select_cat_id">Категорії</label>
+                        <label class="input-group-text" for="select_cat_id"><strong>Категорії<sup>*</sup></strong></label>
                     </div>
                     <select class="custom-select" required name="cat_id" id="select_cat_id">
                         <option value="" selected>Оберіть категорію...</option>
@@ -37,7 +37,7 @@
                         {{--RU--}}
                         <div class="input-group mb-3 mt-lg-2">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-name-ru">Название</span>
+                                <span class="input-group-text" id="cat-name-ru"><strong>Название<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="ru_name" name="ru_name"
@@ -45,7 +45,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Заголовок вкладки</span>
+                                <span class="input-group-text" id="cat-title-ru">Title</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$sub_cat->RuSubCategory->title}}"
@@ -53,10 +53,10 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Описание страницы</span>
+                                <span class="input-group-text">Description</span>
                             </div>
                             <textarea class="form-control" aria-label="Page description"
-                                      name="ru_desc">{{$sub_cat->RuSubCategory->desc}}</textarea>
+                                      name="ru_desc" rows="5">{{$sub_cat->RuSubCategory->desc}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -67,24 +67,24 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
+                                <span class="input-group-text">SEO текст</span>
+                            </div>
+                            <textarea class="form-control" aria-label="seo text"
+                                      name="ru_seo_text" rows="5"> {{$sub_cat->RuSubCategory->seo_text}}</textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h2-ru">H2</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h2" aria-label="Заголовок h2"
                                    aria-describedby="cat-h2-ru" value="{{$sub_cat->RuSubCategory->h2}}" name="ru_h2">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">SEO текст</span>
-                            </div>
-                            <textarea class="form-control" aria-label="seo text"
-                                      name="ru_seo_text"> {{$sub_cat->RuSubCategory->seo_text}}</textarea>
                         </div>
                          <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
                             <textarea class="form-control" aria-label="seo text 2"
-                                      name="ru_seo_text_2"> {{$sub_cat->RuSubCategory->seo_text_2}}</textarea>
+                                      name="ru_seo_text_2" rows="5"> {{$sub_cat->RuSubCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -92,7 +92,7 @@
                         {{--UK--}}
                         <div class="input-group mb-3 mt-lg-2">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-name-ru">Назва</span>
+                                <span class="input-group-text" id="cat-name-ru"><strong>Назва<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="cat-name-uk"
@@ -100,7 +100,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Заголовок вкладки</span>
+                                <span class="input-group-text" id="cat-title-ru">Title</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$sub_cat->UkSubCategory->title}}"
@@ -108,10 +108,10 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Опис сторінки</span>
+                                <span class="input-group-text">Description</span>
                             </div>
                             <textarea class="form-control" aria-label="Page description"
-                                      name="uk_desc">{{$sub_cat->UkSubCategory->desc}}</textarea>
+                                      name="uk_desc" rows="5">{{$sub_cat->UkSubCategory->desc}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -122,6 +122,13 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
+                                <span class="input-group-text">SEO текст</span>
+                            </div>
+                            <textarea class="form-control" aria-label="seo text"
+                                      name="uk_seo_text" rows="5"> {{$sub_cat->UkSubCategory->seo_text}}</textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h2-uk">H2</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h2" aria-label="Заголовок h2"
@@ -129,24 +136,17 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">SEO текст</span>
-                            </div>
-                            <textarea class="form-control" aria-label="seo text"
-                                      name="uk_seo_text"> {{$sub_cat->UkSubCategory->seo_text}}</textarea>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
                             <textarea class="form-control markItUp" aria-label="seo text"
-                                      name="uk_seo_text_2"> {{$sub_cat->UkSubCategory->seo_text_2}}</textarea>
+                                      name="uk_seo_text_2" rows="5"> {{$sub_cat->UkSubCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="cat-url-slug">URL</span>
+                        <span class="input-group-text" id="cat-url-slug"><strong>URL<sup>*</sup></strong></span>
                     </div>
                     <input type="text" class="form-control" placeholder="URL"
                            aria-label="url" aria-describedby="url-slug"
@@ -171,5 +171,4 @@
             </form>
         </div>
     </div>
-
 @endsection

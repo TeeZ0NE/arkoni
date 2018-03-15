@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Libs\WithImg;
 use App\Models\RuItem;
@@ -12,10 +12,11 @@ use App\Models\Item;
 use App\Models\ItemCategory;
 use App\Models\Attribute as Attr;
 use Illuminate\Support\Facades\Log;
-//use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 use App\Models\ItemAttribute;
 use Illuminate\Database\QueryException as QE;
 use Exception;
+use Auth;
+use App\Http\Controllers\Controller;
 
 class ItemsController extends Controller
 {
@@ -72,11 +73,14 @@ class ItemsController extends Controller
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'uk_name' => 'max:255|required|unique:uk_items',
             'ru_name' => 'max:200|required|unique:ru_items',
+            'ru_desc'=> 'required',
+            'uk_desc' => 'required',
             'brand_id' => 'required|numeric',
-            'price' => 'numeric',
-            'price_new' => 'numeric',
+            'price' => 'numeric|required',
+            'new_price' => 'numeric|required',
             'sub_categories' => 'required',
         ]);
+        $user = Auth::user()->name;
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg();
@@ -102,12 +106,13 @@ class ItemsController extends Controller
                 }
             }
         } catch (Exception $e) {
+            Log::error('Item add', ['msg' => $e->getMessage(), 'user' => $user]);
             return redirect()
                 ->back()
                 ->withErrors(['Error' => $e->getMessage()]);
         }
-        session()->flash('msg', 'Новий товар додано до бази!');
-        return redirect(route('items.index'));
+        Log::info('Item add', ['user' => $user]);
+        return redirect(route('items.index'))->with('msg', 'Новий товар додано до бази!');
     }
 
 
@@ -171,6 +176,13 @@ class ItemsController extends Controller
         return 1;
     }
 
+    /**
+     * Storing item attributes
+     * @param array $attrs
+     * @param array $values
+     * @param $id
+     * @return Integer Boolean if strored
+     */
     private function storeItemAttributes(Array $attrs, Array $values, $id)
     {
         $ia = new ItemAttribute();
@@ -204,7 +216,6 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        return 'showing ' . $id;
     }
 
     /**
@@ -243,24 +254,28 @@ class ItemsController extends Controller
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'uk_name' => 'max:255|required',
             'ru_name' => 'max:200|required',
+            'uk_desc' =>'required',
+            'ru_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric',
-            'price_new' => 'numeric',
+            'new_price' => 'numeric',
             'sub_categories' => 'required',
             'item_url_slug' => 'required|max:250',
         ]);
+        $user = Auth::user()->name;
         $item = new Item();
         $photo = $item::find($id)->item_photo;
         $storeImg = new WithImg();
         if ($request->hasFile('img_upload')) {
             $storeImg->delete_photo($photo);
-            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name, True);
         }
         try {
+//            if($request->price - floor($request->price)>0) {return 'has decimals';} else {return 'no decimals';}
             $item::findOrFail($id)->update([
                 'price' => $request->price,
                 'new_price' => $request->new_price,
-                'barnd_id' => $request->brand_id,
+                'brand_id' => $request->brand_id,
                 'enabled' => $request->enabled,
                 'item_url_slug' => 'p-' . $request->item_url_slug,
                 'item_photo' => $photo,
@@ -279,12 +294,12 @@ class ItemsController extends Controller
                     throw new Exception('Виникла помилка з записом атрибутів');
                 }
             }
-        }catch(Exception $e){
-            Log::error('Error to write item',['mes'=>$e->getMessage()]);
-            return redirect()->back()->withErrors(['error'=>$e->getMessage()]);
+        } catch (Exception $e) {
+            Log::error('Item update', ['msg' => $e->getMessage(), 'user' => $user]);
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-        session()->flash('msg','Зміни було застосовано');
-        return redirect(route('items.index'));
+        Log::info('Item update', ['user' => $user]);
+        return redirect(route('items.index'))->with('msg', 'Зміни було застосовано');
     }
 
     /**
@@ -295,6 +310,7 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user()->name;
         try {
             $i = new Item();
             $photo = $i::findOrFail($id)->item_photo;
@@ -302,14 +318,16 @@ class ItemsController extends Controller
             $img = new WithImg();
             $img->delete_photo($photo);
         } catch (QE $qe) {
+            Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user]);
             //TODO:: delete $qe debug
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe]);
         }
-        session()->flash('msg', ' Товар видалено з бази');
-        return redirect(route('items.index'));
+        Log::info('Item destroy',['user'=>$user]);
+        return redirect(route('items.index'))->with('msg', ' Товар видалено з бази');
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $request->flash();
         $sort = $request->sort;
         $q = $request->q;
@@ -317,105 +335,15 @@ class ItemsController extends Controller
         return view('admin.pages.items')->with([
             'count' => $item::count(),
             'sort' => 'acs',
-            'items' => $item->searchAndSort($q,$sort)->paginate($this->pag_count),
+            'items' => $item->searchAndSort($q, $sort)->paginate($this->pag_count),
         ]);
-        
     }
-//    public function search(Request $request)
+//    function numberOfDecimals($value)
 //    {
-//        $request->flash();
-//        $order = "asc";
-//        $order_by = "";
-//        $rsort = $request->sort;
-//        $q = $request->q;
-//        $count = $this->item::count();
-//        $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
-//        $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
-//
-//        if (in_array($rsort, $asc_arr)) {
-//            $order = 'asc';
+//        if ((int)$value == $value)
+//        {
+//            return 0;
 //        }
-//        if (in_array($rsort, $desc_arr)) {
-//            $order = 'desc';
-//        }
-//        switch ($rsort) {
-//            case 'asc_iname':
-//            case 'desc_iname':
-//                $order_by = 'name';
-//                break;
-//
-//            case 'asc_brand':
-//            case 'desc_brand':
-//                $order_by = 'brand';
-//                break;
-//
-//            case 'asc_price':
-//            case 'desc_price':
-//                $order_by = 'price';
-//                break;
-//
-//            case 'asc_enabled':
-//            case 'desc_enabled':
-//                $order_by = 'enabled';
-//                break;
-//            default:
-//                $order_by = 'name';
-//                break;
-//        }
-//        // empty search request
-//        if (empty($request->q)) {
-//            switch ($order_by) {
-//                case 'brand':
-//                    $brands = $this->brand::with(['items'])
-//                        ->orderBy('name', $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//
-//                default:
-//                    $items = $this->item::with(['brand'])
-//                        ->orderBy($order_by, $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//            }
-//        } else {
-//            switch ($order_by) {
-//                case 'brand':
-//                    $brands = $this->brand::with(['items'])
-//                        ->where('name', 'LIKE', '%' . $q . '%')
-//                        ->orderBy('name', $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//
-//                default:
-//                    $items = $this->item::with(['brand'])
-//                        ->where('name', 'LIKE', '%' . $q . '%')
-//                        ->orWhere('tags', 'LIKE', '%' . $q . '%')
-//                        ->orderBy($order_by, $order)
-//                        ->paginate($this->pag_count);
-//                    break;
-//            }
-//        }
-//        // returning view
-//        switch ($order_by) {
-//            case 'brand':
-//                return view('admin.pages.items')
-//                    ->with([
-//                        'brands' => $brands,
-//                        'count' => $count,
-//                        'sort' => $rsort
-//                    ]);
-//                break;
-//
-//            default:
-//                return view('admin.pages.items')
-//                    ->with([
-//                        'items' => $items,
-//                        'count' => $count,
-//                        'sort' => $rsort
-//                    ]);
-//                break;
-//        }
-//
-//
+//        $count =  strlen($value) - strrpos($value, '.') - 1;
 //    }
 }

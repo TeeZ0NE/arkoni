@@ -62,7 +62,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-12 mt-lg-3 mt-1 alert-secondary d-none edit-attrs">
+        <div class="col-12 mt-lg-3 mt-1 alert-secondary d-none edit-attrs pb-2">
             <strong id="edit-attrs">Редагувати</strong>
             <form method="post" action="{{route('attr.update')}}" class="form-inline">
                 {{csrf_field()}}
@@ -84,7 +84,7 @@
                 <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
             </form>
         </div>
-        <div class="col-12">
+        <div class="col-12 mt-lg-2">
             <table class="table table-striped">
                 <thead class="sticky-top alert-light">
                 <tr class="text-center">

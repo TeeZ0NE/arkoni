@@ -13,11 +13,6 @@ class UkSubCategory extends Model
         'sub_cat_id', 'uk_name', 'title', 'desc', 'h1', 'h2', 'seo_text', 'seo_text_2'
     );
 
-    public function setUkNameAttribute($value)
-    {
-        return $this->attributes['uk_name'] = mb_strtolower($value);
-    }
-
     public function getSubCategory()
     {
         return $this->belongsTo(SubCategory::class, 'sub_cat_id');

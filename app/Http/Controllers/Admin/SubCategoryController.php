@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Libs\WithImg;
 use Illuminate\Http\Request;
@@ -9,6 +9,8 @@ use App\Models\RuSubCategory;
 use App\Models\UkSubCategory;
 use Illuminate\Database\QueryException as QE;
 use Auth;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class SubCategoryController extends Controller
 {
@@ -69,10 +71,11 @@ class SubCategoryController extends Controller
             'uk_title' => 'max:70',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        $user = Auth::user()->name;
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg;
-            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
         $sub_cat_id = $this->storeNewSubCat($request->cat_id, $request->ru_name, $photo);
         try {
@@ -84,11 +87,11 @@ class SubCategoryController extends Controller
                 throw  new Exception('Язикові файли не було записано');
             }
         } catch (Exception $e) {
-            Log::error('Error to write subCategory', ['mes' => $e->getMessage()]);
+            Log::error('SubCategory add', ['msg' => $e->getMessage(), 'user' => $user]);
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
-        session()->flash('msg', 'Підкатегорію створено');
-        return redirect(route('subcategory.index'));
+        Log::info('SubCategory add', ['user' => $user]);
+        return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію створено');
     }
 
     /**
@@ -145,24 +148,26 @@ class SubCategoryController extends Controller
         $sub_cat = new SubCategory();
         $storeImg = new WithImg();
         $photo = $sub_cat::find($id)->sub_cat_photo;
+        $user = Auth::user()->name;
         if ($request->hasFile('img_upload')) {
             $storeImg->delete_photo($photo);
-            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name);
+            $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
         try {
             $sub_cat::findOrFail($id)->update([
                 'cat_id' => $request->cat_id,
-                'sub_cat_url_slug' => 's-'.$request->sub_cat_url_slug,
+                'sub_cat_url_slug' => 's-' . $request->sub_cat_url_slug,
                 'sub_cat_photo' => $photo,
-                'cat_url_slug' => 's-'.$request->cat_url_slug,
+                'cat_url_slug' => 's-' . $request->cat_url_slug,
                 'cat_photo' => $photo,
             ]);
             $this->storeLangSubCat($request, $id);
         } catch (QE $qe) {
+            Log::error('SubCategory update', ['msg' => $qe, 'user' => $user]);
             return redirect()->back()->withErrors(['sub_cat_error' => 'Сталась помилка запису змін ' . $qe]);
         }
-        session()->flash('msg', 'Зміни вненсено');
-        return redirect()->back();
+        Log::info('SubCategory update', ['user' => $user]);
+        return redirect(route('subcategory.index'))->with('msg', 'Зміни вненсено');
     }
 
     /**
@@ -173,6 +178,7 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user()->name;
         try {
             $sub_cat = new SubCategory();
             $img = new WithImg();
@@ -180,11 +186,12 @@ class SubCategoryController extends Controller
             $sub_cat::findOrFail($id)->delete();
             $img->delete_photo($photo);
         } catch (QE $qe) {
+            Log::error('SubCategory delete', ['msg' => $qe, 'user' => $user]);
             //TODO: remove debug info
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням ' . $qe]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах' . $qe]);
         }
-        session()->flash('msg', 'Підкатегорію видалено з бази');
-        return redirect(route('subcategory.index'));
+        Log::info('SubCategory delete', ['user' => $user]);
+        return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію видалено з бази');
     }
 
     /**
@@ -197,7 +204,7 @@ class SubCategoryController extends Controller
     private function storeNewSubCat($cat_id, $ru_name, $photo)
     {
         $sub_cat = new SubCategory();
-        $sub_cat->sub_cat_url_slug = 's-'.url_slug($ru_name);
+        $sub_cat->sub_cat_url_slug = 's-' . url_slug($ru_name);
         $sub_cat->sub_cat_photo = $photo;
         $sub_cat->cat_id = $cat_id;
         $sub_cat->save();
@@ -222,7 +229,7 @@ class SubCategoryController extends Controller
             'h1' => $request->ru_h1,
             'h2' => $request->ru_h2,
             'seo_text' => $request->ru_seo_text,
-            'seo_text_2' =>$request->ru_seo_text_2,
+            'seo_text_2' => $request->ru_seo_text_2,
         ]);
         $uk = $uk_sub_cat::updateOrCreate(['sub_cat_id' => $sub_cat_id], [
             'uk_name' => $request->uk_name,

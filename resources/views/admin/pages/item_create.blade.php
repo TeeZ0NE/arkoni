@@ -36,7 +36,7 @@
                         {{-- Description --}}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Описание</span>
+                                <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control" aria-label="description"
                                       name="ru_desc" rows="5">{{ old('ru_desc') }}</textarea>
@@ -59,7 +59,7 @@
                         {{-- Description --}}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Опис</span>
+                                <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control" aria-label="description"
                                       name="uk_desc" rows="5">{{ old('uk_desc') }}</textarea>
@@ -75,7 +75,8 @@
                     <select class="custom-select" id="brands" required name="brand_id">
                         <option selected value="">Оберіть...</option>
                         @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            <option value="{{ $brand->id }}"
+                                    @if ($brand->id == old('brand_id')) selected @endif> {{ $brand->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -95,36 +96,43 @@
                     <span class="input-group-text" id="item-price">Ціна продукта
                     </span>
                     </div>
+                    @php $price = (old('price'))?old('price'):0 @endphp
                     <input type="number" class="form-control" id="item-price" placeholder="Ціна продукта" name="price"
-                           value="{{ old('price') }}" aria-label="Ціна продукта" aria-describedby="item-price"
+                           value="{{ $price }}" aria-label="Ціна продукта" aria-describedby="item-price"
                            step="any">
                 </div>
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Якщо ціни не співпадають, це виведеться
-                    на сайті, при умові виведення товара
-                    <small>попередній параметр</small>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При заповненні поля "Стара ціна" на
+                    сайті зявитсья перекреслена ціна, поруч із основною. Цe поле повинно бути завжди більше основної
+                    ціни.
                 </p>
                 {{-- New price --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                    <span class="input-group-text" id="item-price-new">Нова ціна
+                    <span class="input-group-text" id="item-price-new">Стара ціна&nbsp;<small> (перекпеслена)</small>
                     </span>
                     </div>
+                    @php $new_price = (old('new_price'))?old('new_price'):0 @endphp
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
-                           name="new_price" value="{{ old('new_price') }}" aria-label="Ціна продукта"
+
+                           name="new_price" value="{{$new_price}}"
+                           aria-label="Перекреслена ціна продукта"
                            aria-describedby="item-price-new" step="any">
                 </div>
                 {{-- Categories --}}
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="categories">
-                                <strong>Категорії<sup>*</sup></strong></label>
-                        </div>
-                        <select class="custom-select" multiple size="4" name="sub_categories[]" required>
-                            @foreach ($sub_cats as $sc)
-                                <option value="{{ $sc->id }}">{{ $sc->ru_name }}</option>
-                            @endforeach
-                        </select>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="categories">
+                            <strong>Категорії<sup>*</sup></strong></label>
                     </div>
+                    <select class="custom-select" multiple size="4" name="sub_categories[]" required>
+                        @foreach ($sub_cats as $sc)
+                            <option value="{{ $sc->id }}"
+                                    @if(old('sub_categories'))
+                                    @if (in_array($sc->id,old('sub_categories'))) selected @endif @endif>
+                                {{ $sc->ru_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 {{-- Tags --}}
                 <select class="custom-select mb-3" id="tags" name="tags" disabled>
                     <option selected value="">Оберіть...</option>

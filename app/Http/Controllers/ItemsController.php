@@ -72,9 +72,11 @@ class ItemsController extends Controller
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'uk_name' => 'max:255|required|unique:uk_items',
             'ru_name' => 'max:200|required|unique:ru_items',
+            'ru_desc'=> 'required',
+            'uk_desc' => 'required',
             'brand_id' => 'required|numeric',
-            'price' => 'numeric',
-            'price_new' => 'numeric',
+            'price' => 'numeric|required',
+            'new_price' => 'numeric|required',
             'sub_categories' => 'required',
         ]);
         $user = Auth::user()->name;
@@ -252,9 +254,11 @@ class ItemsController extends Controller
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'uk_name' => 'max:255|required',
             'ru_name' => 'max:200|required',
+            'uk_desc' =>'required',
+            'ru_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric',
-            'price_new' => 'numeric',
+            'new_price' => 'numeric',
             'sub_categories' => 'required',
             'item_url_slug' => 'required|max:250',
         ]);

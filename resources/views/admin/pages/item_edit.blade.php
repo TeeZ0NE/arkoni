@@ -38,7 +38,7 @@
                         {{-- Description --}}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Описание</span>
+                                <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control" aria-label="description"
                                       name="ru_desc" rows="5">{{ $item->getRuItem['desc'] }}</textarea>
@@ -61,7 +61,7 @@
                         {{-- Description --}}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Опис</span>
+                                <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control" aria-label="description"
                                       name="uk_desc" rows="5">{{ $item->getUkItem['desc'] }}</textarea>
@@ -99,22 +99,24 @@
                     <span class="input-group-text" id="item-price">Ціна продукта
                     </span>
                     </div>
+                    @php $price = (old('price'))?old('price'):$item->price  @endphp
                     <input type="number" class="form-control" id="item-price" placeholder="Ціна продукта" name="price"
-                           value="{{ $item->price }}" aria-label="Ціна продукта" aria-describedby="item-price"
+                           value="{{$price}}" aria-label="Ціна продукта" aria-describedby="item-price"
                            step="any">
                 </div>
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Якщо ціни не співпадають, це виведеться
-                    на сайті, при умові виведення товара
-                    <small>попередній параметр</small>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При заповненні поля "Стара ціна" на
+                    сайті зявитсья перекреслена ціна, поруч із основною. Цe поле повинно бути завжди більше основної
+                    ціни.
                 </p>
                 {{-- New price --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                    <span class="input-group-text" id="item-price-new">Нова ціна
+                    <span class="input-group-text" id="item-price-new">Стара ціна&nbsp;<small>(перекпеслена)</small>
                     </span>
                     </div>
+                    @php $new_price = (old('new_price'))?old('new_price'):$item->new_price @endphp
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
-                           name="new_price" value="{{ $item->new_price }}" aria-label="Ціна продукта"
+                           name="new_price" value="{{$new_price}}" aria-label="Перекреслена ціна продукта"
                            aria-describedby="item-price-new" step="any">
                 </div>
                 {{-- Categories --}}
@@ -124,8 +126,13 @@
                     </div>
                     <select class="custom-select" multiple size="4" name="sub_categories[]" required>
                         @foreach ($sub_cats as $sc)
-                            <option value="{{ $sc->id }}" @if (in_array($sc->id,$item_cats)) selected @endif>
-                                {{ $sc->ru_name }}
+                            <option value="{{ $sc->id }}"
+                                    @if(old('sub_categories'))
+                                    @if (in_array($sc->id,old('sub_categories'))) selected @endif
+                                    @else
+                                    @if (in_array($sc->id,$item_cats)) selected @endif
+                            @endif>
+                            {{ $sc->ru_name }}
                             </option>
                         @endforeach
                     </select>
@@ -139,9 +146,7 @@
                     <option value="">Tags not added yet</option>
                 </select>
                 {{-- Attrs --}}
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
-                    буде записанний останній</p>
-
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу буде записанний останній</p>
                 <div class="alert alert-dark">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -157,19 +162,19 @@
                     </div>
                     <div class="input-group" id="attr_block">
                         @foreach($item_attrs as $ia)
-                    <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">{{$ia->attributesLang['ru_name']}}</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Параметри" name="values[]"
-                               aria-label="{{$ia->attributesLang['ru_name']}}" aria-describedby="item-name"
-                               value="{{$ia->value}}" required>
-                        <input type="hidden" name="attrs[]" value="{{$ia->attr_id}}">
-                        <a href="#" class="btn btn-danger remove_attr"
-                           onclick="javascript:void(0);"><i class="fas fa-trash-alt"> </i>
-                        </a>
-                    </div>
-                @endforeach
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{{$ia->attributesLang['ru_name']}}</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Параметри" name="values[]"
+                                       aria-label="{{$ia->attributesLang['ru_name']}}" aria-describedby="item-name"
+                                       value="{{$ia->value}}" required>
+                                <input type="hidden" name="attrs[]" value="{{$ia->attr_id}}">
+                                <a href="#" class="btn btn-danger remove_attr"
+                                   onclick="javascript:void(0);"><i class="fas fa-trash-alt"> </i>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 {{--url slug--}}
@@ -199,4 +204,4 @@
             </form>
         </div>
     </div>
-   @endsection
+@endsection

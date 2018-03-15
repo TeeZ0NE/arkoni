@@ -147,7 +147,7 @@ class CategoryController extends Controller
         }
         Log::info('Category update', ['user' => $user]);
         session()->flash('msg', 'Зміни внесено!');
-        return redirect()->back();
+        return redirect(route('cats.index'));
     }
 
     /**

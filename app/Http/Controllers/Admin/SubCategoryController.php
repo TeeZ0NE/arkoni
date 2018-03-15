@@ -168,7 +168,7 @@ class SubCategoryController extends Controller
         }
         Log::info('SubCategory update', ['user' => $user]);
         session()->flash('msg', 'Зміни вненсено');
-        return redirect()->back();
+        return redirect(route('subcategory.index'));
     }
 
     /**
@@ -189,7 +189,7 @@ class SubCategoryController extends Controller
         } catch (QE $qe) {
             Log::error('SubCategory delete', ['msg' => $qe, 'user' => $user]);
             //TODO: remove debug info
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням ' . $qe]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах' . $qe]);
         }
         Log::info('SubCategory delete', ['user' => $user]);
         session()->flash('msg', 'Підкатегорію видалено з бази');

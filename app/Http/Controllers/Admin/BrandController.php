@@ -46,8 +46,7 @@ class BrandController extends Controller
                 ->withErrors(['brand_name' => 'Такий виробник вже існує' . $qe->getMessage()]);
         }
         Log::info('Brand add', ['user' => $user]);
-        session()->flash('msg', 'Виробника додано');
-        return redirect()->back();
+        return redirect(route('brands'))->with('msg', 'Виробника додано');
     }
 
     public function search(Request $request)
@@ -80,8 +79,7 @@ class BrandController extends Controller
             return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
         }
         Log::info('Brand delete', ['user' => $user]);
-        session()->flash('msg', 'Виробника видалено з бази');
-        return redirect()->back();
+        return redirect(route('brands'))->with('msg', 'Виробника видалено з бази');
     }
 
     public function update(Request $request)
@@ -91,7 +89,7 @@ class BrandController extends Controller
         ]);
         $user = Auth::user()->name;
         try {
-            Brand::findOrFail($request->id)
+            Brand::findOrFail($request->brand_id)
                 ->update([
                     'name' => $request->name,
                 ]);
@@ -99,11 +97,11 @@ class BrandController extends Controller
             Log::error('Brand update', ['msg' => $qe->getMessage(), 'user' => $user]);
             $request->flash();
             //TODO: remove debug info $qe
-            return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву виробника.' . $qe->getMessage()]);
+            return redirect(route('brands'))->withErrors(['update' => 'Не можливо змінити назву виробника.' . $qe->getMessage()]);
         }
         Log::info('Brand update', ['user' => $user]);
-        session()->flash('msg', 'Назву виробника успішно змінено!');
-        return redirect()->back();
+//        session()->flash('msg', 'Назву виробника успішно змінено!');
+        return redirect(route('brands'))->with('msg','Назву виробника успішно змінено!');
     }
 
 }

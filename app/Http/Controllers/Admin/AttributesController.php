@@ -47,9 +47,8 @@ class AttributesController extends Controller
                 ->back()
                 ->withErrors(['name' => 'Такий параметр вже існує' . $qe->getMessage()]);
         }
-        session()->flash('msg', 'Параметр додано');
         Log::info('Attributes add', ['user' => $user]);
-        return redirect()->back();
+        return redirect(route('attrs'))->with('msg', 'Параметр додано');
     }
 
     public function search(Request $request)
@@ -78,8 +77,7 @@ class AttributesController extends Controller
             return redirect()->back()->withErrors(['attr_name' => 'Виникла проблема з видаленням параметра. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
         }
         Log::info('Attributes delete', ['user' => $user]);
-        session()->flash('msg', 'Параметр видалено з бази');
-        return redirect()->back();
+        return redirect(route('attrs'))->with('msg', 'Параметр видалено з бази');
     }
 
     public function update(Request $request)
@@ -97,8 +95,7 @@ class AttributesController extends Controller
             return redirect()->back()->withErrors(['update' => 'Не можливо змінити назву параметра.']);
         } else {
             Log::info("Attributes updated", ['user' => $user]);
-            session()->flash('msg', 'Назву параметра успішно змінено!');
-            return redirect()->back();
+            return redirect(route('attrs'))->with('msg', 'Параметр змінено');
         }
     }
 }

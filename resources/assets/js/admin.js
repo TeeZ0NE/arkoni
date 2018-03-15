@@ -40,7 +40,7 @@ $(function () {
         $("#ru-attr-name-ed").val(old_ru);
         $("#id-edited").val(id);
     });
-    // add category checkbo
+    // add category checkbox if multiple
     // not using
     // $('.add_cat').on('click',function(event){
     //   event.preventDefault();

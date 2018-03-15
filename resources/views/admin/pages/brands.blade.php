@@ -24,7 +24,7 @@
       <div class="col-12 col-lg-6">
         <strong>Шукати</strong>
         <div class="form-group">
-          <input type="text" class="form-control d-inline w-75" placeholder="Назва виготовника" name="q" value="{{ old("q") }}">
+          <input type="text" class="form-control d-inline w-75" placeholder="Назва виробника" name="q" value="{{ old("q") }}">
           <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
         </div>
         {{-- {{ csrf_field() }} --}}
@@ -42,7 +42,22 @@
     </div>
   </form>
 </div>
-<div class="col-12">
+      <div class="col-12 mt-lg-3 mt-1 alert-secondary  edit-brand pb-2 d-none">
+            <strong id="edit-brand">Редагувати</strong>
+            <form method="post" action="{{route('brand.update')}}" class="form-inline">
+                {{csrf_field()}}
+                <input type="hidden" name="brand_id" id="id-edited">
+                <div class="input-group w-50">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="ru-edit">Назва виробника</span>
+                    </div>
+                    <input type="text" class="form-control  d-inline" id="brand-name-ed"
+                           placeholder="Виробник" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-primary ml-2"><i class="far fa-save"></i> Зберегти</button>
+            </form>
+        </div>
+<div class="col-12 mt-lg-2">
   <table class="table table-striped">
     <thead class="sticky-top alert-light">
       <tr class="text-center">
@@ -58,7 +73,7 @@
         <td class="align-middle">{{ $brand->name }}</td>
         <td class="text-right">
           <a href="{{ route('brand.delete',$brand->id) }}" class="btn btn-danger" onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
-          <a href="{{ route('brand.update') }}" class="btn btn-info change-brand-name" id={{ $brand->id }} data-name="{{ $brand->name }}"><i class="fas fa-pencil-alt"></i></a>
+          <a href="#edit-brand" class="btn btn-info change-brand-name" id={{ $brand->id }} data-name="{{ $brand->name }}"><i class="fas fa-pencil-alt"></i></a>
         </td>
       </tr>
       @endforeach

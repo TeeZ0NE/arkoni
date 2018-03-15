@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Libs\WithImg;
 use Illuminate\Http\Request;
@@ -10,6 +10,7 @@ use App\Models\UkSubCategory;
 use Illuminate\Database\QueryException as QE;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class SubCategoryController extends Controller
 {
@@ -90,8 +91,7 @@ class SubCategoryController extends Controller
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
         Log::info('SubCategory add', ['user' => $user]);
-        session()->flash('msg', 'Підкатегорію створено');
-        return redirect(route('subcategory.index'));
+        return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію створено');
     }
 
     /**
@@ -167,8 +167,7 @@ class SubCategoryController extends Controller
             return redirect()->back()->withErrors(['sub_cat_error' => 'Сталась помилка запису змін ' . $qe]);
         }
         Log::info('SubCategory update', ['user' => $user]);
-        session()->flash('msg', 'Зміни вненсено');
-        return redirect(route('subcategory.index'));
+        return redirect(route('subcategory.index'))->with('msg', 'Зміни вненсено');
     }
 
     /**
@@ -192,8 +191,7 @@ class SubCategoryController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах' . $qe]);
         }
         Log::info('SubCategory delete', ['user' => $user]);
-        session()->flash('msg', 'Підкатегорію видалено з бази');
-        return redirect(route('subcategory.index'));
+        return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію видалено з бази');
     }
 
     /**

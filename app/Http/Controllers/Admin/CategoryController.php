@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Libs\WithImg;
 use App\Models\Category;
@@ -13,6 +13,7 @@ use Auth;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use App\Http\Controllers\Controller;
 
 //use Illuminate\Support\Facades\Storage;
 
@@ -59,8 +60,7 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.' . $qe]);
         }
         Log::info('Category delete', ['user' => $user]);
-        session()->flash('msg', 'Категорію видалено з бази');
-        return redirect(route('cats.index'));
+        return redirect(route('cats.index'))->with('msg', 'Категорію видалено з бази');
     }
 
     /**
@@ -146,8 +146,7 @@ class CategoryController extends Controller
                 ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n" . $qe]);
         }
         Log::info('Category update', ['user' => $user]);
-        session()->flash('msg', 'Зміни внесено!');
-        return redirect(route('cats.index'));
+        return redirect(route('cats.index'))->with('msg', 'Зміни внесено!');
     }
 
     /**
@@ -187,8 +186,7 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
         Log::info('Category create', ['user' => $user]);
-        session()->flash('msg', 'Категорію створено');
-        return redirect(route('cats.index'));
+        return redirect(route('cats.index'))->with('msg', 'Категорію створено');
     }
 
 

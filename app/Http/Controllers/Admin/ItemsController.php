@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Libs\WithImg;
 use App\Models\RuItem;
@@ -16,6 +16,7 @@ use App\Models\ItemAttribute;
 use Illuminate\Database\QueryException as QE;
 use Exception;
 use Auth;
+use App\Http\Controllers\Controller;
 
 class ItemsController extends Controller
 {
@@ -111,8 +112,7 @@ class ItemsController extends Controller
                 ->withErrors(['Error' => $e->getMessage()]);
         }
         Log::info('Item add', ['user' => $user]);
-        session()->flash('msg', 'Новий товар додано до бази!');
-        return redirect(route('items.index'));
+        return redirect(route('items.index'))->with('msg', 'Новий товар додано до бази!');
     }
 
 
@@ -271,6 +271,7 @@ class ItemsController extends Controller
             $photo = $storeImg->getImageFileName($request->file('img_upload'), $request->ru_name, True);
         }
         try {
+//            if($request->price - floor($request->price)>0) {return 'has decimals';} else {return 'no decimals';}
             $item::findOrFail($id)->update([
                 'price' => $request->price,
                 'new_price' => $request->new_price,
@@ -298,8 +299,7 @@ class ItemsController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
         Log::info('Item update', ['user' => $user]);
-        session()->flash('msg', 'Зміни було застосовано');
-        return redirect(route('items.index'));
+        return redirect(route('items.index'))->with('msg', 'Зміни було застосовано');
     }
 
     /**
@@ -322,8 +322,8 @@ class ItemsController extends Controller
             //TODO:: delete $qe debug
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe]);
         }
-        session()->flash('msg', ' Товар видалено з бази');
-        return redirect(route('items.index'));
+        Log::info('Item destroy',['user'=>$user]);
+        return redirect(route('items.index'))->with('msg', ' Товар видалено з бази');
     }
 
     public function search(Request $request)
@@ -338,4 +338,12 @@ class ItemsController extends Controller
             'items' => $item->searchAndSort($q, $sort)->paginate($this->pag_count),
         ]);
     }
+//    function numberOfDecimals($value)
+//    {
+//        if ((int)$value == $value)
+//        {
+//            return 0;
+//        }
+//        $count =  strlen($value) - strrpos($value, '.') - 1;
+//    }
 }

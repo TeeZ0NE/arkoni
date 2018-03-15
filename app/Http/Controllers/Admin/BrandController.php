@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException as QE;
 use App\Models\Brand as Brand;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 //use Illuminate\Database\Eloquent\ModelNotFoundException as ModelFail;
 

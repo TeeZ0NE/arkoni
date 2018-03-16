@@ -1,6 +1,5 @@
 /node_modules
 /public/hot
-/public/storage
 /storage/*.key
 /vendor
 /.idea
@@ -17,3 +16,5 @@ nbproject/*
 resources/assets/notes.md
 resources/assets/sql/arkoni_script.sql
 arkoni.loc.tar.gz
+/storage/framework/
+/storage/logs/

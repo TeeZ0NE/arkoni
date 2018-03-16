@@ -10,3 +10,12 @@ if (!function_exists('do_excerpt')) {
         return implode(' ', $words) . ' ...';
     }
 }
+
+if (!function_exists('print_array')) {
+    function print_array($data)
+    {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
+}

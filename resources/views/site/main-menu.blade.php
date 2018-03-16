@@ -13,7 +13,7 @@
 
                                 @foreach($data['main-menu'] as $id => $cat)
                                     @if(count($cat->sub))
-                                        <li class="sub-categories-items">
+                                        <li>
                                             <a href="{{ LaravelLocalization::LocalizeURL('/'.$cat->slug) }}">{{ $cat->name }}</a>
                                             <ul>
                                                 @foreach($cat->sub as $key => $val)
@@ -29,35 +29,6 @@
                                         </li>
                                     @endif
                                 @endforeach
-                                {{--<li><a href="/c-catalog-2">Подпункт 2</a></li>--}}
-                                {{--<li class="sub-categories-items"><a href="#">Подпункт 3</a>--}}
-                                {{--<ul>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 3.1 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 3.2 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 3.3 </a></li>--}}
-                                {{--</ul>--}}
-                                {{--</li>--}}
-                                {{--<li class="sub-categories-items"><a href="#">Подпункт 4</a>--}}
-                                {{--<ul>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 4.1 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 4.2 </a></li>--}}
-                                {{--</ul>--}}
-                                {{--</li>--}}
-                                {{--<li class="sub-categories-items"><a href="#">Подпункт 5</a>--}}
-                                {{--<ul>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.1 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.2 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.3 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.4 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.5 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.6 </a></li>--}}
-                                {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">Подпункт 5.7 </a></li>--}}
-                                {{--</ul>--}}
-                                {{--</li>--}}
-                                {{--<li><a href="#">Подпункт 6</a></li>--}}
-                                {{--<li><a href="#">Подпункт 7</a></li>--}}
-                                {{--<li><a href="#">Подпункт 8</a></li>--}}
-                                {{--<li><a href="#">Подпункт 9</a></li>--}}
                             </ul>
                         </li>
                         <li>

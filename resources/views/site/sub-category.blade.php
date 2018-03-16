@@ -2,7 +2,10 @@
 
 @section('content')
 
-    {{ Breadcrumbs::render('home') }}
+    {!! Breadcrumbs::render('sub-category', [
+    'category_name' => $data['sub-category']->category_name,
+    'category_slug' => $data['sub-category']->category_slug,
+    'sub-category' => $data['sub-category']->name]) !!}
 
     <div class="container">
         <div class="row">
@@ -104,242 +107,70 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <h1 class="title">Штукатурки</h1>
-                                <p>Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas
-                                    lacus orci non
-                                    sapien. Duis sagittis imperdiet eros ac posuere. Nunc sapien diam, sollicitudin
-                                    commodo posuere non, aliquam nec urna.</p>
-                                <p>Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna
-                                    congue vulputate quis nec sapien.
-                                    Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas
-                                    lacus orci non sapien. Duis sagittis
-                                    imperdiet eros ac posuere. Nunc sapien diam, sollicitudin commodo posuere non,
-                                    aliquam nec urna.</p>
+                                <h1 class="title">{{ $data['sub-category']->h1 }}</h1>
+                                {{ $data['sub-category']->seo_text }}
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {{--start each --}}
-                <article class="item">
-                    <div class="row">
-                        <div class="col-md-3 thumbnail">
-                            <a class="url-thumbnail" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                <img src="" alt="" class="img-thumbnail">
-                                {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            </a>
-                        </div>
-                        <div class="col-md-6 text">
-                            {{--<div class="body">--}}
-                            <div class="title">
-                                <a href="{{ LaravelLocalization::LocalizeURL('/') }}">Штукатурка ROTBAND
-                                    виробника Кнауф </a>
+                @foreach($data['products'] as $key => $item)
+                    <article class="item">
+                        <div class="row">
+                            <div class="col-md-3 thumbnail">
+                                <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
+                                    <img src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
+                                </a>
                             </div>
-                            <ul class="commerce">
-                                <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
-                                </li>
-                            </ul>
-                            <div class="text-block">
-                                <?php echo do_excerpt('Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue vulputate quis nec sapien. Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non sapien.', 30) ?>
+                            <div class="col-md-6 text">
+                                <div class="title">
+                                    <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
+                                        {{ $item->name }}
+                                    </a>
+                                </div>
+                                <ul class="commerce">
+                                    <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
+                                    <li class="top-sales"><i
+                                                class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
+                                    <li class="recommend"><i
+                                                class="fas fa-certificate"></i> @lang('sub-category.recommend')
+                                    </li>
+                                </ul>
+                                <div class="text-block">
+                                    {{ $item->desc }}
+                                </div>
                             </div>
-                            {{--</div>--}}
-                        </div>
-                        <div class="col-md-3 info">
-                            {{--<div class="info">--}}
-                            <div class="call-we">@lang('sub-category.call-we'):</div>
-                            <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
-                            <span class="old-price">194.45 @lang('general.uah')</span>
-                            <div class="price">180.00 @lang('general.uah')</div>
-                            <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/p-product-1') }}">
-                                @lang('general.learn-more')
-                                    <i class="far fa-long-arrow-alt-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="item">
-                    <div class="row">
-                        <div class="col-md-3 thumbnail">
-                            <a class="url-thumbnail" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                <img src="" alt="" class="img-thumbnail">
-                                {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            </a>
-                        </div>
-                        <div class="col-md-6 text">
-                            {{--<div class="body">--}}
-                            <div class="title">
-                                <a href="{{ LaravelLocalization::LocalizeURL('/') }}">Штукатурка ROTBAND
-                                    виробника Кнауф </a>
+                            <div class="col-md-3 info">
+                                <div class="call-we">@lang('sub-category.call-we'):</div>
+                                <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
+                                <span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>
+                                <div class="price">{{ number_format($item->new_price, 2, '.', '') }} @lang('general.uah')</div>
+                                <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
+                                    @lang('general.learn-more')<i class="far fa-long-arrow-alt-right"></i>
+                                </a>
                             </div>
-                            <ul class="commerce">
-                                <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
-                                </li>
-                            </ul>
-                            <div class="text-block">
-                                <?php echo do_excerpt('Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue vulputate quis nec sapien. Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non sapien.', 30) ?>
-                            </div>
-                            {{--</div>--}}
                         </div>
-                        <div class="col-md-3 info">
-                            {{--<div class="info">--}}
-                            <div class="call-we">@lang('sub-category.call-we'):</div>
-                            <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
-                            <span class="old-price">194.45 @lang('general.uah')</span>
-                            <div class="price">180.00 @lang('general.uah')</div>
-                            <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/p-product-2') }}">
-                                @lang('general.learn-more')
-                                    <i class="far fa-long-arrow-alt-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-                <article class="item">
-                    <div class="row">
-                        <div class="col-md-3 thumbnail">
-                            <a class="url-thumbnail" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                <img src="" alt="" class="img-thumbnail">
-                                {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            </a>
-                        </div>
-                        <div class="col-md-6 text">
-                            {{--<div class="body">--}}
-                            <div class="title">
-                                <a href="{{ LaravelLocalization::LocalizeURL('/') }}">Штукатурка ROTBAND
-                                    виробника Кнауф </a>
-                            </div>
-                            <ul class="commerce">
-                                <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
-                                </li>
-                            </ul>
-                            <div class="text-block">
-                                <?php echo do_excerpt('Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue vulputate quis nec sapien. Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non sapien.', 30) ?>
-                            </div>
-                            {{--</div>--}}
-                        </div>
-                        <div class="col-md-3 info">
-                            {{--<div class="info">--}}
-                            <div class="call-we">@lang('sub-category.call-we'):</div>
-                            <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
-                            <span class="old-price">194.45 @lang('general.uah')</span>
-                            <div class="price">180.00 @lang('general.uah')</div>
-                            <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                @lang('general.learn-more')
-                                    <i class="far fa-long-arrow-alt-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-                <article class="item">
-                    <div class="row">
-                        <div class="col-md-3 thumbnail">
-                            <a class="url-thumbnail" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                <img src="" alt="" class="img-thumbnail">
-                                {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            </a>
-                        </div>
-                        <div class="col-md-6 text">
-                            {{--<div class="body">--}}
-                            <div class="title">
-                                <a href="{{ LaravelLocalization::LocalizeURL('/') }}">Штукатурка ROTBAND
-                                    виробника Кнауф </a>
-                            </div>
-                            <ul class="commerce">
-                                <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
-                                </li>
-                            </ul>
-                            <div class="text-block">
-                                <?php echo do_excerpt('Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue vulputate quis nec sapien. Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non sapien.', 30) ?>
-                            </div>
-                            {{--</div>--}}
-                        </div>
-                        <div class="col-md-3 info">
-                            {{--<div class="info">--}}
-                            <div class="call-we">@lang('sub-category.call-we'):</div>
-                            <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
-                            <span class="old-price">194.45 @lang('general.uah')</span>
-                            <div class="price">180.00 @lang('general.uah')</div>
-                            <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                @lang('general.learn-more')
-                                    <i class="far fa-long-arrow-alt-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-                <article class="item">
-                    <div class="row">
-                        <div class="col-md-3 thumbnail">
-                            <a class="url-thumbnail" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                <img src="" alt="" class="img-thumbnail">
-                                {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            </a>
-                        </div>
-                        <div class="col-md-6 text">
-                            {{--<div class="body">--}}
-                            <div class="title">
-                                <a href="{{ LaravelLocalization::LocalizeURL('/') }}">Штукатурка ROTBAND
-                                    виробника Кнауф </a>
-                            </div>
-                            <ul class="commerce">
-                                <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
-                                </li>
-                            </ul>
-                            <div class="text-block">
-                                <?php echo do_excerpt('Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue vulputate quis nec sapien. Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non sapien.', 30) ?>
-                            </div>
-                            {{--</div>--}}
-                        </div>
-                        <div class="col-md-3 info">
-                            {{--<div class="info">--}}
-                            <div class="call-we">@lang('sub-category.call-we'):</div>
-                            <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
-                            <span class="old-price">194.45 @lang('general.uah')</span>
-                            <div class="price">180.00 @lang('general.uah')</div>
-                            <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                                @lang('general.learn-more')
-                                    <i class="far fa-long-arrow-alt-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-{{--                {{ $paginator->links('view.name') }}--}}
+                    </article>
+                @endforeach
+                {{ $data['products']->links('pagination.default') }}
             </div>
         </div>
     </div>
 
-    {{--end each--}}
 
     <div class="seo-block-2">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        <h2 class="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h2>
-                        <p>Quisque sodales mi in mi congue, sed laoreet velit rutrum. Vestibulum et purus enim. Vivamus
-                            bibendum ligula in turpis hendrerit, ut luctus urna tempus. Phasellus vulputate quam eget
-                            diam tincidunt, ut
-                            sollicitudin lacus iaculis. Morbi accumsan porta eros at viverra. Vivamus velit enim,
-                            sodales tempus fermentum eget,
-                            facilisis id massa. Curabitur dictum, ex eget gravida aliquet, nisl ipsum mattis neque, sed
-                            gravida dolor mi vel mi.
-                            Aliquam in tortor posuere est feugiat ultricies. Suspendisse eu elit at purus molestie
-                            vehicula. Maecenas varius
-                            molestie dui feugiat vehicula. </p>
+                        <h2 class="title">{{ $data['sub-category']->h2 }}</h2>
+                        {{ $data['sub-category']->seo_text_2 }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{--{{print_array($data['sub-category'])}}--}}
+    {{--{{print_array($data['products'])}}--}}
 
 @endsection

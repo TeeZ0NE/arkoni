@@ -2,20 +2,20 @@
 
 @section('content')
 
-    {{ Breadcrumbs::render('home') }}
+    {{ Breadcrumbs::render('product', $data['product']->name) }}
 
     <div id="item" class="item">
         <div id="aggregate-rating" class="aggregate-rating" itemscope itemtype="http://schema.org/Product">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
-                        <img itemprop="image" src="" class="img-thumbnail" alt="">
+                        <img src="{{ asset('/storage/img/'.$data['product']->photo) }}" alt="">
                         <div id="rating-block" class="rating-block">
                             @include('site._ratings')
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="title" itemprop="name">CM 11 Клеящая смесь Ceramic CM 11 Клеящая смесь Ceramic</div>
+                        <div class="title" itemprop="name">{{ $data['product']->name }}</div>
                         <ul class="commerce">
                             <li class="stock"><i class="fas fa-tag"></i> @lang('products.stock')</li>
                             <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('products.top-sales')</li>
@@ -23,38 +23,41 @@
                             </li>
                         </ul>
                         <div class="price-block">
-                            <span class="old-price">194.45 @lang('general.uah')</span>
+                            <span class="old-price">{{ number_format($data['product']->price, 2, '.', '') }} @lang('general.uah')</span>
                             <span class="offers" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                <span itemprop="price" content="180.00">{{-- set price--}}
-                                    <span class="price">180.00 <span class="priceCurrency" itemprop="priceCurrency"
-                                                                     content="uah">@lang('general.uah')</span></span>
+                                <span itemprop="price"
+                                      content="{{ number_format($data['product']->new_price, 2, '.', '') }}">{{-- set price--}}
+                                    <span class="price">{{ number_format($data['product']->new_price, 2, '.', '') }}
+                                        <span class="priceCurrency"
+                                              itemprop="priceCurrency"
+                                              content="uah">@lang('general.uah')</span></span>
                                 </span>
                                 <link itemprop="availability" href="http://schema.org/InStock"/><span
                                         class="availability">@lang('product.in-stock')</span>
                             </span>
                         </div>
-                        <div class="for">Для облицовки керамической плиткой внутри и снаружи зданий</div>
-                        <ul class="params">
-                           <li><i class="fas fa-check"></i><strong>Упаковка:</strong> <span>5 кг</span></li>
-                           <li><i class="fas fa-check"></i><strong>Страна производитель:</strong> <span>Украина</span></li>
-                           <li><i class="fas fa-check"></i><strong>Упаковка:</strong> <span>5 кг
-                                   Страна производитель: Украина
-                                   Состав: цемент с минеральными наполнителями и органическими
-                                   модификаторами</span></li>
-                        </ul>
+                        @if($data['product']->attrs)
+                            <ul class="params">
+                                @foreach($data['product']->attrs as $key => $attr)
+                                    <li><i class="fas fa-check"></i><strong>{{ $attr->name }}:</strong>
+                                        <span>{{ $attr->value }}</span></li>
+                                @endforeach
+                            </ul>
+                        @endif
                         <div class="phone-block">
                             @lang('product.arrange')
-                                <div class="phone"><i class="fas fa-phone"></i> {{ config('contacts.phone-1-alt') }}</div>
+                                <div class="phone"><i class="fas fa-phone"></i>{{ config('contacts.phone-1-alt') }}
+                                </div>
                         </div>
                     </div>
                     {{--<div class="col-md-12">--}}
-                        {{--<ul class="tags">--}}
-                            {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
-                            {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
-                            {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
-                            {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
-                            {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
-                        {{--</ul>--}}
+                    {{--<ul class="tags">--}}
+                    {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
+                    {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
+                    {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
+                    {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
+                    {{--<li><a href="{{ LaravelLocalization::LocalizeURL('/') }}">#штукатурка фасадная</a></li>--}}
+                    {{--</ul>--}}
                     {{--</div>--}}
                 </div>
             </div>
@@ -65,17 +68,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="title">Характеристика штукатурки Cersanit</div>
-
-                    <p>Производитель оставляет за собой право без предварительного уведомления изменять цены на
-                        продукцию, а также ее названия, параметры, упаковку и другие характеристики. Последняя
-                        актуальная информация для потребителей, предусмотренная действующим законодательством, находится
-                        на упаковке продукции, а также в сопроводительной документации. Претензии со ссылкой на любые
-                        другие источники информации производителем не принимаются и не рассматриваются.
-                    </p>
-                    <p> Последняя актуальная информация для потребителей, предусмотренная действующим законодательством,
-                        находится на упаковке продукции, а также в сопроводительной документации. Претензии со ссылкой
-                        на любые другие источники информации производителем не принимаются и не рассматриваются.</p>
+                    <div class="title">@lang('product.desc')</div>
+                    {{ $data['product']->desc }}
                 </div>
             </div>
         </div>
@@ -136,5 +130,7 @@
     </div>
 
     @include('site._services')
+
+    {{--{{print_array($data['product'])}}--}}
 
 @endsection

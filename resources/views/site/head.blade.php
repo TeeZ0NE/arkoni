@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
 
-{{--    <title>@if(isset($title)){{ $title }}@endif</title>--}}
-    {{--<meta name="description" content="@if(isset($description)){{ $description }}@endif">--}}
+    <title>@if(isset($title)){{ $title }}@endif</title>
+    <meta name="description" content="@if(isset($description)){{ $description }}@endif">
 
     {{--@if(count(Request::segments()) < 2 )--}}
         {{--<link rel='alternate' hreflang='ru' href='{{ url('https://hyperhost.ua/ru') }}'/>--}}

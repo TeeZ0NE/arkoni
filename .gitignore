@@ -1,6 +1,5 @@
 /node_modules
 /public/hot
-/public/storage
 /storage/*.key
 /vendor
 /.idea
@@ -12,8 +11,9 @@ yarn-error.log
 .env
 .phpintel/*
 /nbproject/private/
-storage/purify/*
-nbproject/*
+/storage/purify/*
+/nbproject/*
 resources/assets/notes.md
 resources/assets/sql/arkoni_script.sql
+storage/app/public/
 arkoni.loc.tar.gz

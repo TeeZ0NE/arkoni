@@ -1,8 +1,7 @@
-var $ = require("jquery");
+var $ = require("jquery-migrate");
 require('popper.js');
 require('bootstrap');
 // import MarkItUp from 'markitup';
-// require('markitup');
 
 
 // require('tablesorter');

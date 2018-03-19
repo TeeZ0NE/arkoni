@@ -16,6 +16,7 @@ mix.autoload({
 });
 mix.js([
     'resources/assets/js/app.js',
+    'resources/assets/markitup/jquery.markitup.js',
     'resources/assets/js/admin.js'
 ], 'public/js/app.js')
     .js('resources/assets/js/site.js', 'public/js')
@@ -23,7 +24,8 @@ mix.js([
     .stylus('resources/assets/stylus/site.styl', 'public/css')
     .copyDirectory('resources/assets/images', 'public/images');
 
-// mix.copyDirectory('resources/assets/images', 'public/images');
+
+mix.copyDirectory('resources/assets/markitup/templates', 'public/js/markitup/templates');
 
 mix.webpackConfig({
     resolve: {

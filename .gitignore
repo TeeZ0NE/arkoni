@@ -1,5 +1,5 @@
 /node_modules
-/public/hot
+/public/*
 /storage/*.key
 /vendor
 /.idea
@@ -13,7 +13,6 @@ yarn-error.log
 /nbproject/private/
 /storage/purify/*
 storage/logs/
-storage/app/public/img/
 /nbproject/*
 resources/assets/notes.md
 resources/assets/sql/arkoni_script.sql

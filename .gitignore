@@ -12,8 +12,9 @@ yarn-error.log
 .phpintel/*
 /nbproject/private/
 /storage/purify/*
+storage/logs/
+storage/app/public/img/
 /nbproject/*
 resources/assets/notes.md
 resources/assets/sql/arkoni_script.sql
-storage/app/public/
 arkoni.loc.tar.gz

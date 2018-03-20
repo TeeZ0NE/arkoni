@@ -1,4 +1,13 @@
 $(function () {
+    // editor 4 text-area
+    /**
+     * Author https://alex-d.github.io/Trumbowyg/documentation/
+     */
+    $.trumbowyg.svgPath = "/images/vendor/trumbowyg/icons.svg";
+        $('.editor').trumbowyg({
+            lang: 'ua'
+        });
+
     // Brands. Change name
     $(".change-brand-name").on("click", function (event) {
         var old_name = $(this).attr('data-name');

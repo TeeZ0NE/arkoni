@@ -16,6 +16,7 @@ mix.autoload({
 });
 mix.js([
     'resources/assets/js/app.js',
+    'node_modules/trumbowyg/dist/langs/ua.min.js',
     'resources/assets/js/admin.js'
 ], 'public/js/app.js')
     .js('resources/assets/js/site.js', 'public/js')
@@ -23,7 +24,7 @@ mix.js([
     .stylus('resources/assets/stylus/site.styl', 'public/css')
     .copyDirectory('resources/assets/images', 'public/images');
 
-
+mix.copy('node_modules/trumbowyg/dist/ui/icons.svg','public/images/vendor/trumbowyg/icons.svg');
 // mix.copyDirectory('resources/assets/markitup/templates', 'public/js/markitup/templates');
 
 mix.webpackConfig({

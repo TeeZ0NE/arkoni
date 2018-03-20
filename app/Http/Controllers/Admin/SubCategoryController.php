@@ -67,8 +67,8 @@ class SubCategoryController extends Controller
             'ru_desc' => 'max:255',
             'uk_desc' => 'max:255',
             'cat_id' => 'required',
-            'ru_title' => 'max:70',
-            'uk_title' => 'max:70',
+            'ru_title' => 'required|max:70',
+            'uk_title' => 'required|max:70',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $user = Auth::user()->name;
@@ -134,8 +134,8 @@ class SubCategoryController extends Controller
             'cat_id' => 'required',
             'uk_name' => 'max:255|required',
             'ru_name' => 'max:200|required',
-            'ru_title' => 'max:70',
-            'uk_title' => 'max:70',
+            'ru_title' => 'required|max:70',
+            'uk_title' => 'required|max:70',
             'uk_desc' => 'max:255',
             'ru_desc' => 'max:255',
             'ru_h1' => 'max:255',

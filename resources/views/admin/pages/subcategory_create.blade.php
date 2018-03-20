@@ -20,7 +20,6 @@
                         @endforeach
                     </select>
                 </div>
-
                 <ul class="nav nav-tabs" id="categoryTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#ru" role="tab"
@@ -40,14 +39,16 @@
                                     <strong>Название<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
-                                   aria-label="Название подкатегории" aria-describedby="ru_name" name="ru_name" value="{{old('ru_name')}}" maxlength="255">
+                                   aria-label="Название подкатегории" aria-describedby="ru_name" name="ru_name"
+                                   value="{{old('ru_name')}}" maxlength="255">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Title</span>
+                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
-                                   aria-describedby="cat-title-ru" value="{{old('ru_title')}}" name="ru_title" maxlength="70">
+                                   aria-describedby="cat-title-ru" value="{{old('ru_title')}}" name="ru_title"
+                                   maxlength="70">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -67,7 +68,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="ru_seo_text" rows="5">{{old('ru_seo_text')}}</textarea>
                         </div>
                         <div class="input-group mb-3">
@@ -81,7 +82,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text 2"
+                            <textarea class="form-control editor" aria-label="seo text 2"
                                       name="ru_seo_text_2" rows="5">{{old('ru_seo_text_2')}}</textarea>
                         </div>
                         {{--/RU--}}
@@ -99,10 +100,11 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Title</span>
+                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
-                                   aria-describedby="cat-title-ru" value="{{old('uk_title')}}" name="uk_title" maxlength="70">
+                                   aria-describedby="cat-title-ru" value="{{old('uk_title')}}" name="uk_title"
+                                   maxlength="70">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -122,7 +124,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="uk_seo_text" rows="5">{{old('uk_seo_text')}}</textarea>
                         </div>
                         <div class="input-group mb-3">
@@ -134,23 +136,23 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">SEO текст 2</span>
+                                <span class="input-group-text editor">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text 2"
+                            <textarea class="form-control editor" aria-label="seo text 2"
                                       name="uk_seo_text_2" rows="5">{{old('uk_seo_text_2')}}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
                 </div>
-                 <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Фото</span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Фото</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="img_upload" name="img_upload">
+                        <label class="custom-file-label" for="img_upload">Оберіть файл</label>
+                    </div>
                 </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="img_upload" name="img_upload">
-                    <label class="custom-file-label" for="img_upload">Оберіть файл</label>
-                </div>
-            </div>
                 <div class="col text-center">
                     <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
                 </div>

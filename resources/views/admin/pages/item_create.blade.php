@@ -38,7 +38,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
-                            <textarea class="form-control" aria-label="description"
+                            <textarea class="form-control editor" aria-label="description"
                                       name="ru_desc" rows="5">{{ old('ru_desc') }}</textarea>
                         </div>
                         {{--/RU--}}
@@ -61,7 +61,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
-                            <textarea class="form-control" aria-label="description"
+                            <textarea class="form-control editor" aria-label="description"
                                       name="uk_desc" rows="5">{{ old('uk_desc') }}</textarea>
                         </div>
                         {{--/UK--}}

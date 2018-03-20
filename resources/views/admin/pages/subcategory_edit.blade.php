@@ -45,7 +45,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Title</span>
+                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$sub_cat->RuSubCategory->title}}"
@@ -100,7 +100,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Title</span>
+                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$sub_cat->UkSubCategory->title}}"
@@ -144,6 +144,7 @@
                         {{--/UK--}}
                     </div>
                 </div>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Поле URL бажано не редагувати після створення сторінки, це може викликати небажані наслідки в структурі сайту.</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="cat-url-slug"><strong>URL<sup>*</sup></strong></span>

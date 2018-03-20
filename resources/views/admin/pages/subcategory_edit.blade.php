@@ -81,9 +81,9 @@
                         </div>
                          <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">SEO текст</span>
+                                <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text 2"
+                            <textarea class="form-control editor" aria-label="seo text 2"
                                       name="ru_seo_text_2" rows="5"> {{$sub_cat->RuSubCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/RU--}}
@@ -124,7 +124,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="uk_seo_text" rows="5"> {{$sub_cat->UkSubCategory->seo_text}}</textarea>
                         </div>
                         <div class="input-group mb-3">
@@ -138,7 +138,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control markItUp" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="uk_seo_text_2" rows="5"> {{$sub_cat->UkSubCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/UK--}}

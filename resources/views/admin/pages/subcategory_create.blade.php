@@ -136,7 +136,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text editor">SEO текст 2</span>
+                                <span class="input-group-text">SEO текст 2</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text 2"
                                       name="uk_seo_text_2" rows="5">{{old('uk_seo_text_2')}}</textarea>

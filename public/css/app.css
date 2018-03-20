@@ -3280,3 +3280,17 @@ body.trumbowyg-body-fullscreen {
 .custom-file-label[for="img_upload"]::after {
   content: '...' !important;
 }
+.admin-logo {
+  color: #fff;
+  background-color: #000;
+}
+.main-menu {
+  background-color: #d7d7d7;
+}
+.main-menu li>a {
+  color: #000;
+  border-bottom: 2px solid transparent;
+}
+.main-menu li>a:hover {
+  border-bottom: 2px solid #ff5a09;
+}

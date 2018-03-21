@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-2 align-self-center">
             <strong>Створити</strong>
-            <a href="{{ route('items.create') }}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
+            <a href="{{ route('items.create') }}" class="btn btn-warning" role="button"><i class="fas fa-plus"></i></a>
         </div>
         <div class="col-10">
             <form method="get" action="{{ route('items.search') }}" role="search">
@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control d-inline w-75" placeholder="Шукати" name="q"
                                    value="{{ old("q") }}">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
@@ -44,7 +44,7 @@
                                     Виводиться
                                 </option>
                             </select>
-                            <button type="submit" class="btn btn-info"><i class="fas fa-sort"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-sort"></i></button>
                         </div>
                     </div>
                 </div>
@@ -87,11 +87,11 @@
                             <form method="post" action="{{ route('items.destroy',$item->id) }}" class="mt-1 mb-1">
                                 {{ csrf_field() }}
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="btn btn-danger" type="submit" onclick="return confirm('Ви впевнені?')">
+                                <button class="btn btn-secondary" type="submit" onclick="return confirm('Ви впевнені?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
-                            <a href="{{ route('items.edit',$item->id) }}" class="btn btn-info">
+                            <a href="{{ route('items.edit',$item->id) }}" class="btn btn-warning">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
                         </td>
@@ -99,13 +99,13 @@
                     <tr>
                         <td colspan="4">
                             <div class="border">
-                                <p class="text-center border-bottom lead alert-secondary">Опис</p>
+                                <p class="text-center border-bottom lead alert-warning">Опис</p>
                                 <p class="p-2">{{$item->desc}}</p>
                             </div>
                         </td>
                         <td colspan="4">
                             <div class="border">
-                                <p class="text-center border-bottom lead alert-secondary">Тегі</p>
+                                <p class="text-center border-bottom lead alert-warning">Тегі</p>
                                 <p class="p-2">N\A{{--$item->tags--}}</p>
                             </div>
                         </td>

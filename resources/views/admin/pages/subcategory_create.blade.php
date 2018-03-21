@@ -154,7 +154,7 @@
                     </div>
                 </div>
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

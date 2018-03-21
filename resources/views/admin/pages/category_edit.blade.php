@@ -161,10 +161,10 @@
                 <img src="{{asset('storage/img').'/'.$cat->cat_photo}}" alt="item photo"
                      class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col-10 text-center">
-                    <a href="{{route('cats.index')}}" class="btn btn-secondary">
+                    <a href="{{route('cats.index')}}" class="btn btn-warning">
                         <i class="fas fa-arrow-left"></i> До категорій</a>
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
-                    <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-danger"
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
+                    <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-secondary"
                        onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i> Видалити</a>
                 </div>
             </form>

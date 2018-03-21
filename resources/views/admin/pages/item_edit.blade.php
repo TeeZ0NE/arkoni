@@ -158,7 +158,7 @@
                                 <option value="{{ $attr->id }}">{{ $attr->ru_name }}</option>
                             @endforeach
                         </select>
-                        <a href="#" class="btn btn-primary add_attr" role="button"><i class="fas fa-plus"></i></a>
+                        <a href="#" class="btn btn-warning add_attr" role="button"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="input-group" id="attr_block">
                         @foreach($item_attrs as $ia)
@@ -170,7 +170,7 @@
                                        aria-label="{{$ia->attributesLang['ru_name']}}" aria-describedby="item-name"
                                        value="{{$ia->value}}" required>
                                 <input type="hidden" name="attrs[]" value="{{$ia->attr_id}}">
-                                <a href="#" class="btn btn-danger remove_attr"
+                                <a href="#" class="btn btn-secondary remove_attr"
                                    onclick="javascript:void(0);"><i class="fas fa-trash-alt"> </i>
                                 </a>
                             </div>
@@ -200,7 +200,7 @@
                 <img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo"
                      class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

@@ -155,7 +155,7 @@
                                 <option value="{{ $attr->id }}">{{ $attr->ru_name }}</option>
                             @endforeach
                         </select>
-                        <a href="#" class="btn btn-primary add_attr" role="button"><i class="fas fa-plus"></i></a>
+                        <a href="#" class="btn btn-warning add_attr" role="button"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="input-group" id="attr_block"></div>
                 </div>
@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

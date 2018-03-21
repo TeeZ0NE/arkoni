@@ -165,9 +165,9 @@
                 <img src="{{asset('storage/img').'/'.$sub_cat->sub_cat_photo}}" alt="item photo"
                      class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col text-center">
-                    <a href="{{route('subcategory.index')}}" class="btn btn-secondary">
+                    <a href="{{route('subcategory.index')}}" class="btn btn-warning">
                         <i class="fas fa-arrow-left"></i> До підкатегорій</a>
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

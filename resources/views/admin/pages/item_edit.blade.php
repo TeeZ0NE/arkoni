@@ -136,6 +136,22 @@
                         @endforeach
                     </select>
                 </div>
+                {{--Shortcuts--}}
+                <div class="mb-3">
+                    <p class="alert alert-secondary">Ярлики</p>
+                    @foreach($shortcuts as $shortcut)
+                        <div class="form-check  form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="sh-{{$shortcut->id}}" name="shortcuts[]"
+                                   value="{{$shortcut->id}}"
+                                   @if(old('shortcuts'))
+                                   @if(in_array($shortcut->id,old('shortcuts'))) checked @endif
+                                   @else
+                                   @if(in_array($shortcut->id,$item_shortcuts)) checked @endif
+                                    @endif>
+                            <label class="form-check-label" for="sh-{{$shortcut->id}}">{{$shortcut->name}}</label>
+                        </div>
+                    @endforeach
+                </div>
                 {{-- Tags --}}
                 <select class="custom-select mb-3" id="tags" name="tags" disabled>
                     <option selected value="">Оберіть...</option>
@@ -178,7 +194,8 @@
                     </div>
                 </div>
                 {{--url slug--}}
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Поле URL бажано не редагувати після створення сторінки, це може викликати небажані наслідки в структурі сайту.</p>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Поле URL бажано не редагувати після
+                    створення сторінки, це може викликати небажані наслідки в структурі сайту.</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="item-url-slug"><strong>URL<sup>*</sup></strong></span>

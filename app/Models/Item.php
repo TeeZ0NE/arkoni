@@ -11,16 +11,28 @@ class Item extends Model
         'price', 'new_price', 'item_photo', 'brand_id', 'enabled', 'item_url_slug',
     );
 
+    /**
+     * get item's brand
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+    /**
+     * get item's RU lang
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function getRuItem()
     {
         return $this->hasOne(RuItem::class, 'item_id', 'id');
     }
 
+    /**
+     * get UK lang
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function getUkItem()
     {
         return $this->hasOne(UkItem::class, 'item_id');
@@ -36,6 +48,13 @@ class Item extends Model
         return $this->hasMany(ItemCategory::class, 'item_id');
     }
 
+    /**
+     * get 4 item shortcuts whitch it has and shortcutname
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function getItemShortcut(){
+        return $this->hasManyThrough(Shortcut::class,ItemShortcut::class,'item_id','id','id','shortcut_id');
+    }
     /**searchin and sorting items
      * sort by price, enabled, by brand, by RU name
      * @param null $q Query what we searchin

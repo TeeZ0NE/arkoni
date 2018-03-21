@@ -100,7 +100,7 @@
                         <td colspan="4">
                             <div class="border">
                                 <p class="text-center border-bottom lead alert-warning">Опис</p>
-                                <p class="p-2">{{$item->desc}}</p>
+                                <p class="p-2">{!!  $item->desc !!}</p>
                             </div>
                         </td>
                         <td colspan="4">

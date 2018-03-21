@@ -133,6 +133,17 @@
                         @endforeach
                     </select>
                 </div>
+                {{--Shortcuts--}}
+                <div class="mb-3">
+                    <p class="alert alert-secondary">Ярлики</p>
+                    @foreach($shortcuts as $shortcut)
+                        <div class="form-check  form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="sh-{{$shortcut->id}}" name="shortcuts[]"
+                                   value="{{$shortcut->id}}">
+                            <label class="form-check-label" for="sh-{{$shortcut->id}}">{{$shortcut->name}}</label>
+                        </div>
+                    @endforeach
+                </div>
                 {{-- Tags --}}
                 <select class="custom-select mb-3" id="tags" name="tags" disabled>
                     <option selected value="">Оберіть...</option>

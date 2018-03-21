@@ -1,4 +1,4 @@
-<ul class="nav col">
+<ul class="nav col main-menu">
     <li class="nav-item"><a href="{{route('brands')}}" class="nav-link">Виробники (бренди)</a></li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"

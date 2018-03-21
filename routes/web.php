@@ -96,4 +96,6 @@ Route::group(
 
         Route::get('/stars', 'Site\StarsController@index');
     });
-
+Route::get('info', function(){
+    phpinfo();
+});

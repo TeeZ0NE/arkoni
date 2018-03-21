@@ -1,10 +1,29 @@
 $(function () {
+    // editor 4 text-area
+    /**
+     * Author https://alex-d.github.io/Trumbowyg/documentation/
+     */
+    $.trumbowyg.svgPath = "/images/vendor/trumbowyg/icons.svg";
+    $('.editor').trumbowyg({
+        lang: 'ua',
+        btns: [['viewHTML'],
+            ['undo', 'redo'], // Only supported in Blink browsers
+            ['formatting'],
+            ['strong', 'em'],
+            ['link'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['removeformat'],
+            ['fullscreen']
+        ]
+    });
 
     // Brands. Change name
     $(".change-brand-name").on("click", function (event) {
         var old_name = $(this).attr('data-name');
         var brand_id = $(this).attr("id");
-         $('.edit-brand').removeClass('d-none');
+        $('.edit-brand').removeClass('d-none');
         $("#brand-name-ed").val(old_name);
         $("#id-edited").val(brand_id);
     });

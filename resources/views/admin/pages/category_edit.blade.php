@@ -49,7 +49,8 @@
                                 </span>
                             </div>
                             <textarea class="form-control" aria-label="Page description"
-                                      required name="ru_desc" maxlength="255" rows="5">{{$cat->RuCategory->desc}}</textarea>
+                                      required name="ru_desc" maxlength="255"
+                                      rows="5">{{$cat->RuCategory->desc}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -62,7 +63,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="ru_seo_text" rows="5">{{$cat->RuCategory->seo_text}}</textarea>
                         </div>
                         <div class="input-group mb-3">
@@ -76,7 +77,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text 2"
+                            <textarea class="form-control editor" aria-label="seo text 2"
                                       name="ru_seo_text_2" rows="5">{{$cat->RuCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/RU--}}
@@ -85,7 +86,8 @@
                         {{--UK--}}
                         <div class="input-group mb-3 mt-lg-2">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-name-ru"><strong>Назва<sup>*</sup></strong></span>
+                                <span class="input-group-text"
+                                      id="cat-name-ru"><strong>Назва<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="cat-name-uk"
@@ -93,7 +95,8 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
+                                <span class="input-group-text"
+                                      id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$cat->UkCategory->title}}" required
@@ -113,11 +116,11 @@
                             <input type="text" class="form-control" placeholder="Заголовок h1" aria-label="Заголовок h1"
                                    aria-describedby="cat-h1-uk" value="{{$cat->UkCategory->h1}}" name="uk_h1">
                         </div>
-                         <div class="input-group mb-3">
+                        <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="uk_seo_text" rows="5"> {{$cat->UkCategory->seo_text}}</textarea>
                         </div>
                         <div class="input-group mb-3">
@@ -131,12 +134,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text 2"
+                            <textarea class="form-control editor" aria-label="seo text 2"
                                       name="uk_seo_text_2" rows="5">{{$cat->UkCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
                 </div>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Поле URL бажано не редагувати після створення сторінки, це може викликати небажані наслідки в структурі сайту.</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="cat-url-slug"><strong>URL<sup>*</sup></strong></span>
@@ -157,10 +161,10 @@
                 <img src="{{asset('storage/img').'/'.$cat->cat_photo}}" alt="item photo"
                      class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col-10 text-center">
-                    <a href="{{route('cats.index')}}" class="btn btn-secondary">
+                    <a href="{{route('cats.index')}}" class="btn btn-warning">
                         <i class="fas fa-arrow-left"></i> До категорій</a>
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
-                    <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-danger"
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
+                    <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-secondary"
                        onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i> Видалити</a>
                 </div>
             </form>

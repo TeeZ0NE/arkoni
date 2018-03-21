@@ -1,11 +1,9 @@
 var $ = require("jquery");
 require('popper.js');
 require('bootstrap');
-// import MarkItUp from 'markitup';
-// require('markitup');
+var trumbowyg = require('trumbowyg');
 
-
-// require('tablesorter');
+// require('tablesorter':w);
 // TODO: delete me
 console.log('all loaded');
 

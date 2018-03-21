@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 //use Illuminate\Support\Facades\Auth;
 
@@ -23,8 +22,8 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return view('admin.admin');
+        return view('admin.pages.admin_index');
     }
 }

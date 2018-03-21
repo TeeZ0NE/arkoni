@@ -6,8 +6,7 @@
 @import "_fonts"
 @import "_mediaqueries"
 @import "fontawesome-free-5.0.6/web-fonts-with-css/css/fontawesome-all.css"
-
-
+@import "~trumbowyg/dist/ui/trumbowyg.css"
 /* TODO: delete me */
 /*div
     border: 1px dotted red
@@ -17,3 +16,15 @@
 
 .custom-file-label[for="img_upload"]::after
     content: '...' !important
+
+.admin-logo
+    color color_main_light
+    background-color bgc_dark
+
+.main-menu
+    background-color: bgc_main_menu
+    li>a
+        color color_main_dark
+        border-bottom 2px solid transparent
+        &:hover
+            border-bottom 2px solid border_bottom_selected

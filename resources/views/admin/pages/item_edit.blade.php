@@ -131,7 +131,7 @@
                                     @else
                                     @if (in_array($sc->id,$item_cats)) selected @endif
                                     @endif>
-                                {{ $sc->ru_name }}
+                                {{ $sc->ru_name }} ({{$sc->cat_name}})
                             </option>
                         @endforeach
                     </select>

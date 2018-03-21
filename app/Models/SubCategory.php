@@ -64,9 +64,11 @@ class SubCategory extends Model
     public function getRuSubCategoryIdAndName()
     {
         return DB::table('ru_sub_categories as rsc')->
-        select('ru_name', 'id')->
-        join('sub_categories as sc', 'rsc.sub_cat_id', '=', 'sc.id')->
-        orderBy('ru_name')->
+        select('rsc.ru_name', 'sc.id', 'rc.ru_name as cat_name')->
+        join('sub_categories AS sc', 'rsc.sub_cat_id', '=', 'sc.id')->
+        join('ru_categories AS rc', 'rc.cat_id', '=', 'sc.cat_id')->
+        orderBy('rsc.ru_name')->
         get();
     }
 }
+

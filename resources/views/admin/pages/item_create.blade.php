@@ -129,7 +129,7 @@
                             <option value="{{ $sc->id }}"
                                     @if(old('sub_categories'))
                                     @if (in_array($sc->id,old('sub_categories'))) selected @endif @endif>
-                                {{ $sc->ru_name }}</option>
+                                {{ $sc->ru_name }} ({{$sc->cat_name}})</option>
                         @endforeach
                     </select>
                 </div>

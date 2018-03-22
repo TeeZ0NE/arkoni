@@ -15,7 +15,7 @@
 <body>
   <div class="container-fluid">
     <p class="row my-auto p-2 align-items-center admin-logo">Панель aдміністратора
-      <a href="{{route('admin.dashboard')}}"><img class="img-fluid d-inline-block ml-3" src="{{asset('images/ark_logo_admin-white.png')}}" alt="logo Arkony"></a></p>
+      <a href="{{route('admin.dashboard')}}"><img class="img-fluid d-inline-block ml-3" src="{{asset('images/ark_logo_admin_white.png')}}" alt="logo Arkony"></a></p>
     <div class="row">@include('admin.parts.components.main_nav')</div>
     {{-- showing errors and messages --}}
     <div class="row my-auto">

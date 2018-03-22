@@ -26,8 +26,8 @@
                             <span class="old-price">{{ number_format($data['product']->price, 2, '.', '') }} @lang('general.uah')</span>
                             <span class="offers" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                                 <span itemprop="price"
-                                      content="{{ number_format($data['product']->new_price, 2, '.', '') }}">{{-- set price--}}
-                                    <span class="price">{{ number_format($data['product']->new_price, 2, '.', '') }}
+                                      content="{{ number_format($data['product']->old_price, 2, '.', '') }}">{{-- set price--}}
+                                    <span class="price">{{ number_format($data['product']->old_price, 2, '.', '') }}
                                         <span class="priceCurrency"
                                               itemprop="priceCurrency"
                                               content="uah">@lang('general.uah')</span></span>
@@ -130,7 +130,5 @@
     </div>
 
     @include('site._services')
-
-    {{--{{print_array($data['product'])}}--}}
 
 @endsection

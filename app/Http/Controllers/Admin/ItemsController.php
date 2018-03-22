@@ -13,6 +13,8 @@ use App\Models\ItemCategory;
 use App\Models\Attribute as Attr;
 use Illuminate\Support\Facades\Log;
 use App\Models\ItemAttribute;
+use App\Models\Shortcut;
+use App\Models\ItemShortcut;
 use Illuminate\Database\QueryException as QE;
 use Exception;
 use Auth;
@@ -58,6 +60,7 @@ class ItemsController extends Controller
             "brands" => Brand::all(),
             "sub_cats" => $sc->getRuSubCategoryIdAndName(),
             "attrs" => Attr::get(['id', 'ru_name']),
+            'shortcuts' => Shortcut::all(),
         ]);
     }
 
@@ -73,11 +76,11 @@ class ItemsController extends Controller
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'uk_name' => 'max:255|required|unique:uk_items',
             'ru_name' => 'max:200|required|unique:ru_items',
-            'ru_desc'=> 'required',
+            'ru_desc' => 'required',
             'uk_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric|required',
-            'new_price' => 'numeric|required',
+            'old_price' => 'numeric|required',
             'sub_categories' => 'required',
         ]);
         $user = Auth::user()->name;
@@ -105,6 +108,12 @@ class ItemsController extends Controller
                     throw new Exception('Виникла помилка з записом атрибутів');
                 }
             }
+            if (isset($request->shortcuts)) {
+                $res = $this->storeItemShortcuts($request->shortcuts, $item_id);
+                if (!$res) {
+                    throw new Exception('Ярлики не записано');
+                }
+            }
         } catch (Exception $e) {
             Log::error('Item add', ['msg' => $e->getMessage(), 'user' => $user]);
             return redirect()
@@ -128,7 +137,7 @@ class ItemsController extends Controller
         $item = new Item();
         $item->item_url_slug = 'p-' . url_slug($request->ru_name);
         $item->price = $request->price;
-        $item->new_price = $request->new_price;
+        $item->old_price = $request->old_price;
         $item->brand_id = $request->brand_id;
         $item->enabled = $request->enabled;
         $item->item_photo = $photo;
@@ -136,6 +145,12 @@ class ItemsController extends Controller
         return $item->id;
     }
 
+    /**
+     * Storing item languages
+     * @param Request $request
+     * @param $id item ID
+     * @return boolean
+     */
     private function storeLang(Request $request, $id)
     {
         $uk_item = new UkItem();
@@ -170,7 +185,7 @@ class ItemsController extends Controller
                 ]);
             }
         } catch (QE $qe) {
-            Log::error('Error to write/delete item sub-categories', ['mes' => $qe]);
+            Log::error('Error to write/delete item sub-categories', ['mes' => $qe->getMessage()]);
             return 0;
         }
         return 1;
@@ -186,7 +201,6 @@ class ItemsController extends Controller
     private function storeItemAttributes(Array $attrs, Array $values, $id)
     {
         $ia = new ItemAttribute();
-        $ia::where('item_id', $id)->delete();
         # merge 2 arrays. One are keys of another array
         $attrs_vals_arr = [];
         foreach ($attrs as $keys => $key) {
@@ -202,7 +216,7 @@ class ItemsController extends Controller
                 ]);
             }
         } catch (QE $qe) {
-            Log::error('Error to write/delete attributes', ['msg' => $qe]);
+            Log::error('Error to write/delete attributes', ['msg' => $qe->getMessage()]);
             return 0;
         }
         return 1;
@@ -229,6 +243,7 @@ class ItemsController extends Controller
         $sc = new SubCategory();
         $ic = new ItemCategory();
         $ia = new ItemAttribute();
+        $ishortc = new ItemShortcut();
         $i = new Item();
         return view('admin.pages.item_edit')->with([
             "brands" => Brand::all(),
@@ -238,6 +253,8 @@ class ItemsController extends Controller
             'item' => $i::with(['getUkItem', 'getRuItem'])->findOrFail($id),
             'item_cats' => $ic->getListOfCategories($id),
             'id' => $id,
+            'item_shortcuts' => $ishortc->getListOfShortcuts($id),
+            'shortcuts' => Shortcut::all(),
         ]);
     }
 
@@ -254,11 +271,11 @@ class ItemsController extends Controller
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
             'uk_name' => 'max:255|required',
             'ru_name' => 'max:200|required',
-            'uk_desc' =>'required',
+            'uk_desc' => 'required',
             'ru_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric',
-            'new_price' => 'numeric',
+            'old_price' => 'numeric',
             'sub_categories' => 'required',
             'item_url_slug' => 'required|max:250',
         ]);
@@ -274,7 +291,7 @@ class ItemsController extends Controller
 //            if($request->price - floor($request->price)>0) {return 'has decimals';} else {return 'no decimals';}
             $item::findOrFail($id)->update([
                 'price' => $request->price,
-                'new_price' => $request->new_price,
+                'old_price' => $request->old_price,
                 'brand_id' => $request->brand_id,
                 'enabled' => $request->enabled,
                 'item_url_slug' => 'p-' . $request->item_url_slug,
@@ -290,9 +307,22 @@ class ItemsController extends Controller
             }
             if (isset($request->attrs)) {
                 $res = $this->storeItemAttributes($request->attrs, $request->values, $id);
+            } else {
+                $res = $this->deleteItemAttributes($id);
+            }
+            if (!$res) {
+                throw new Exception('Виникла помилка з записом атрибутів');
+            }
+            if (isset($request->shortcuts)) {
+                $res = $this->storeItemShortcuts($request->shortcuts, $id);
                 if (!$res) {
-                    throw new Exception('Виникла помилка з записом атрибутів');
+                    throw new Exception('Ярлики не записано');
                 }
+            } else {
+                $res = $this->deleteItemShortcuts($id);
+            }
+            if (!$res) {
+                throw new Exception('Ярлики не записано');
             }
         } catch (Exception $e) {
             Log::error('Item update', ['msg' => $e->getMessage(), 'user' => $user]);
@@ -320,12 +350,17 @@ class ItemsController extends Controller
         } catch (QE $qe) {
             Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user]);
             //TODO:: delete $qe debug
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe->getMessage()]);
         }
-        Log::info('Item destroy',['user'=>$user]);
+        Log::info('Item destroy', ['user' => $user]);
         return redirect(route('items.index'))->with('msg', ' Товар видалено з бази');
     }
 
+    /**
+     * search method
+     * @param Request $request
+     * @return view with data
+     */
     public function search(Request $request)
     {
         $request->flash();
@@ -338,12 +373,56 @@ class ItemsController extends Controller
             'items' => $item->searchAndSort($q, $sort)->paginate($this->pag_count),
         ]);
     }
-//    function numberOfDecimals($value)
-//    {
-//        if ((int)$value == $value)
-//        {
-//            return 0;
-//        }
-//        $count =  strlen($value) - strrpos($value, '.') - 1;
-//    }
+
+    private function storeItemShortcuts($shortcuts, $id)
+    {
+        $ishrt = new ItemShortcut();
+        try {
+            $ishrt::where('item_id', $id)->delete();
+            foreach ($shortcuts as $shortcut) {
+                $ishrt::insert([
+                    'item_id' => $id,
+                    'shortcut_id' => $shortcut,
+                ]);
+            }
+        } catch (QE $qe) {
+            Log::error('Error to write/delete shortcuts', ['msg' => $qe->getMessage()]);
+            return 0;
+        }
+        return 1;
+    }
+
+    /**
+     * If not set shortcuts or set but deleted delete them all
+     * @param  int $id ID
+     * @return boolean
+     */
+    private function deleteItemShortcuts($id)
+    {
+        $ishrt = new ItemShortcut();
+        try {
+            $ishrt::where('item_id', $id)->delete();
+        } catch (QE $qe) {
+            Log::error('Error to write/delete shortcuts', ['msg' => $qe->getMessage()]);
+            return 0;
+        }
+        return 1;
+    }
+
+    /**
+     * delete item attributes if exist
+     * @param int $id item ID
+     * @return boolean
+     */
+    private function deleteItemAttributes($id)
+    {
+        $ia = new ItemAttribute();
+        try {
+            $ia::where('item_id', $id)->delete();
+        } catch (QE $qe) {
+            Log::error('Error to write/delete attributes', ['msg' => $qe->getMessage()]);
+            return 0;
+        }
+        return 1;
+    }
 }

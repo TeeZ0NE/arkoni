@@ -80,7 +80,7 @@
                         <td>{{ $item->enabled }}</td>
                         <td>{{ $item->item_url_slug }}</td>
                         <td>{{ $item->price }}</td>
-                        <td>{{ $item->new_price }}</td>
+                        <td>{{ $item->old_price }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td>{{ $item->updated_at }}</td>
                         <td class="text-center">
@@ -100,7 +100,7 @@
                         <td colspan="4">
                             <div class="border">
                                 <p class="text-center border-bottom lead alert-warning">Опис</p>
-                                <p class="p-2">{{$item->desc}}</p>
+                                <p class="p-2">{!!  $item->desc !!}</p>
                             </div>
                         </td>
                         <td colspan="4">

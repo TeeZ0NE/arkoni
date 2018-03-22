@@ -2,13 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <div class="block block-1">
-                    <div class="title">@lang('front.services.block-1.title')</div>
-                    <div class="body">@lang('front.services.block-1.body')</div>
-                    <a class="go-to"
-                       href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('front.services.block-1.go-to')<i
-                                class="far fa-long-arrow-alt-right"></i></a>
-                </div>
+                @include('site._calc-aside')
             </div>
             <div class="col-md-4">
                 <div class="block block-2">

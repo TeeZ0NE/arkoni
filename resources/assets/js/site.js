@@ -82,7 +82,7 @@ $(function () {
 
     //google maps
     //if front page
-    if(window.location.pathname.split('/').length === 2) {
+    if(window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
         initMap();
     }
 

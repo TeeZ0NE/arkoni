@@ -73,7 +73,7 @@ class ItemsController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'img_upload' => 'image|mimes:jpeg,png,jpg|dimensions:min_width=300,min_height=300,max_width=2000,max_height=2000|max:2048',
             'uk_name' => 'max:255|required|unique:uk_items',
             'ru_name' => 'max:200|required|unique:ru_items',
             'ru_desc' => 'required',
@@ -268,7 +268,7 @@ class ItemsController extends Controller
     public function update(Request $request, $id)
     {
         request()->validate([
-            'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'img_upload' => 'image|mimes:jpeg,png,jpg|dimensions:min_width=300,min_height=300,max_width=2000,max_height=2000|max:2048',
             'uk_name' => 'max:255|required',
             'ru_name' => 'max:200|required',
             'uk_desc' => 'required',

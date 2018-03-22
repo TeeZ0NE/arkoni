@@ -1,12 +1,13 @@
 .sub-category {
-  .filters, .calc, .contacts {
+  .filters, .calc-aside-block, .contacts-aside-block {
     padding 25px 15px
+    border-radius: 5px;
     box-shadow()
   }
-  .calc, .filters {
+  .calc-aside-block, .filters {
     margin-bottom 15px
   }
-  .calc {
+  .calc-aside-block {
     text-align center
     padding 25px 15px
     position relative
@@ -80,7 +81,7 @@
     border-top 3px solid orange-color-hover
     width 40%
   }
-  .contacts {
+  .contacts-aside-block {
     position relative
     &:after {
       display block
@@ -92,6 +93,7 @@
       position: absolute;
       background url("../images/services.png") no-repeat
       background-position-x: -550px;
+      z-index: -1;
     }
     i {
       transform: rotateY(160deg);

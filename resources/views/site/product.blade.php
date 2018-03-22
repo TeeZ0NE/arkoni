@@ -131,6 +131,4 @@
 
     @include('site._services')
 
-    {{--{{print_array($data['product'])}}--}}
-
 @endsection

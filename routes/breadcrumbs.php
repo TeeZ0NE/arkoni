@@ -24,8 +24,18 @@ Breadcrumbs::register('product', function ($breadcrumbs, $name ) {
     $breadcrumbs->parent('catalog');
     $breadcrumbs->push($name);
 });
-//
-//Breadcrumbs::register('sub-categories', function ($breadcrumbs) {
-//    $breadcrumbs->parent('home');
-//    $breadcrumbs->push(__('breadcrumbs.categories'), route('sub-categories'));
-//});
+
+Breadcrumbs::register('blog', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.blog'), route('blog'));
+});
+
+Breadcrumbs::register('blog-inside', function ($breadcrumbs, $name) {
+    $breadcrumbs->parent('blog-inside');
+    $breadcrumbs->push($name);
+});
+
+Breadcrumbs::register('contacts', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.contacts'), route('contacts'));
+});

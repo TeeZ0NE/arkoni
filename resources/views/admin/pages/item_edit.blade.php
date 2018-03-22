@@ -3,10 +3,9 @@
 @section('description','myDescription to items info')
 @section('keywords','myKeyWords to items info')
 @section('admin_main_content')
-    <p class="h4 text-center mt-lg-1">Додати новий продукт</p>
+    <p class="h4 text-center mt-lg-1">Змінити продукт</p>
     <div class="row justify-content-center">
         <div class="col col-lg-8">
-
             <form method="post" action="{{ route('items.update',$id) }}" class="form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
@@ -40,7 +39,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
-                            <textarea class="form-control" aria-label="description"
+                            <textarea class="form-control editor" aria-label="description"
                                       name="ru_desc" rows="5">{{ $item->getRuItem['desc'] }}</textarea>
                         </div>
                         {{--/RU--}}
@@ -63,7 +62,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
-                            <textarea class="form-control" aria-label="description"
+                            <textarea class="form-control editor" aria-label="description"
                                       name="uk_desc" rows="5">{{ $item->getUkItem['desc'] }}</textarea>
                         </div>
                         {{--/UK--}}
@@ -122,7 +121,7 @@
                 {{-- Categories --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="categories">Категорії</label>
+                        <label class="input-group-text" for="categories"><strong>Категорії<sup>*</sup></strong></label>
                     </div>
                     <select class="custom-select" multiple size="4" name="sub_categories[]" required>
                         @foreach ($sub_cats as $sc)
@@ -131,14 +130,30 @@
                                     @if (in_array($sc->id,old('sub_categories'))) selected @endif
                                     @else
                                     @if (in_array($sc->id,$item_cats)) selected @endif
-                            @endif>
-                            {{ $sc->ru_name }}
+                                    @endif>
+                                {{ $sc->ru_name }} ({{$sc->cat_name}})
                             </option>
                         @endforeach
                     </select>
                 </div>
+                {{--Shortcuts--}}
+                <div class="mb-3">
+                    <p class="alert alert-secondary">Ярлики</p>
+                    @foreach($shortcuts as $shortcut)
+                        <div class="form-check  form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="sh-{{$shortcut->id}}" name="shortcuts[]"
+                                   value="{{$shortcut->id}}"
+                                   @if(old('shortcuts'))
+                                   @if(in_array($shortcut->id,old('shortcuts'))) checked @endif
+                                   @else
+                                   @if(in_array($shortcut->id,$item_shortcuts)) checked @endif
+                                    @endif>
+                            <label class="form-check-label" for="sh-{{$shortcut->id}}">{{$shortcut->name}}</label>
+                        </div>
+                    @endforeach
+                </div>
                 {{-- Tags --}}
-                <select class="custom-select" id="tags" name="tags" disabled>
+                <select class="custom-select mb-3" id="tags" name="tags" disabled>
                     <option selected value="">Оберіть...</option>
                     {{--@foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -146,7 +161,8 @@
                     <option value="">Tags not added yet</option>
                 </select>
                 {{-- Attrs --}}
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу буде записанний останній</p>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
+                    буде записанний останній</p>
                 <div class="alert alert-dark">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -158,7 +174,7 @@
                                 <option value="{{ $attr->id }}">{{ $attr->ru_name }}</option>
                             @endforeach
                         </select>
-                        <a href="#" class="btn btn-primary add_attr" role="button"><i class="fas fa-plus"></i></a>
+                        <a href="#" class="btn btn-warning add_attr" role="button"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="input-group" id="attr_block">
                         @foreach($item_attrs as $ia)
@@ -170,7 +186,7 @@
                                        aria-label="{{$ia->attributesLang['ru_name']}}" aria-describedby="item-name"
                                        value="{{$ia->value}}" required>
                                 <input type="hidden" name="attrs[]" value="{{$ia->attr_id}}">
-                                <a href="#" class="btn btn-danger remove_attr"
+                                <a href="#" class="btn btn-secondary remove_attr"
                                    onclick="javascript:void(0);"><i class="fas fa-trash-alt"> </i>
                                 </a>
                             </div>
@@ -178,6 +194,8 @@
                     </div>
                 </div>
                 {{--url slug--}}
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Поле URL бажано не редагувати після
+                    створення сторінки, це може викликати небажані наслідки в структурі сайту.</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="item-url-slug"><strong>URL<sup>*</sup></strong></span>
@@ -199,7 +217,7 @@
                 <img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo"
                      class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

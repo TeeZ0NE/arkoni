@@ -1,40 +1,29 @@
 $(function () {
-var markitupOptions = {
-    nameSpace:       "html", // Useful to prevent multi-instances CSS conflict
-    onShiftEnter:    {keepDefault:false, replaceWith:'<br />\n'},
-    onCtrlEnter:     {keepDefault:false, openWith:'\n<p>', closeWith:'</p>\n'},
-    onTab:           {keepDefault:false, openWith:'     '},
-    markupSet:  [
-        {name:'Heading 1', key:'1', openWith:'<h1(!( class="[![Class]!]")!)>', closeWith:'</h1>', placeHolder:'Your title here...' },
-        {name:'Heading 2', key:'2', openWith:'<h2(!( class="[![Class]!]")!)>', closeWith:'</h2>', placeHolder:'Your title here...' },
-        {name:'Heading 3', key:'3', openWith:'<h3(!( class="[![Class]!]")!)>', closeWith:'</h3>', placeHolder:'Your title here...' },
-        {name:'Heading 4', key:'4', openWith:'<h4(!( class="[![Class]!]")!)>', closeWith:'</h4>', placeHolder:'Your title here...' },
-        {name:'Heading 5', key:'5', openWith:'<h5(!( class="[![Class]!]")!)>', closeWith:'</h5>', placeHolder:'Your title here...' },
-        {name:'Heading 6', key:'6', openWith:'<h6(!( class="[![Class]!]")!)>', closeWith:'</h6>', placeHolder:'Your title here...' },
-        {name:'Paragraph', openWith:'<p(!( class="[![Class]!]")!)>', closeWith:'</p>'  },
-        {separator:'---------------' },
-        {name:'Bold', key:'B', openWith:'<strong>', closeWith:'</strong>' },
-        {name:'Italic', key:'I', openWith:'<em>', closeWith:'</em>'  },
-        {name:'Stroke through', key:'S', openWith:'<del>', closeWith:'</del>' },
-        {separator:'---------------' },
-        {name:'Ul', openWith:'<ul>\n', closeWith:'</ul>\n' },
-        {name:'Ol', openWith:'<ol>\n', closeWith:'</ol>\n' },
-        {name:'Li', openWith:'<li>', closeWith:'</li>' },
-        {separator:'---------------' },
-        {name:'Picture', key:'P', replaceWith:'<img src="[![Source:!:http://]!]" alt="[![Alternative text]!]" />' },
-        {name:'Link', key:'L', openWith:'<a href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
-        {separator:'---------------' },
-        {name:'Clean', replaceWith:function(h) { return h.selection.replace(/<(.*?)>/g, "") } },
-        {name:'Preview', call:'preview', className:'preview' }
-    ]
-};
+    // editor 4 text-area
+    /**
+     * Author https://alex-d.github.io/Trumbowyg/documentation/
+     */
+    $.trumbowyg.svgPath = "/images/vendor/trumbowyg/icons.svg";
+    $('.editor').trumbowyg({
+        lang: 'ua',
+        btns: [['viewHTML'],
+            ['undo', 'redo'], // Only supported in Blink browsers
+            ['formatting'],
+            ['strong', 'em'],
+            ['link'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['removeformat'],
+            ['fullscreen']
+        ]
+    });
 
- $('.editor').markItUp(markitupOptions);
     // Brands. Change name
     $(".change-brand-name").on("click", function (event) {
         var old_name = $(this).attr('data-name');
         var brand_id = $(this).attr("id");
-         $('.edit-brand').removeClass('d-none');
+        $('.edit-brand').removeClass('d-none');
         $("#brand-name-ed").val(old_name);
         $("#id-edited").val(brand_id);
     });
@@ -86,7 +75,7 @@ var markitupOptions = {
         var id = $('#attrs').val();
         if (id == '') return;
         var opt_text = $('#attrs :selected').text();
-        $('#attr_block').append('<div class="input-group mb-1"><div class="input-group-prepend"><span class="input-group-text">' + opt_text + '</span></div><input type="text" class="form-control" placeholder="Параметри" name="values[]" aria-label="' + opt_text + '" aria-describedby="item-name" required><input type="hidden" name="attrs[]" value="' + id + '"><a href="#" class="btn btn-danger remove_attr" onclick="javascript:void(0);"><i class="fas fa-trash-alt"></i></a></div>');
+        $('#attr_block').append('<div class="input-group mb-1"><div class="input-group-prepend"><span class="input-group-text">' + opt_text + '</span></div><input type="text" class="form-control" placeholder="Параметри" name="values[]" aria-label="' + opt_text + '" aria-describedby="item-name" required><input type="hidden" name="attrs[]" value="' + id + '"><a href="#" class="btn btn-secondary remove_attr" onclick="javascript:void(0);"><i class="fas fa-trash-alt"></i></a></div>');
     });
 
     // remove input field from attributes

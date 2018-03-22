@@ -38,7 +38,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
-                            <textarea class="form-control" aria-label="description"
+                            <textarea class="form-control editor" aria-label="description"
                                       name="ru_desc" rows="5">{{ old('ru_desc') }}</textarea>
                         </div>
                         {{--/RU--}}
@@ -61,7 +61,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
-                            <textarea class="form-control" aria-label="description"
+                            <textarea class="form-control editor" aria-label="description"
                                       name="uk_desc" rows="5">{{ old('uk_desc') }}</textarea>
                         </div>
                         {{--/UK--}}
@@ -129,9 +129,20 @@
                             <option value="{{ $sc->id }}"
                                     @if(old('sub_categories'))
                                     @if (in_array($sc->id,old('sub_categories'))) selected @endif @endif>
-                                {{ $sc->ru_name }}</option>
+                                {{ $sc->ru_name }} ({{$sc->cat_name}})</option>
                         @endforeach
                     </select>
+                </div>
+                {{--Shortcuts--}}
+                <div class="mb-3">
+                    <p class="alert alert-secondary">Ярлики</p>
+                    @foreach($shortcuts as $shortcut)
+                        <div class="form-check  form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="sh-{{$shortcut->id}}" name="shortcuts[]"
+                                   value="{{$shortcut->id}}">
+                            <label class="form-check-label" for="sh-{{$shortcut->id}}">{{$shortcut->name}}</label>
+                        </div>
+                    @endforeach
                 </div>
                 {{-- Tags --}}
                 <select class="custom-select mb-3" id="tags" name="tags" disabled>
@@ -155,7 +166,7 @@
                                 <option value="{{ $attr->id }}">{{ $attr->ru_name }}</option>
                             @endforeach
                         </select>
-                        <a href="#" class="btn btn-primary add_attr" role="button"><i class="fas fa-plus"></i></a>
+                        <a href="#" class="btn btn-warning add_attr" role="button"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="input-group" id="attr_block"></div>
                 </div>
@@ -172,7 +183,7 @@
                 </div>
 
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

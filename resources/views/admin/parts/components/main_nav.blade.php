@@ -1,4 +1,4 @@
-<ul class="nav col">
+<ul class="nav col main-menu">
     <li class="nav-item"><a href="{{route('brands')}}" class="nav-link">Виробники (бренди)</a></li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -10,7 +10,7 @@
             <a class="dropdown-item" href="{{route('subcategory.create')}}">Додати підкатегорію</a>
         </div>
     </li>
-    <li class="nav-item"><a href="{{route('attrs')}}" class="nav-link">Аттрибути</a></li>
+    <li class="nav-item"><a href="{{route('attrs')}}" class="nav-link">Атрибути</a></li>
     <li class="nav-item"><a href="#" class="nav-link disabled">Теги</a></li>
     <li class="nav-item"><a href="{{route('items.index')}}" class="nav-link">Товари</a></li>
     <li class="nav-item"><a href="#" class="nav-link disabled">Користувачі</a></li>

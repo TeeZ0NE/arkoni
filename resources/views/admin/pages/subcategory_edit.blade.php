@@ -45,7 +45,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Title</span>
+                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$sub_cat->RuSubCategory->title}}"
@@ -81,9 +81,9 @@
                         </div>
                          <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">SEO текст</span>
+                                <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text 2"
+                            <textarea class="form-control editor" aria-label="seo text 2"
                                       name="ru_seo_text_2" rows="5"> {{$sub_cat->RuSubCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/RU--}}
@@ -100,7 +100,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="cat-title-ru">Title</span>
+                                <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
                                    aria-describedby="cat-title-ru" value="{{$sub_cat->UkSubCategory->title}}"
@@ -124,7 +124,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="uk_seo_text" rows="5"> {{$sub_cat->UkSubCategory->seo_text}}</textarea>
                         </div>
                         <div class="input-group mb-3">
@@ -138,12 +138,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
-                            <textarea class="form-control markItUp" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="uk_seo_text_2" rows="5"> {{$sub_cat->UkSubCategory->seo_text_2}}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
                 </div>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Поле URL бажано не редагувати після створення сторінки, це може викликати небажані наслідки в структурі сайту.</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="cat-url-slug"><strong>URL<sup>*</sup></strong></span>
@@ -164,9 +165,9 @@
                 <img src="{{asset('storage/img').'/'.$sub_cat->sub_cat_photo}}" alt="item photo"
                      class="img-thumbnail d-block mx-auto mb-3">
                 <div class="col text-center">
-                    <a href="{{route('subcategory.index')}}" class="btn btn-secondary">
+                    <a href="{{route('subcategory.index')}}" class="btn btn-warning">
                         <i class="fas fa-arrow-left"></i> До підкатегорій</a>
-                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                    <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
                 </div>
             </form>
         </div>

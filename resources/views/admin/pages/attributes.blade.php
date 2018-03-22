@@ -1,13 +1,12 @@
 @extends('admin.admin')
 @section('title','Attributes')
-@section('description','myDescription to attributes info')
-@section('keywords','myKeyWords to attributes info')
+@section('description','myDescription to attributes warning')
+@section('keywords','myKeyWords to attributes warning')
 @section('admin_main_content')
 
     <p class="h4 text-center mt-lg-1">Атрибути (параметри)
         <small>в базі: {{ $count }}</small>
     </p>
-
     <div class="row">
         <div class="col-12 col-lg-5">
             <strong>Додати</strong>
@@ -32,8 +31,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+                    <div class="col-lg-2 pl-0">
+                        <button type="submit" class="btn btn-warning"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
             </form>
@@ -46,7 +45,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control d-inline w-75" placeholder="Назва атрибута" name="q"
                                    value="{{ old("q") }}">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
                     <div class="col-12 col-lg-4">
@@ -56,13 +55,13 @@
                                 <option value="asc" @if (old('sort')=='asc') selected @endif>А-Я</option>
                                 <option value="desc" @if (old('sort')=='desc') selected @endif>Я-А</option>
                             </select>
-                            <button type="submit" class="btn btn-info"><i class="fas fa-sort"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-sort"></i></button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-12 mt-lg-3 mt-1 alert-secondary d-none edit-attrs pb-2">
+        <div class="col-12 mt-lg-3 mt-1 alert-warning d-none edit-attrs pb-2">
             <strong id="edit-attrs">Редагувати</strong>
             <form method="post" action="{{route('attr.update')}}" class="form-inline">
                 {{csrf_field()}}
@@ -81,7 +80,7 @@
                     <input type="text" class="form-control  d-inline" id="uk-attr-name-ed"
                            placeholder="Атрибут" name="uk_name" required>
                 </div>
-                <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Зберегти</button>
+                <button type="submit" class="btn btn-warning"><i class="far fa-save"></i> Зберегти</button>
             </form>
         </div>
         <div class="col-12 mt-lg-2">
@@ -104,10 +103,10 @@
                         <td class="align-middle">{{ $attr->ru_name }} </td>
                         <td class="align-middle">{{$attr->uk_name}}</td>
                         <td class="text-right">
-                            <a href="{{ route('attr.delete',$attr->id) }}" class="btn btn-danger"
+                            <a href="{{ route('attr.delete',$attr->id) }}" class="btn btn-secondary"
                                onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i>
                             </a>
-                            <a href="#edit-attrs" class="btn btn-info change-attr-name"
+                            <a href="#edit-attrs" class="btn btn-warning change-attr-name"
                                id={{ $attr->id }} data-lang-ru="{{ $attr->ru_name }}" data-lang-uk="{{$attr->uk_name}}">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>

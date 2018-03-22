@@ -12,7 +12,7 @@
         <div class="col-12 col-lg-2">
             <strong>Додати</strong>
             <br>
-            <a href="{{ route('cats.create') }}" class="btn btn-primary" role="button"><i
+            <a href="{{ route('cats.create') }}" class="btn btn-warning" role="button"><i
                         class="fas fa-plus"></i></a>
         </div>
         <div class="col col-lg-10">
@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control d-inline w-75" placeholder="Назва категорії" name="q"
                                    value="{{ old("q") }}">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
                     <div class="col-12 col-lg-3">
@@ -33,7 +33,7 @@
                                 <option value="asc" @if (old('sort')=='asc') selected @endif>А-Я</option>
                                 <option value="desc" @if (old('sort')=='desc') selected @endif>Я-А</option>
                             </select>
-                            <button type="submit" class="btn btn-info"><i class="fas fa-sort"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-sort"></i></button>
                         </div>
                     </div>
                 </div>
@@ -63,9 +63,9 @@
                             <img src="{{asset('storage/img').'/'.$cat->cat_photo}}" alt="item photo" class="img-thumbnail w-25">
                         </td>
                         <td class="text-right align-middle">
-                            <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-danger"
+                            <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-secondary"
                                onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
-                            <a href="{{route('cat.edit',$cat->id)}}" class="btn btn-info change-category">
+                            <a href="{{route('cat.edit',$cat->id)}}" class="btn btn-warning change-category">
                                 <i class="fas fa-pencil-alt"></i></a>
                         </td>
                     </tr>

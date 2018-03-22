@@ -11,7 +11,7 @@
         <div class="col-12 col-lg-2">
             <strong>Додати</strong>
             <br>
-            <a href="{{ route('subcategory.create') }}" class="btn btn-primary" role="button"><i
+            <a href="{{ route('subcategory.create') }}" class="btn btn-warning" role="button"><i
                         class="fas fa-plus"></i></a>
         </div>
         <div class="col col-lg-10">
@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control d-inline w-75" placeholder="Назва категорії" name="q"
                                    value="{{ old("q") }}">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
                     <div class="col-12 col-lg-3">
@@ -32,7 +32,7 @@
                                 <option value="asc" @if (old('sort')=='asc') selected @endif>А-Я</option>
                                 <option value="desc" @if (old('sort')=='desc') selected @endif>Я-А</option>
                             </select>
-                            <button type="submit" class="btn btn-info"><i class="fas fa-sort"></i></button>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-sort"></i></button>
                         </div>
                     </div>
                 </div>
@@ -64,11 +64,11 @@
                                   class="form-inline justify-content-end">
                                 {{ csrf_field() }}
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="btn btn-danger" type="submit" onclick="return confirm('Ви впевнені?')">
+                                <button class="btn btn-secondary" type="submit" onclick="return confirm('Ви впевнені?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                                 <a href="{{route('subcategory.edit',$subcat->id)}}"
-                                   class="btn btn-info change-category ml-1">
+                                   class="btn btn-warning change-category ml-1">
                                     <i class="fas fa-pencil-alt"></i></a>
                             </form>
                         </td>

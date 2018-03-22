@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row">
-            <aside class="col-sm-3">
+            <aside class="col-md-3">
                 <div class="filters">
                     <form action="" class="filter-parameters">
                         <div class="parameters-block">
@@ -78,31 +78,10 @@
                         </div>
                     </form>
                 </div>
-                <div class="calc">
-                    <div class="header">
-                        @lang('sub-category.calc.header')
-                    </div>
-                    <div class="body">
-                        @lang('sub-category.calc.body')
-                    </div>
-                    <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/') }}">
-                        @lang('front.services.block-1.go-to')
-                            <i class="far fa-long-arrow-alt-right"></i>
-                    </a>
-                </div>
-                <div class="contacts">
-                    <div class="text-center">
-                        @lang('sub-category.call')
-                    </div>
-                    <hr class="separator">
-                    <ul class="phones text-center">
-                        <li><i class="fas fa-phone"></i>{{ config('contacts.mobil') }}</li>
-                        <li><i class="fas fa-phone"></i>{{ config('contacts.phone-1') }}</li>
-                        <li><i class="fas fa-phone"></i>{{ config('contacts.phone-2') }}</li>
-                    </ul>
-                </div>
+                @include('site._calc-aside')
+                @include('site._contacts-aside')
             </aside>
-            <div class="col-sm-9">
+            <div class="col-md-9">
                 <div class="seo-block-1">
                     <div class="container">
                         <div class="row">
@@ -122,17 +101,15 @@
                                 </a>
                             </div>
                             <div class="col-md-6 text">
-                                <div class="title">
+                                <header class="title">
                                     <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                                         {{ $item->name }}
                                     </a>
-                                </div>
+                                </header>
                                 <ul class="commerce">
                                     <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                    <li class="top-sales"><i
-                                                class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                    <li class="recommend"><i
-                                                class="fas fa-certificate"></i> @lang('sub-category.recommend')
+                                    <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
+                                    <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
                                     </li>
                                 </ul>
                                 <div class="text-block">
@@ -156,7 +133,6 @@
         </div>
     </div>
 
-
     <div class="seo-block-2">
         <div class="container">
             <div class="row">
@@ -169,8 +145,5 @@
             </div>
         </div>
     </div>
-
-    {{--{{print_array($data['sub-category'])}}--}}
-    {{--{{print_array($data['products'])}}--}}
 
 @endsection

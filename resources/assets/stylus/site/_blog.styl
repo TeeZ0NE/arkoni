@@ -1,0 +1,67 @@
+.blog {
+
+}
+
+.blog-inside {
+
+}
+.blog,
+.blog-inside {
+  .breadcrumbs + .container {
+    margin-bottom 30px
+  }
+}
+aside {
+  .offers-aside-block {
+    width 100%
+    margin 15px 0
+    img {
+      width 100%
+    }
+  }
+  .calc-aside-block,
+  .contacts-aside-block {
+    padding 25px 15px
+    border-radius: 5px;
+    box-shadow()
+  }
+  .calc-aside-block {
+    text-align center
+    padding 25px 15px
+    position relative
+    &:after {
+      display: block;
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: url('/images/services.png') no-repeat;
+      height: 193px;
+      width: 200px;
+      z-index: -1;
+    }
+  }
+  .contacts-aside-block {
+    position relative
+    &:after {
+      display block
+      content ''
+      width: 200px;
+      height: 193px;
+      left: 0;
+      bottom: 0;
+      position: absolute;
+      background url("../images/services.png") no-repeat
+      background-position-x: -550px;
+      z-index: -1;
+    }
+    i {
+      transform: rotateY(160deg);
+      margin-right 6px
+    }
+    .phones {
+      line-height 1.8em
+      font-size 1.3em
+    }
+  }
+}

@@ -69,7 +69,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
-                            <textarea class="form-control" aria-label="seo text"
+                            <textarea class="form-control editor" aria-label="seo text"
                                       name="ru_seo_text" rows="5"> {{$sub_cat->RuSubCategory->seo_text}}</textarea>
                         </div>
                         <div class="input-group mb-3">

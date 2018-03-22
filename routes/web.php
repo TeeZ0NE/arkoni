@@ -13,12 +13,9 @@ use Illuminate\Http\Request;
 */
 
 
-
-
 Auth::routes();
 // Logining Admin(s)
 //Route::get('/home', 'HomeController@index')->name('home');
-
 
 
 Route::prefix('admin')->group(function () {
@@ -47,7 +44,7 @@ Route::prefix('admin')->group(function () {
 
     // SubCategory
     Route::group(['middleware' => ['purify']], function () {
-        Route::get('subcategory/query','Admin\SubCategoryController@search')->name('subcategory.search');
+        Route::get('subcategory/query', 'Admin\SubCategoryController@search')->name('subcategory.search');
         Route::resource('subcategory', 'Admin\SubCategoryController');
     });
     // Brands
@@ -79,21 +76,25 @@ Route::prefix('admin')->group(function () {
     // Reviews
 // Users
 });
+
 //site route
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ],
-    function()
-    {
+    function () {
         Route::get('/', 'Site\SiteController@front')->name('home');
-
         Route::get('/catalog', 'Site\CSPController@catalog')->name('catalog');
         Route::get('/c-{name}', 'Site\CSPController@category')->name('category');
         Route::get('/s-{name}', 'Site\CSPController@sub_category')->name('sub-category');
         Route::get('/p-{name}', 'Site\CSPController@product')->name('product');
-
         Route::get('/stars', 'Site\StarsController@index');
+        Route::get('/blog', 'Site\BlogController@index')->name('blog');
+        Route::get('/b-{name}', 'Site\BlogController@inside')->name('blog-inside');
+        Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
     });
 
+Route::get('info', function () {
+    phpinfo();
+});

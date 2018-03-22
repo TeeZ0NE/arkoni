@@ -38,7 +38,7 @@
             <div class="col-md-3">
                 @if(!isset($starts))
                     <div id="rating-block" class="rating-block">
-                        <div itemscope itemtype="http://schema.org/Page">
+                        <div itemscope itemtype="http://schema.org/Product">
                             @include('site._ratings')
                         </div>
                     </div>

@@ -120,7 +120,7 @@
                                 <div class="call-we">@lang('sub-category.call-we'):</div>
                                 <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
                                 <span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>
-                                <div class="price">{{ number_format($item->new_price, 2, '.', '') }} @lang('general.uah')</div>
+                                <div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>
                                 <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                                     @lang('general.learn-more')<i class="far fa-long-arrow-alt-right"></i>
                                 </a>

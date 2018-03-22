@@ -84,7 +84,7 @@ class CSPController extends BaseController
                 'item_photo as photo',
                 'item_url_slug as slug',
                 'price',
-                'new_price')
+                'old_price')
                 ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
                 ->join('item_categories', 'item_categories.item_id', '=', 'items.id')
                 ->join('sub_categories', 'sub_categories.id', '=', 'item_categories.sub_cat_id')
@@ -117,7 +117,7 @@ class CSPController extends BaseController
                 'item_photo as photo',
                 'item_url_slug as slug',
                 'price',
-                'new_price')
+                'old_price')
                 ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
                 ->where([
                     ['item_url_slug', '=', $request->segment(2)],

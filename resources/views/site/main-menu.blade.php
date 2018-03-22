@@ -10,8 +10,7 @@
                                href="{{ LaravelLocalization::LocalizeURL('/catalog') }}">@lang('main-menu.catalog')<i
                                         class="fas fa-bars"></i></a>
                             <ul class="categories-items">
-
-                                @foreach($data['main-menu'] as $id => $cat)
+                                @foreach($menu as $id => $cat)
                                     @if(count($cat->sub))
                                         <li>
                                             <a href="{{ LaravelLocalization::LocalizeURL('/'.$cat->slug) }}">{{ $cat->name }}</a>

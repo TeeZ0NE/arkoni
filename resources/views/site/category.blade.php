@@ -46,8 +46,4 @@
     </div>
 
     @include('site._services')
-
-    {{--{{ print_array($data['category']) }}--}}
-    {{--{{ print_array($data['sub-categories']) }}--}}
-
 @endsection

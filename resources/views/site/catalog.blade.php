@@ -75,6 +75,4 @@
 
     @include('site._services')
 
-{{--    {{ print_array($data['category']) }}--}}
-
 @endsection

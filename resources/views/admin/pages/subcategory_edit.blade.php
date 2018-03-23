@@ -153,6 +153,7 @@
                            aria-label="url" aria-describedby="url-slug"
                            value="{{mb_substr($sub_cat->sub_cat_url_slug,2)}}" required name="sub_cat_url_slug" maxlength="250">
                 </div>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше 300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Фото</span>

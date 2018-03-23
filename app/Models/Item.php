@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Item extends Model
 {
     protected $fillable = array(
-        'price', 'new_price', 'item_photo', 'brand_id', 'enabled', 'item_url_slug',
+        'price', 'old_price', 'item_photo', 'brand_id', 'enabled', 'item_url_slug',
     );
 
     /**

@@ -83,18 +83,15 @@ SELECT * FROM hosters
 
 SELECT * FROM uatophost_db.regions WHERE region="gb";
 
-ALTER TABLE arkoni_db.ru_categories CHANGE ru_name name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.uk_categories CHANGE uk_name name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.ru_sub_categories CHANGE ru_name name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.uk_sub_categories CHANGE uk_name name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.ru_items CHANGE ru_name name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.uk_items CHANGE uk_name name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.ru_categories CHANGE `desc` description varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'page description' ;
-ALTER TABLE arkoni_db.uk_categories CHANGE `desc` description varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'page description' ;
-ALTER TABLE arkoni_db.uk_sub_categories CHANGE `desc` description varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'page description' ;
-ALTER TABLE arkoni_db.ru_sub_categories CHANGE `desc` description varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'page description' ;
-ALTER TABLE arkoni_db.ru_items CHANGE `desc` description longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-ALTER TABLE arkoni_db.uk_items CHANGE `desc` description longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+return DB::table('ru_sub_categories as rsc')->
+        select('ru_name', 'id')->
+        join('sub_categories as sc', 'rsc.sub_cat_id', '=', 'sc.id')->
+        orderBy('ru_name')->
+        get();
+
+SELECT rsc.ru_name, sc.id, rc.ru_name FROM ru_sub_categories rsc
+INNER JOIN sub_categories AS sc ON rsc.sub_cat_id=sc.id
+INNER JOIN ru_categories AS rc ON rc.cat_id=sc.cat_id;
 
 
 

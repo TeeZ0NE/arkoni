@@ -80,7 +80,7 @@
                         <td>{{ $item->enabled }}</td>
                         <td>{{ $item->item_url_slug }}</td>
                         <td>{{ $item->price }}</td>
-                        <td>{{ $item->new_price }}</td>
+                        <td>{{ $item->old_price }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td>{{ $item->updated_at }}</td>
                         <td class="text-center">

@@ -22,7 +22,7 @@ class WithImg
         $public_path = config('app.img_path');
         Storage::putFileAs('public/img', $file, $file_name);
         $img = Image::make($public_path . $file_name)
-            ->resize($width, null, function ($constraint) {
+            ->resize($width, $width, function ($constraint) {
                 $constraint->AspectRatio();
 //                $constraint->upsize();
             });

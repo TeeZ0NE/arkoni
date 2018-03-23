@@ -111,10 +111,10 @@
                     <span class="input-group-text" id="item-price-new">Стара ціна&nbsp;<small> (перекпеслена)</small>
                     </span>
                     </div>
-                    @php $new_price = (old('new_price'))?old('new_price'):'0.00' @endphp
+                    @php $new_price = (old('old_price'))?old('old_price'):'0.00' @endphp
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
 
-                           name="new_price" value="{{$new_price}}"
+                           name="old_price" value="{{$new_price}}"
                            aria-label="Перекреслена ціна продукта"
                            aria-describedby="item-price-new" step="0.01">
                 </div>
@@ -153,8 +153,7 @@
                     <option value="">Tags not added yet</option>
                 </select>
                 {{-- Attrs --}}
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
-                    буде записанний останній</p>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу буде записанний останній</p>
                 <div class="alert alert-dark">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -170,8 +169,8 @@
                     </div>
                     <div class="input-group" id="attr_block"></div>
                 </div>
-
                 {{-- Photo --}}
+            <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше 300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Фото</span>

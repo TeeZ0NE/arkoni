@@ -370,7 +370,7 @@ class ItemsController extends Controller
         $item = new Item();
         return view('admin.pages.items')->with([
             'count' => $item::count(),
-            'sort' => 'acs',
+            'sort' => $sort,
             'items' => $item->searchAndSort($q, $sort)->paginate($this->pag_count),
         ]);
     }

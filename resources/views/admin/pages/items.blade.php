@@ -85,7 +85,7 @@
                         <td class="text-center">
                             <form method="post" action="{{ route('items.destroy',$item->id) }}" class="mt-1 mb-1">
                                 {{ csrf_field() }}
-                                <a href="{{ route('items.edit',$item->id) }}" class="btn btn-warning">
+                                <a href="{{ route('items.edit',$item->id) }}" class="btn btn-warning m-1">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <input name="_method" type="hidden" value="DELETE">

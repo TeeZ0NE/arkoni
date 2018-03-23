@@ -63,10 +63,10 @@
                             <img src="{{asset('storage/img').'/'.$cat->cat_photo}}" alt="item photo" class="img-thumbnail w-25">
                         </td>
                         <td class="text-right align-middle">
-                            <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-secondary"
-                               onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
                             <a href="{{route('cat.edit',$cat->id)}}" class="btn btn-warning change-category">
                                 <i class="fas fa-pencil-alt"></i></a>
+                            <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-secondary"
+                               onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 @endforeach

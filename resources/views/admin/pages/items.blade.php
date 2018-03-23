@@ -68,7 +68,6 @@
                     <th>Операції</th>
                 </tr>
                 </thead>
-
                 <tbody>
                 @foreach ($items as $item)
                     <tr>
@@ -86,14 +85,15 @@
                         <td class="text-center">
                             <form method="post" action="{{ route('items.destroy',$item->id) }}" class="mt-1 mb-1">
                                 {{ csrf_field() }}
+                                <a href="{{ route('items.edit',$item->id) }}" class="btn btn-warning">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="btn btn-secondary" type="submit" onclick="return confirm('Ви впевнені?')">
+                                <button class="btn btn-secondary" type="submit"
+                                        onclick="return confirm('Ви впевнені?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
-                            <a href="{{ route('items.edit',$item->id) }}" class="btn btn-warning">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
                         </td>
                     </tr>
                     <tr>

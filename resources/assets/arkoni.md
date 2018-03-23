@@ -28,3 +28,14 @@ $admin->password = Hash::make(111111)
 >>> $admin->save()
 => true
 >>> $admin->all()
+<form method="post" action="{{ route('subcategory.destroy',$subcat->id) }}"
+                                  class="form-inline justify-content-end">
+                                {{ csrf_field() }}
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button class="btn btn-secondary" type="submit" onclick="return confirm('Ви впевнені?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <a href="{{route('subcategory.edit',$subcat->id)}}"
+                                   class="btn btn-warning change-category ml-1">
+                                    <i class="fas fa-pencil-alt"></i></a>
+                            </form>

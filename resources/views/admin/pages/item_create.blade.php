@@ -153,8 +153,7 @@
                     <option value="">Tags not added yet</option>
                 </select>
                 {{-- Attrs --}}
-                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
-                    буде записанний останній</p>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу буде записанний останній</p>
                 <div class="alert alert-dark">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -170,8 +169,8 @@
                     </div>
                     <div class="input-group" id="attr_block"></div>
                 </div>
-
                 {{-- Photo --}}
+            <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше 300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Фото</span>

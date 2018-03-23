@@ -95,9 +95,9 @@
                 @foreach($data['products'] as $key => $item)
                     <article class="item">
                         <div class="row">
-                            <div class="col-md-3 thumbnail">
+                            <div class="col-md-3">
                                 <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
-                                    <img src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
+                                    <img class="img-fluid" src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
                                 </a>
                             </div>
                             <div class="col-md-6 text">
@@ -107,10 +107,9 @@
                                     </a>
                                 </header>
                                 <ul class="commerce">
-                                    <li class="stock"><i class="fas fa-tag"></i> @lang('sub-category.stock')</li>
-                                    <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('sub-category.top-sales')</li>
-                                    <li class="recommend"><i class="fas fa-certificate"></i> @lang('sub-category.recommend')
-                                    </li>
+                                    <li class="promotion">@lang('general.promotion')</li>
+                                    <li class="top-sales">@lang('general.top-sales')</li>
+                                    <li class="exclusive">@lang('general.exclusive')</li>
                                 </ul>
                                 <div class="text-block">
                                     {{ $item->desc }}
@@ -118,9 +117,9 @@
                             </div>
                             <div class="col-md-3 info">
                                 <div class="call-we">@lang('sub-category.call-we'):</div>
-                                <div class="phone">{{ config('contacts.phone-1-alt') }}</div>
+                                <div class="phone"><a href="tel:{{ config('contacts.phone-1-alt') }}">{{ config('contacts.phone-1-alt') }}</a></div>
                                 <span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>
-                                <div class="price">{{ number_format($item->new_price, 2, '.', '') }} @lang('general.uah')</div>
+                                <div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>
                                 <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                                     @lang('general.learn-more')<i class="far fa-long-arrow-alt-right"></i>
                                 </a>
@@ -145,5 +144,7 @@
             </div>
         </div>
     </div>
+
+    {{ print_array($data) }}
 
 @endsection

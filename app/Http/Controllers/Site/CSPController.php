@@ -60,7 +60,7 @@ class CSPController extends BaseController
 
     public function sub_category(Request $request)
     {
-        try {
+//        try {
             $this->data['sub-category'] = DB::table('sub_categories')->select(
                 config('app.locale') . '_sub_categories.' . config('app.locale') . '_name as name',
                 config('app.locale') . '_sub_categories.title',
@@ -84,7 +84,7 @@ class CSPController extends BaseController
                 'item_photo as photo',
                 'item_url_slug as slug',
                 'price',
-                'new_price')
+                'old_price')
                 ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
                 ->join('item_categories', 'item_categories.item_id', '=', 'items.id')
                 ->join('sub_categories', 'sub_categories.id', '=', 'item_categories.sub_cat_id')
@@ -94,9 +94,9 @@ class CSPController extends BaseController
                     ['enabled', '=', 1]
                 ])
                 ->paginate(2);
-        } catch (\Exception $e) {
-            abort(404);
-        }
+//        } catch (\Exception $e) {
+//            abort(404);
+//        }
 
         return view('site.sub-category', [
             'class' => 'sub-category',
@@ -117,7 +117,7 @@ class CSPController extends BaseController
                 'item_photo as photo',
                 'item_url_slug as slug',
                 'price',
-                'new_price')
+                'old_price')
                 ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
                 ->where([
                     ['item_url_slug', '=', $request->segment(2)],

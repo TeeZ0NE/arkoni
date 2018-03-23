@@ -106,7 +106,7 @@ $(function () {
             return index > 1
         }).join('/');
 
-        var ratingBlock = $('#rating-block', $('footer.footer, #item'));
+        var ratingBlock = $('#rating-block');
         var rating = ratingBlock.find('input.rating');
 
         if (!rating.length) {

@@ -16,18 +16,19 @@
                     </div>
                     <div class="col-md-8">
                         <div class="title" itemprop="name">{{ $data['product']->name }}</div>
+
                         <ul class="commerce">
-                            <li class="stock"><i class="fas fa-tag"></i> @lang('products.stock')</li>
-                            <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('products.top-sales')</li>
-                            <li class="recommend"><i class="fas fa-certificate"></i> @lang('products.recommend')
-                            </li>
+                            <li class="promotion">@lang('general.promotion')</li>
+                            <li class="top-sales">@lang('general.top-sales')</li>
+                            <li class="exclusive">@lang('general.exclusive')</li>
                         </ul>
+
                         <div class="price-block">
                             <span class="old-price">{{ number_format($data['product']->price, 2, '.', '') }} @lang('general.uah')</span>
                             <span class="offers" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                                 <span itemprop="price"
-                                      content="{{ number_format($data['product']->new_price, 2, '.', '') }}">{{-- set price--}}
-                                    <span class="price">{{ number_format($data['product']->new_price, 2, '.', '') }}
+                                      content="{{ number_format($data['product']->old_price, 2, '.', '') }}">{{-- set price--}}
+                                    <span class="price">{{ number_format($data['product']->old_price, 2, '.', '') }}
                                         <span class="priceCurrency"
                                               itemprop="priceCurrency"
                                               content="uah">@lang('general.uah')</span></span>

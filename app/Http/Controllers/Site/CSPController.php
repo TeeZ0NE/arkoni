@@ -60,7 +60,7 @@ class CSPController extends BaseController
 
     public function sub_category(Request $request)
     {
-//        try {
+        try {
             $this->data['sub-category'] = DB::table('sub_categories')->select(
                 config('app.locale') . '_sub_categories.' . config('app.locale') . '_name as name',
                 config('app.locale') . '_sub_categories.title',
@@ -93,10 +93,10 @@ class CSPController extends BaseController
                     ['sub_categories.sub_cat_url_slug', '=', $request->segment(2)],
                     ['enabled', '=', 1]
                 ])
-                ->paginate(2);
-//        } catch (\Exception $e) {
-//            abort(404);
-//        }
+                ->paginate(10);
+        } catch (\Exception $e) {
+            abort(404);
+        }
 
         return view('site.sub-category', [
             'class' => 'sub-category',

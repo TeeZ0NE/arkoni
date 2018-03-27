@@ -8,7 +8,6 @@ return [
     'top-sales' => '<i class="fas fa-thumbs-up"></i>ТОП продаж',
     'exclusive' => '<i class="fas fa-certificate"></i>Ексклюзив',
     'material' => '<i class="fas fa-thumbs-up"></i>Строй материал',
-    'call-we' => 'Подзвони',
     'calc' => [
         'header' => 'Розрахувати вартість ремонту  - легко!',
         'body' => 'Скористайтесь нашим будівельним калькулятором для орієнтовного підрахунку вартості матеріалів',

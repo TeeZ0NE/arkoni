@@ -23,6 +23,20 @@
                             <li class="exclusive">@lang('general.exclusive')</li>
                         </ul>
 
+                        {{--@if($item->price != 0 || $item->old_price != 0)--}}
+                            {{--@if($item->old_price != 0 && $item->price == 0)--}}
+                                {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                            {{--@elseif($item->old_price == 0 && $item->price != 0)--}}
+                                {{--<div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                            {{--@else--}}
+                                {{--<span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>--}}
+                                {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                            {{--@endif--}}
+                        {{--@else--}}
+                            {{--<div class="">@lang('sub-category.specify')</div>--}}
+                        {{--@endif--}}
+
+
                         <div class="price-block">
                             <span class="old-price">{{ number_format($data['product']->price, 2, '.', '') }} @lang('general.uah')</span>
                             <span class="offers" itemprop="offers" itemscope itemtype="http://schema.org/Offer">

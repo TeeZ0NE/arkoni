@@ -298,6 +298,8 @@
         </div>
     </div>
 
+    {{--{{ print_array($data) }}--}}
+
     @include('site._producers')
 
     @include('site._google-map')

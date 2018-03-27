@@ -52,16 +52,58 @@ class Item extends Model
      * get 4 item shortcuts whitch it has and shortcutname
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function getItemShortcut(){
-        return $this->hasManyThrough(Shortcut::class,ItemShortcut::class,'item_id','id','id','shortcut_id');
+    public function getItemShortcut()
+    {
+        return $this->hasManyThrough(Shortcut::class, ItemShortcut::class, 'item_id', 'id', 'id', 'shortcut_id');
     }
+
+    /**
+     * get item tag ID and URL only
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function getItemTag()
+    {
+        return $this->hasManyThrough(Tag::class, ItemTag::class, 'item_id', 'id', 'id', 'tag_id');
+    }
+
+    /**
+     * getting RU lang tags
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function getItemRuTag()
+    {
+        return $this->hasManyThrough(RuTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id');
+    }
+
+    public function getItemUkTag()
+    {
+        return $this->hasManyThrough(UkTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id');
+    }
+
+    public function searchAndSort($column, $method, $q = Null)
+    {
+        //if sorting in child tables
+        if ($method) {
+            return Item::with(['brand', 'getRuItem', 'getUkItem', 'getItemRuTag'])->
+            where('id', $q)
+                ->orWhereHas($method, function ($f) use ($column, $q) {
+                    $f->where($column, 'LIKE', '%' . $q . '%');
+                });
+        } else {
+            //sorting in parent table
+            return Item::with(['brand', 'getRuItem', 'getUkItem', 'getItemRuTag'])->
+            where('id', $q)->
+            orWhere($column, 'LIKE', '%' . $q . '%');
+        }
+    }
+
     /**searchin and sorting items
      * sort by price, enabled, by brand, by RU name
      * @param null $q Query what we searchin
      * @param $sort asc or desc
      * @return array or null
      */
-    public function searchAndSort($q = Null, $sort)
+    public function searchAndSort_old($sort, $q = Null)
     {
         $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
         $order = (in_array($sort, $asc_arr)) ? 'asc' : 'desc';
@@ -96,11 +138,13 @@ class Item extends Model
         join('ru_items as rui', 'rui.item_id', '=', 'i.id')->
         join('uk_items as uki', 'uki.item_id', '=', 'i.id')->
         where('i.id', '=', $q)->
-        orWhere($order_by, 'LIKE', '%'.$q.'%')->
+        orWhere($order_by, 'LIKE', '%' . $q . '%')->
         orderBy($order_by, $order);
     }
 
-    public function getAllItems(){
+    //TODO: eldest. Delete?
+    public function getAllItems()
+    {
         return DB::table('items as i')->
         select('rui.ru_name', 'uki.uk_name', 'i.*', 'b.name as b_name', 'rui.desc')->
         join('brands as b', 'i.brand_id', '=', 'b.id')->
@@ -109,33 +153,32 @@ class Item extends Model
         orderBy('rui.ru_name', 'asc');
     }
 
-/*
-    public function search(Request $request)
+    private function orderBy($sort)
     {
-        $request->flash();
-        $order = "asc";
-        $order_by = "";
-        $rsort = $request->sort;
-        $q = $request->q;
-        $count = $this->item::count();
+        $orderBy = array(
+            'method' => Null,
+            'column' => Null,
+            'sortBy' => Null,
+            'order' => Null,
+        );
         $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
-        $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
-
-        if (in_array($rsort, $asc_arr)) {
-            $order = 'asc';
-        }
-        if (in_array($rsort, $desc_arr)) {
-            $order = 'desc';
-        }
-        switch ($rsort) {
+        $methods = array('brand', 'getRuItem');
+        $columns = array('name', 'ru_name');
+        $order = (in_array($sort, $asc_arr)) ? 0 : 1;
+        switch ($sort) {
             case 'asc_iname':
             case 'desc_iname':
-                $order_by = 'name';
+                return $orderBy([
+                    'method' => $methods[1],
+                    'sortBy' => $methods[1] . ".$columns[1]",
+                    'order' => $order,
+                    'column' => $columns[1]
+                ]);
                 break;
 
             case 'asc_brand':
             case 'desc_brand':
-                $order_by = 'brand';
+                $order_by = 'b.name';
                 break;
 
             case 'asc_price':
@@ -148,63 +191,109 @@ class Item extends Model
                 $order_by = 'enabled';
                 break;
             default:
-                $order_by = 'name';
+                $order_by = 'rui.ru_name';
                 break;
         }
-        // empty search request
-        if (empty($request->q)) {
+
+    }
+
+
+    /*
+        public function search(Request $request)
+        {
+            $request->flash();
+            $order = "asc";
+            $order_by = "";
+            $rsort = $request->sort;
+            $q = $request->q;
+            $count = $this->item::count();
+            $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
+            $desc_arr = array('desc_iname', 'desc_brand', 'desc_price', 'desc_enabled');
+
+            if (in_array($rsort, $asc_arr)) {
+                $order = 'asc';
+            }
+            if (in_array($rsort, $desc_arr)) {
+                $order = 'desc';
+            }
+            switch ($rsort) {
+                case 'asc_iname':
+                case 'desc_iname':
+                    $order_by = 'name';
+                    break;
+
+                case 'asc_brand':
+                case 'desc_brand':
+                    $order_by = 'brand';
+                    break;
+
+                case 'asc_price':
+                case 'desc_price':
+                    $order_by = 'price';
+                    break;
+
+                case 'asc_enabled':
+                case 'desc_enabled':
+                    $order_by = 'enabled';
+                    break;
+                default:
+                    $order_by = 'name';
+                    break;
+            }
+            // empty search request
+            if (empty($request->q)) {
+                switch ($order_by) {
+                    case 'brand':
+                        $brands = $this->brand::with(['items'])
+                            ->orderBy('name', $order)
+                            ->paginate($this->pag_count);
+                        break;
+
+                    default:
+                        $items = $this->item::with(['brand'])
+                            ->orderBy($order_by, $order)
+                            ->paginate($this->pag_count);
+                        break;
+                }
+            } else {
+                switch ($order_by) {
+                    case 'brand':
+                        $brands = $this->brand::with(['items'])
+                            ->where('name', 'LIKE', '%' . $q . '%')
+                            ->orderBy('name', $order)
+                            ->paginate($this->pag_count);
+                        break;
+
+                    default:
+                        $items = $this->item::with(['brand'])
+                            ->where('name', 'LIKE', '%' . $q . '%')
+                            ->orWhere('tags', 'LIKE', '%' . $q . '%')
+                            ->orderBy($order_by, $order)
+                            ->paginate($this->pag_count);
+                        break;
+                }
+            }
+            // returning view
             switch ($order_by) {
                 case 'brand':
-                    $brands = $this->brand::with(['items'])
-                        ->orderBy('name', $order)
-                        ->paginate($this->pag_count);
+                    return view('admin.pages.items')
+                        ->with([
+                            'brands' => $brands,
+                            'count' => $count,
+                            'sort' => $rsort
+                        ]);
                     break;
 
                 default:
-                    $items = $this->item::with(['brand'])
-                        ->orderBy($order_by, $order)
-                        ->paginate($this->pag_count);
+                    return view('admin.pages.items')
+                        ->with([
+                            'items' => $items,
+                            'count' => $count,
+                            'sort' => $rsort
+                        ]);
                     break;
             }
-        } else {
-            switch ($order_by) {
-                case 'brand':
-                    $brands = $this->brand::with(['items'])
-                        ->where('name', 'LIKE', '%' . $q . '%')
-                        ->orderBy('name', $order)
-                        ->paginate($this->pag_count);
-                    break;
-
-                default:
-                    $items = $this->item::with(['brand'])
-                        ->where('name', 'LIKE', '%' . $q . '%')
-                        ->orWhere('tags', 'LIKE', '%' . $q . '%')
-                        ->orderBy($order_by, $order)
-                        ->paginate($this->pag_count);
-                    break;
-            }
-        }
-        // returning view
-        switch ($order_by) {
-            case 'brand':
-                return view('admin.pages.items')
-                    ->with([
-                        'brands' => $brands,
-                        'count' => $count,
-                        'sort' => $rsort
-                    ]);
-                break;
-
-            default:
-                return view('admin.pages.items')
-                    ->with([
-                        'items' => $items,
-                        'count' => $count,
-                        'sort' => $rsort
-                    ]);
-                break;
-        }
 
 
-    }*/
+        }*/
 }

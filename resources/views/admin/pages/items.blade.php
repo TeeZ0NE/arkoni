@@ -14,7 +14,7 @@
                         <strong>Шукати</strong>
                         <div class="form-group">
                             <input type="text" class="form-control d-inline w-75" placeholder="Шукати" name="q"
-                                   value="{{ old("q") }}">
+                                   value="@isset($q) {{$q}}@endisset">
                             <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
@@ -22,25 +22,25 @@
                         <strong>Сортувати</strong>
                         <div class="form-group">
                             <select class="custom-select  mr-sm-1 w-50" name="sort">
-                                <option value="asc_iname" @if (old('sort')=='asc_iname') selected @endif>А-Я Назва
+                                <option value="asc_iname" @if ($sort=='asc_iname') selected @endif>А-Я Назва
                                     товара
                                 </option>
-                                <option value="desc_iname" @if (old('sort')=='desc_iname') selected @endif>Я-А Назва
+                                <option value="desc_iname" @if ($sort=='desc_iname') selected @endif>Я-А Назва
                                     товара
                                 </option>
-                                <option value="asc_brand" @if (old('sort')=='asc_brand') selected @endif>А-Я Виробник
+                                <option value="asc_brand" @if ($sort=='asc_brand') selected @endif>А-Я Виробник
                                 </option>
-                                <option value="desc_brand" @if (old('sort')=='desc_brand') selected @endif>Я-А
+                                <option value="desc_brand" @if ($sort=='desc_brand') selected @endif>Я-А
                                     Виробник
                                 </option>
-                                <option value="asc_price" @if (old('sort')=='asc_price') selected @endif>А-Я Ціна
+                                <option value="asc_price" @if ($sort=='asc_price') selected @endif>А-Я Ціна
                                 </option>
-                                <option value="desc_price" @if (old('sort')=='desc_price') selected @endif>Я-А Ціна
+                                <option value="desc_price" @if ($sort=='desc_price') selected @endif>Я-А Ціна
                                 </option>
-                                <option value="asc_enabled" @if (old('sort')=='asc_enabled') selected @endif>А-Я
+                                <option value="asc_enabled" @if ($sort=='asc_enabled') selected @endif>А-Я
                                     Виводиться
                                 </option>
-                                <option value="desc_enabled" @if (old('sort')=='desc_enabled') selected @endif>Я-А
+                                <option value="desc_enabled" @if ($sort=='desc_enabled') selected @endif>Я-А
                                     Виводиться
                                 </option>
                             </select>
@@ -73,9 +73,9 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>
-                            <span class="alert-info">RU</span> {{ $item->ru_name }}<br>
-                            <span class="alert-info">UK</span> {{$item->uk_name}}</td>
-                        <td>{{ $item->b_name }}</td>
+                            <span class="alert-info">RU</span> {{ $item->getRuItem['ru_name'] }}<br>
+                            <span class="alert-info">UK</span> {{$item->getUkItem['uk_name']}}</td>
+                        <td>{{ $item->brand['name'] }}</td>
                         <td>{{ $item->enabled }}</td>
                         <td>{{ $item->item_url_slug }}</td>
                         <td>{{ $item->price }}</td>
@@ -100,13 +100,15 @@
                         <td colspan="4">
                             <div class="border">
                                 <p class="text-center border-bottom lead alert-warning">Опис</p>
-                                <p class="p-2">{!!  $item->desc !!}</p>
+                                <p class="p-2">{!! $item->getRuItem['desc'] !!}</p>
                             </div>
                         </td>
                         <td colspan="4">
                             <div class="border">
                                 <p class="text-center border-bottom lead alert-warning">Тегі</p>
-                                <p class="p-2">N\A{{--$item->tags--}}</p>
+                                <p class="p-2">
+                                    @foreach($item->getItemRuTag as $tag)<span class="badge badge-secondary">{{$tag->ru_name}}</span>&nbsp;@endforeach
+                                </p>
                             </div>
                         </td>
                         <td colspan="2"><img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo"
@@ -116,8 +118,10 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="10">Всього: {{ $items->total() }} на сторінці: {{ $items->count() }}
-                        {{ $items->appends(['sort'=>$sort])->render() }}</td>
+                    <td colspan="10">Всього: {{ $total}} на сторінці: {{ $items->count() }}
+                        {{-- $items->appends(['sort'=>$sort])->render() --}}
+                        {{$links}}
+                    </td>
                 </tr>
                 </tfoot>
             </table>

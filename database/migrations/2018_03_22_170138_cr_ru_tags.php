@@ -18,6 +18,8 @@ class CrRuTags extends Migration
             $table->string('ru_name', 210)->charset('utf8')->comment('tag\'s name');
             $table->string('title', 70)->charset('utf8')->comment('page title');
             $table->string('description')->charset('utf8')->nullable()->comment('page description');
+            $table->foreign('tag_id')->references('id')->on('tags')->
+                onDelete('cascade')->onUpdate('cascade');
         });
     }
 

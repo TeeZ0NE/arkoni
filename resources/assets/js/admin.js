@@ -16,7 +16,8 @@ $(function () {
             ['horizontalRule'],
             ['removeformat'],
             ['fullscreen']
-        ]
+        ],
+        removeformatPasted: true
     });
 
     // Brands. Change name

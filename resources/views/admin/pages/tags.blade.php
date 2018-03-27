@@ -1,27 +1,26 @@
 @extends('admin.admin')
-@section('title','Categories')
-@section('description','myDescription to categories info')
-@section('keywords','myKeyWords to Categories info')
+@section('title','Тегі')
+@section('description','myDescription to tags warning')
+@section('keywords','myKeyWords to tags warning')
 @section('admin_main_content')
 
-    <p class="h4 text-center mt-lg-1">Категорії
+    <p class="h4 text-center mt-lg-1">Тегі (параметри)
         <small>в базі: {{ $count }}</small>
     </p>
-
     <div class="row">
         <div class="col-12 col-lg-2">
             <strong>Додати</strong>
             <br>
-            <a href="{{ route('cats.create') }}" class="btn btn-warning" role="button"><i
+            <a href="{{ route('tags.create') }}" class="btn btn-warning" role="button"><i
                         class="fas fa-plus"></i></a>
         </div>
         <div class="col col-lg-10">
-            <form method="get" action="{{ route('cats.search') }}" role="search">
+            <form method="get" action="{{ route('tags.search') }}" role="search">
                 <div class="row">
                     <div class="col-12 col-lg-9">
                         <strong>Шукати</strong>
                         <div class="form-group">
-                            <input type="text" class="form-control d-inline w-75" placeholder="Назва категорії" name="q"
+                            <input type="text" class="form-control d-inline w-75" placeholder="Назва тега" name="q"
                                    value="{{ old("q") }}">
                             <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i></button>
                         </div>
@@ -39,13 +38,12 @@
                 </div>
             </form>
         </div>
-        <div class="col-12">
+        <div class="col-12 mt-lg-2">
             <table class="table table-striped">
                 <thead class="sticky-top alert-light">
                 <tr class="text-center">
                     <th scope="col" rowspan="2" class="align-middle">ID</th>
-                    <th scope="col" colspan="2">Назва категорії</th>
-                    <th scope="col" rowspan="2" class="align-middle">Фото</th>
+                    <th scope="col" colspan="2">Тег</th>
                     <th scope="col" rowspan="2" class="align-middle">Операції</th>
                 </tr>
                 <tr>
@@ -54,28 +52,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($cats as $cat)
+                @foreach ($tags as $tag)
                     <tr>
-                        <td class="align-middle">{{ $cat->id }}</td>
-                        <td class="align-middle">{{$cat->ru_name}}</td>
-                        <td class="align-middle">{{$cat->uk_name}}</td>
-                        <td class="align-middle text-center">
-                            <img src="{{asset('storage/img').'/'.$cat->cat_photo}}" alt="item photo" class="img-thumbnail w-25">
-                        </td>
-                        <td class="text-right align-middle">
-                            <a href="{{route('cat.edit',$cat->id)}}" class="btn btn-warning change-category">
-                                <i class="fas fa-pencil-alt"></i></a>
-                            <a href="{{route('cat.destroy',$cat->id)}}" class="btn btn-secondary"
-                               onclick="return confirm('Ви впевнені?')"><i class="fas fa-trash-alt"></i></a>
+                        <td class="align-middle">{{ $tag->id }}</td>
+                        <td class="align-middle">{{ $tag->ru_name }} </td>
+                        <td class="align-middle">{{$tag->uk_name}}</td>
+                        <td class="text-right">
+                            <form method="post" action="{{ route('tags.destroy',$tag->id) }}"
+                                  class="form-inline justify-content-end">
+                                {{ csrf_field() }}
+                                <a href="{{route('tags.edit',$tag->id)}}"
+                                   class="btn btn-warning change-category">
+                                    <i class="fas fa-pencil-alt"></i></a>
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button class="btn btn-secondary ml-1" type="submit" onclick="return confirm('Ви впевнені?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
                 <tr>
-                    {{--<td colspan="3">Всього: {{ $cats->total() }} на сторінці: {{ $cats->count() }}--}}
-                    {{--</td>--}}
-                    {{--                    <td>{{ $cats->appends(['sort'=>$sort])->render() }}</td>--}}
+                    <td colspan="2">Всього: {{ $tags->total() }} на сторінці: {{ $tags->count() }}
+                    </td>
+                    <td>{{ $tags->appends(['sort'=>$sort])->render() }}</td>
                 </tr>
                 </tfoot>
             </table>

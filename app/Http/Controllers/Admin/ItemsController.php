@@ -30,7 +30,7 @@ class ItemsController extends Controller
      * count items on page
      * @var Int
      */
-    private $page_count = 3;
+    private $page_count = 10;
 
     public function __construct()
     {

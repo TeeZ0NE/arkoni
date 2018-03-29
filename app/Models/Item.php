@@ -75,12 +75,23 @@ class Item extends Model
         return $this->hasManyThrough(RuTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id');
     }
 
+    /**
+     * getting UK lang tags
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
     public function getItemUkTag()
     {
         return $this->hasManyThrough(UkTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id');
     }
 
-    public function searchAndSort($column, $method, $q = Null)
+    /**
+     * search with methods or in methods which exist
+     * @param String $column ru_name, name, etc
+     * @param String $method brand, getUkItem, etc.
+     * @param String or Int $q query to search
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function search($column, $method, $q = Null)
     {
         //if sorting in child tables
         if ($method) {
@@ -88,21 +99,24 @@ class Item extends Model
             where('id', $q)
                 ->orWhereHas($method, function ($f) use ($column, $q) {
                     $f->where($column, 'LIKE', '%' . $q . '%');
-                });
+                })->get();
         } else {
             //sorting in parent table
             return Item::with(['brand', 'getRuItem', 'getUkItem', 'getItemRuTag'])->
             where('id', $q)->
-            orWhere($column, 'LIKE', '%' . $q . '%');
+            orWhere($column, 'LIKE', '%' . $q . '%')->
+            get();
         }
     }
-
+/* NOT USING
     /**searchin and sorting items
      * sort by price, enabled, by brand, by RU name
      * @param null $q Query what we searchin
      * @param $sort asc or desc
      * @return array or null
      */
+//TODO:: delete this method in future
+/*
     public function searchAndSort_old($sort, $q = Null)
     {
         $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
@@ -194,9 +208,8 @@ class Item extends Model
                 $order_by = 'rui.ru_name';
                 break;
         }
-
     }
-
+*/
 
     /*
         public function search(Request $request)

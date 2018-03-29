@@ -58,4 +58,8 @@ class Tag extends Model
         orderBy('rt.ru_name', $sort);
 
     }
+
+    public function items(){
+        return $this->belongsToMany(Item::class,'item_tags','item_id','tag_id');
+    }
 }

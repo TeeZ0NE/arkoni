@@ -39,3 +39,11 @@ $admin->password = Hash::make(111111)
                                    class="btn btn-warning change-category ml-1">
                                     <i class="fas fa-pencil-alt"></i></a>
                             </form>
+                            
+                            
+         $i::with(['brand','getRuItem','getUkItem','getItemTag'])->whereHas('getRuItem',function($q){$q->where('ru_name','test1ru');})->get()
+         
+         $i::with(['brand'])->where('id',4)->orWhereHas('brand',function($q){$q->where('name','LIKE','%%');})->get()->sortBy('brand.name')
+         
+         $i::with(['brand'])->where('id',4)->orWhereHas('brand',function($q){$q->where('name','LIKE','%%');})->get()->sortBy('brand.name',0) 1-desc
+                    

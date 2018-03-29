@@ -70,10 +70,16 @@ Route::prefix('admin')->group(function () {
         Route::get('/delete/{id}', 'Admin\AttributesController@delete')->name('attr.delete');
     });
     // Items
-    Route::get('items/query', 'Admin\ItemsController@search')->name('items.search');
-    Route::resource('items', 'Admin\ItemsController');
-
-    // Reviews
+    Route::group(['middleware' => ['purify']], function () {
+        Route::get('items/query', 'Admin\ItemsController@search')->name('items.search');
+        Route::resource('items', 'Admin\ItemsController');
+    });
+     // Tags
+    Route::group(['middleware' => ['purify']], function () {
+        Route::get('tags/query', 'Admin\TagController@search')->name('tags.search');
+        Route::resource('tags', 'Admin\TagController');
+    });
+    Route::get('images', 'Admin\ImagesController')->name('images');
 // Users
 });
 
@@ -94,7 +100,3 @@ Route::group(
         Route::get('/b-{name}', 'Site\BlogController@inside')->name('blog-inside');
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
     });
-
-Route::get('info', function () {
-    phpinfo();
-});

@@ -18,21 +18,10 @@
       <a href="{{route('admin.dashboard')}}"><img class="img-fluid d-inline-block ml-3" src="{{asset('images/ark_logo_admin_white.png')}}" alt="logo Arkony"></a></p>
     <div class="row">@include('admin.parts.components.main_nav')</div>
     {{-- showing errors and messages --}}
-    <div class="row my-auto">
-      @if (Session::has("msg"))
-      @component('layouts.parts.components.alert',
-        ["alert_class"=>"success",
-        "alert_text"=>Session::get("msg")])
-        @endcomponent
-        @endif
-        @isset($sort) @php $sort or 'acs'@endphp @endisset
-        @if($errors->any())
-        @component('layouts.parts.components.alert',
-          ["alert_class"=>"warning",
-          "alert_text"=>$errors->first()])
-          @endcomponent
-          @endif
-        </div>
+    <div class="row my-auto">@if (Session::has("msg"))@component('layouts.parts.components.alert',
+        ["alert_class"=>"success", "alert_text"=>Session::get("msg")])@endcomponent @endif
+        @isset($sort) @php $sort or 'acs'@endphp @endisset @if($errors->any()) @component('layouts.parts.components.alert',
+          ["alert_class"=>"warning", "alert_text"=>$errors->first()]) @endcomponent @endif </div>
         @section('admin_main_content')@show
         <div class="row">@include('admin.parts.footer')</div>
       </div>

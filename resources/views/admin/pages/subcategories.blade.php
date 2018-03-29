@@ -63,18 +63,17 @@
                             <form method="post" action="{{ route('subcategory.destroy',$subcat->id) }}"
                                   class="form-inline justify-content-end">
                                 {{ csrf_field() }}
+                                <a href="{{route('subcategory.edit',$subcat->id)}}"
+                                   class="btn btn-warning change-category">
+                                    <i class="fas fa-pencil-alt"></i></a>
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="btn btn-secondary" type="submit" onclick="return confirm('Ви впевнені?')">
+                                <button class="btn btn-secondary ml-1" type="submit" onclick="return confirm('Ви впевнені?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                                <a href="{{route('subcategory.edit',$subcat->id)}}"
-                                   class="btn btn-warning change-category ml-1">
-                                    <i class="fas fa-pencil-alt"></i></a>
                             </form>
                         </td>
                     </tr>
                     <tr>
-
                         <td><span class="alert-info">UK</span> {{$subcat->uk_name}}</td>
                         <td>{{$subcat->c_uk_name}}</td>
                     </tr>

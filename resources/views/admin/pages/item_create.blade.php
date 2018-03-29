@@ -6,7 +6,6 @@
     <p class="h4 text-center mt-lg-1">Додати новий продукт</p>
     <div class="row justify-content-center">
         <div class="col col-lg-8">
-
             <form method="post" action="{{ route('items.store') }}" class="form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -129,7 +128,8 @@
                             <option value="{{ $sc->id }}"
                                     @if(old('sub_categories'))
                                     @if (in_array($sc->id,old('sub_categories'))) selected @endif @endif>
-                                {{ $sc->ru_name }} ({{$sc->cat_name}})</option>
+                                {{ $sc->ru_name }} ({{$sc->cat_name}})
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -145,13 +145,17 @@
                     @endforeach
                 </div>
                 {{-- Tags --}}
-                <select class="custom-select mb-3" id="tags" name="tags" disabled>
-                    <option selected value="">Оберіть...</option>
-                    {{--@foreach ($tags as $tag)
-                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                    @endforeach--}}
-                    <option value="">Tags not added yet</option>
-                </select>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="categories">Теги</label>
+                    </div>
+                    <select class="custom-select" multiple size="4" name="tags[]">
+                        @foreach ($tags as $tag)
+                            <option value="{{ $tag->id }}"
+                                    @if(old('tags'))@if (in_array($tag->id,old('tags'))) selected @endif @endif>{{ $tag->getRuTagsName['ru_name'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 {{-- Attrs --}}
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
                     буде записанний останній</p>
@@ -170,8 +174,9 @@
                     </div>
                     <div class="input-group" id="attr_block"></div>
                 </div>
-
                 {{-- Photo --}}
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше
+                    300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Фото</span>

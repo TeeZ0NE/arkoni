@@ -95,4 +95,14 @@ INNER JOIN ru_categories AS rc ON rc.cat_id=sc.cat_id;
 
 
 
+SELECT i.id, rui.ru_name as iname, rt.ru_name as tname 
+FROM items as i, tags as t
+INNER JOIN ru_items as rui ON rui.item_id=i.id
+INNER JOIN item_tags as it on it.item_id=i.id
+INNER JOIN ru_tags as rt on rt.tag_id=t.id;
+
+SELECT i.id AS it_id, i.item_url_slug, it.tag_id, rt.ru_name
+FROM items AS i
+LEFT JOIN item_tags AS it ON it.item_id=i.id
+LEFT JOIN ru_tags AS rt ON it.tag_id=rt.tag_id;
 

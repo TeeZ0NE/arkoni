@@ -63,7 +63,7 @@
         </div>
         <div class="col-12 mt-lg-3 mt-1 alert-warning d-none edit-attrs pb-2">
             <strong id="edit-attrs">Редагувати</strong>
-            <form method="post" action="{{route('attr.update')}}" class="form-inline">
+            <form method="post" action="#{{route('attr.update')}}" class="form-inline">
                 {{csrf_field()}}
                 <input type="hidden" name="id" id="id-edited">
                 <div class="input-group col-5">

@@ -137,6 +137,7 @@
                         {{--/UK--}}
                     </div>
                 </div>
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше 300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Фото</span>

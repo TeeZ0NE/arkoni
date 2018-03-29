@@ -171,8 +171,8 @@ class CategoryController extends Controller
             $img = new WithImg();
             $photo = $img->getImageFileName($request->file('img_upload'), $request->ru_name, False);
         }
-        $cat_id = $this->storeNewCat($request->ru_name, $photo);
         try {
+            $cat_id = $this->storeNewCat($request->ru_name, $photo);
             if (!$cat_id) {
                 throw new Exception("Основний запис не зроблено");
             }

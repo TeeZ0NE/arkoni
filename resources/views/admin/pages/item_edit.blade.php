@@ -153,13 +153,23 @@
                     @endforeach
                 </div>
                 {{-- Tags --}}
-                <select class="custom-select mb-3" id="tags" name="tags" disabled>
-                    <option selected value="">Оберіть...</option>
-                    {{--@foreach ($tags as $tag)
-                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                    @endforeach--}}
-                    <option value="">Tags not added yet</option>
-                </select>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="tags">Теги</label>
+                    </div>
+                    <select class="custom-select" multiple size="4" name="tags[]" id="tags">
+                        @foreach ($tags as $tag)
+                            <option value="{{ $tag->id }}"
+                                    @if(old('sub_categories'))
+                                    @if (in_array($tag->id,old('tags'))) selected @endif
+                                    @else
+                                    @if (in_array($tag->id,$item_tags)) selected @endif
+                                    @endif>
+                                {{ $tag->getRuTag['ru_name'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 {{-- Attrs --}}
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При співпадінні назв атрибутів, в базу
                     буде записанний останній</p>
@@ -205,6 +215,8 @@
                            value="{{mb_substr($item->item_url_slug,2)}}" required name="item_url_slug">
                 </div>
                 {{-- Photo --}}
+                <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше
+                    300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Фото</span>

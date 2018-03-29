@@ -222,7 +222,7 @@
                         <span class="input-group-text">Фото</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="img_upload" name="img_upload">
+                        <input type="file" class="custom-file-input" id="img_upload" name="img_upload" accept="image/*">
                         <label class="custom-file-label" for="img_upload">Оберіть файл</label>
                     </div>
                 </div>

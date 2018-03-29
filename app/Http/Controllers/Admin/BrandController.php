@@ -76,10 +76,10 @@ class BrandController extends Controller
             Brand::findOrFail($id)->delete();
         } catch (QE $qe) {
             //TODO: remove debug info $qe
-            Log::error('Brand delete error', ['msg' => $qe, 'user' => $user]);
+            Log::error('Brand delete error', ['msg' => $qe, 'user' => $user, 'brand id'=>$id]);
             return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
         }
-        Log::info('Brand delete', ['user' => $user]);
+        Log::info('Brand delete', ['user' => $user, 'brand id'=>$id]);
         return redirect(route('brands'))->with('msg', 'Виробника видалено з бази');
     }
 

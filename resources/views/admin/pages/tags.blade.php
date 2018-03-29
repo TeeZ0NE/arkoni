@@ -75,7 +75,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="2">Всього: {{ $tags->total() }} на сторінці: {{ $tags->count() }}
+                    <td colspan="3">Всього: {{ $tags->total() }} на сторінці: {{ $tags->count() }}
                     </td>
                     <td>{{ $tags->appends(['sort'=>$sort])->render() }}</td>
                 </tr>

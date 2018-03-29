@@ -78,12 +78,12 @@ class TagController extends Controller
             }
         } catch (QE $qe) {
             //TODO: remove debug info $qe
-            Log::error("Can't store tags", ['mes' => $qe->getMessage(), 'user' => $user]);
+            Log::error("Can't store tags", ['mes' => $qe->getMessage(), 'user' => $user, 'tag id'=>$tag_id]);
             return redirect()
                 ->back()
                 ->withErrors(['name' => $qe->getMessage()]);
         }
-        Log::info('Attributes add', ['user' => $user]);
+        Log::info('Attributes add', ['user' => $user, 'tag id'=>$tag_id]);
         return redirect(route('tags.index'))->with('msg', 'Параметр додано');
     }
 
@@ -141,10 +141,10 @@ class TagController extends Controller
             }
         }
     catch(Exception $e){
-            Log::error('Tag update',['msg'=>$e->getMessage(),'user'=>$user]);
+            Log::error('Tag update',['msg'=>$e->getMessage(),'user'=>$user, 'tag id'=>$id]);
             return redirect()->back()->withErrors(['error'=>$e->getMessage()]);
         }
-        Log::info('Tag update',['user'=>$user]);
+        Log::info('Tag update',['user'=>$user, 'tag id'=>$id]);
         return redirect(route('tags.index'))->with('msg','Зміни тега записано');
     }
 
@@ -161,11 +161,11 @@ class TagController extends Controller
             $tag = new Tag();
             $tag::findOrFail($id)->delete();
         } catch (QE $qe) {
-            Log::error('Tag delete', ['msg' => $qe->getMessage(), 'user' => $user]);
+            Log::error('Tag delete', ['msg' => $qe->getMessage(), 'user' => $user, 'tag id'=>$id]);
             //TODO::delete $qe debug
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням тега' . $qe->getMessage()]);
         }
-        Log::info('Tag delete', ['user' => $user]);
+        Log::info('Tag delete', ['user' => $user, 'tag id'=>$id]);
         return redirect(route('tags.index'))->with('msg', 'Тег видалено з бази');
     }
 

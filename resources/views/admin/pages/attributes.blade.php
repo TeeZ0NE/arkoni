@@ -63,7 +63,7 @@
         </div>
         <div class="col-12 mt-lg-3 mt-1 alert-warning d-none edit-attrs pb-2">
             <strong id="edit-attrs">Редагувати</strong>
-            <form method="post" action="#{{route('attr.update')}}" class="form-inline">
+            <form method="post" action="{{route('attr.update')}}" class="form-inline">
                 {{csrf_field()}}
                 <input type="hidden" name="id" id="id-edited">
                 <div class="input-group col-5">
@@ -116,7 +116,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="2">Всього: {{ $attrs->total() }} на сторінці: {{ $attrs->count() }}
+                    <td colspan="3">Всього: {{ $attrs->total() }} на сторінці: {{ $attrs->count() }}
                     </td>
                     <td>{{ $attrs->appends(['sort'=>$sort])->render() }}</td>
                 </tr>

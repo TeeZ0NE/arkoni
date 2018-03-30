@@ -30,9 +30,9 @@
                         </li>
                     @endforeach
                 </ul>
-                <form class="form-inline search">
+                <form class="form-inline search" method="get" action="{{ route('se.search') }}" role="search">
                     <input class="form-control mr-sm-2" type="search" placeholder="@lang('header.search')"
-                           aria-label="Search">
+                           aria-label="Search" name="q" value="@isset($q) {{$q}}@endisset">
                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </div>

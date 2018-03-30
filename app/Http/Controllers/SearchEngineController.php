@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Item;
+use App;
+
+/** Retriev and return searching data into view
+ * Class SearchEngineController
+ * @package App\Http\Controllers
+ */
+class SearchEngineController extends Controller
+{
+    /**
+     * String App locale
+     */
+    private $locale;
+    /**
+     * @var int  Page count in Pagination
+     */
+    private $page_count = 3;
+
+    public function __construct()
+    {
+        $this->locale = mb_strtolower(App::getLocale());
+    }
+
+    public function __invoke(Request $request)
+    {
+        $q = $request->q;
+        $sort = ($request->sort) ? $request->sort : 'asc_iname';
+        // model
+        $item_model = new Item();
+        //search and sort config
+        $s_config = $this->searchConfig($sort);
+        $items = $item_model->search4site($s_config, $q)->paginate($this->page_count);
+
+        return view('items_search')->with([
+            'q' => $q,
+            'class' => 'front',
+            'items' => $items,
+            'method' => $s_config['method'],
+            'title' => __('seo.front-title'),
+            'description' => __('seo.front-description'),
+            'rating' => null,
+            'sort' => $sort,
+        ]);
+    }
+
+    /**getting existing methods from Item model
+     * Relationships
+     * @return String method
+     */
+    private function getMethod()
+    {
+        $methods = array('getRuItem', 'getUkItem');
+        switch ($this->locale) {
+            case  'uk':
+                return $methods[1];
+                break;
+            default:
+                return $methods[0];
+        }
+    }
+
+    /**
+     * getting column which exist in DB
+     * @return String column name
+     */
+    private function getColumn()
+    {
+        $columns = array('ru_name', 'uk_name');
+        switch ($this->locale) {
+            case 'uk':
+                return $columns[1];
+                break;
+            default:
+                return $columns[0];
+        }
+    }
+
+    /**
+     * creating searchin and sorting config
+     * @param String $sort
+     * @return array
+     */
+    private function searchConfig($sort)
+    {
+        $asc_arr = array('asc_iname', 'asc_brand', 'asc_price');
+        $order = (in_array($sort, $asc_arr)) ? 1 : 0;
+        $column = $this->getColumn();
+        $method = $this->getMethod();
+        switch ($sort) {
+            case 'asc_iname':
+            case 'desc_iname':
+                $orderBy = ([
+                    'order' => $order,
+                    'sortBy' => $method . ".$column",
+                    'column' => $column,
+                    'method' => $method,
+                ]);
+                break;
+            case 'asc_brand':
+            case 'desc_brand':
+                $orderBy = ([
+                    'order' => $order,
+                    'sortBy' => "brand.name",
+                    'column' => $column,
+                    'method' => $method,
+                ]);
+                break;
+            case 'asc_price':
+            case 'desc_price':
+                $orderBy = ([
+                    'sortBy' => 'price',
+                    'order' => $order,
+                    'column' => $column,
+                    'method' => $method,
+                ]);
+                break;
+            default:
+                $orderBy = ([
+                    'sortBy' => $method . ".$column",
+                    'order' => $order,
+                    'column' => $column,
+                    'method' => $method,
+                ]);
+                break;
+        }
+        return $orderBy;
+    }
+}

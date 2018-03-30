@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,6 @@ Route::prefix('admin')->group(function () {
             Route::post('/store', 'Admin\CategoryController@store')->name('cat.store');
         });
     });
-
     // SubCategory
     Route::group(['middleware' => ['purify']], function () {
         Route::get('subcategory/query', 'Admin\SubCategoryController@search')->name('subcategory.search');
@@ -80,7 +79,6 @@ Route::prefix('admin')->group(function () {
         Route::resource('tags', 'Admin\TagController');
     });
     Route::get('images', 'Admin\ImagesController')->name('images');
-// Users
 });
 
 //site route
@@ -99,4 +97,8 @@ Route::group(
         Route::get('/blog', 'Site\BlogController@index')->name('blog');
         Route::get('/b-{name}', 'Site\BlogController@inside')->name('blog-inside');
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
+        //search engine
+        Route::group(['middleware' => ['purify']], function () {
+            Route::get('search', 'SearchEngineController')->name('se.search');
+        });
     });

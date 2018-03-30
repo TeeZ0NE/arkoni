@@ -30,7 +30,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="ru-item-name" placeholder="Название продукта"
-                                   name="ru_name" value="{{ $item->getRuItem['ru_name']  }}"
+                                   name="ru_name" value="{{ $item->getRuItem['name']  }}"
                                    aria-label="Название продукта"
                                    aria-describedby="ru-item-name" maxlength="255">
                         </div>
@@ -40,7 +40,7 @@
                                 <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control editor" aria-label="description"
-                                      name="ru_desc" rows="5">{{ $item->getRuItem['desc'] }}</textarea>
+                                      name="ru_desc" rows="5">{{ $item->getRuItem['description'] }}</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -54,7 +54,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="uk-item-name" placeholder="Назва продукта"
-                                   name="uk_name" value="{{ $item->getUkItem['uk_name'] }}" aria-label="Назва продукта"
+                                   name="uk_name" value="{{ $item->getUkItem['name'] }}" aria-label="Назва продукта"
                                    aria-describedby="uk-item-name" maxlength="255">
                         </div>
                         {{-- Description --}}
@@ -63,7 +63,7 @@
                                 <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control editor" aria-label="description"
-                                      name="uk_desc" rows="5">{{ $item->getUkItem['desc'] }}</textarea>
+                                      name="uk_desc" rows="5">{{ $item->getUkItem['description'] }}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>

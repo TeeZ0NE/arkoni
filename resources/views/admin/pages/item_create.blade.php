@@ -110,10 +110,10 @@
                     <span class="input-group-text" id="item-price-new">Стара ціна&nbsp;<small> (перекпеслена)</small>
                     </span>
                     </div>
-                    @php $new_price = (old('new_price'))?old('new_price'):'0.00' @endphp
+                    @php $new_price = (old('old_price'))?old('old_price'):'0.00' @endphp
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
 
-                           name="new_price" value="{{$new_price}}"
+                           name="old_price" value="{{$new_price}}"
                            aria-label="Перекреслена ціна продукта"
                            aria-describedby="item-price-new" step="0.01">
                 </div>

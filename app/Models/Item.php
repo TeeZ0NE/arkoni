@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Item extends Model
 {
     protected $fillable = array(
-        'price', 'new_price', 'item_photo', 'brand_id', 'enabled', 'item_url_slug',
+        'price', 'old_price', 'item_photo', 'brand_id', 'enabled', 'item_url_slug',
     );
 
     /**
@@ -134,7 +134,7 @@ class Item extends Model
         orWhereHas('brand', function ($f) use ($q) {
             $f->where('name', 'LIKE', '%' . $q . '%');
         })->
-        select('id', 'price', 'new_price', 'item_url_slug', 'item_photo', 'brand_id')->
+        select('id', 'price', 'old_price', 'item_url_slug', 'item_photo', 'brand_id')->
         get();
             $items = ($s_config['order'])
             ? $all_items->sortBy($s_config['sortBy'])

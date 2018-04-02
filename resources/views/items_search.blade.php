@@ -69,7 +69,7 @@
                             </tr>
                             <tr>
                                 <td>new price</td>
-                                <td>{{$item->new_price}}</td>
+                                <td>{{$item->old_price}}</td>
                             </tr>
                             <tr>
                                 <td>photo</td>

@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App;
+use App\Http\Controllers\Site\BaseController;
 
 /** Retriev and return searching data into view
  * Class SearchEngineController
  * @package App\Http\Controllers
  */
-class SearchEngineController extends Controller
+class SearchEngineController extends BaseController
 {
     /**
      * String App locale
@@ -36,13 +37,13 @@ class SearchEngineController extends Controller
         $s_config = $this->searchConfig($sort);
         $items = $item_model->search4site($s_config, $q)->paginate($this->page_count);
 
-        return view('items_search')->with([
+        return view('site.search.index')->with([
             'q' => $q,
-            'class' => 'front',
+            'class' => 'search',
             'items' => $items,
             'method' => $s_config['method'],
-            'title' => __('seo.front-title'),
-            'description' => __('seo.front-description'),
+            'title' => __('seo.search-title'),
+            'description' => __('seo.search-description'),
             'rating' => null,
             'sort' => $sort,
         ]);

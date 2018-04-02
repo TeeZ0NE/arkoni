@@ -99,6 +99,6 @@ Route::group(
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
         //search engine
         Route::group(['middleware' => ['purify']], function () {
-            Route::get('search', 'SearchEngineController')->name('se.search');
+            Route::get('search', 'Site\SearchEngineController')->name('se.search');
         });
     });

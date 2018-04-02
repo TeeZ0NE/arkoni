@@ -68,8 +68,8 @@
                                 <td>{{$item->price}}</td>
                             </tr>
                             <tr>
-                                <td>Old price</td>
-                                <td>{{$item->old_price}}</td>
+                                <td>new price</td>
+                                <td>{{$item->new_price}}</td>
                             </tr>
                             <tr>
                                 <td>photo</td>

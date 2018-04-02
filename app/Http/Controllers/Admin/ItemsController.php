@@ -90,7 +90,7 @@ class ItemsController extends Controller
             'uk_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric|required',
-            'new_price' => 'numeric|required',
+            'old_price' => 'numeric|required',
             'sub_categories' => 'required',
         ]);
         $user = Auth::user()->name;
@@ -198,7 +198,7 @@ class ItemsController extends Controller
             'ru_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric',
-            'new_price' => 'numeric',
+            'old_price' => 'numeric',
             'sub_categories' => 'required',
             'item_url_slug' => 'required|max:250',
         ]);
@@ -214,7 +214,7 @@ class ItemsController extends Controller
 //            if($request->price - floor($request->price)>0) {return 'has decimals';} else {return 'no decimals';}
             $item::findOrFail($id)->update([
                 'price' => $request->price,
-                'new_price' => $request->new_price,
+                'old_price' => $request->old_price,
                 'brand_id' => $request->brand_id,
                 'enabled' => $request->enabled,
                 'item_url_slug' => 'p-' . $request->item_url_slug,
@@ -328,7 +328,7 @@ class ItemsController extends Controller
         $item = new Item();
         $item->item_url_slug = 'p-' . url_slug($request->ru_name);
         $item->price = $request->price;
-        $item->new_price = $request->new_price;
+        $item->old_price = $request->old_price;
         $item->brand_id = $request->brand_id;
         $item->enabled = $request->enabled;
         $item->item_photo = $photo;

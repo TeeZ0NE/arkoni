@@ -87,7 +87,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h1 class="title">{{ $data['sub-category']->h1 }}</h1>
-                                {{ $data['sub-category']->seo_text }}
+                                {!! $data['sub-category']->seo_text  !!}
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                         <div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>
                                     @endif
                                 @else
-                                    <div class="">@lang('sub-category.specify')</div>
+                                    <div class="specify">@lang('sub-category.specify')</div>
                                 @endif
                                     <a class="go-to" href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                                         @lang('general.learn-more')<i class="far fa-long-arrow-alt-right"></i>
@@ -146,7 +146,7 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <h2 class="title">{{ $data['sub-category']->h2 }}</h2>
-                        {{ $data['sub-category']->seo_text_2 }}
+                        {!! $data['sub-category']->seo_text_2 !!}
                     </div>
                 </div>
             </div>

@@ -84,7 +84,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="title">@lang('product.desc')</div>
-                    {{ $data['product']->desc }}
+                    {!! $data['product']->desc  !!}
                 </div>
             </div>
         </div>

@@ -46,4 +46,9 @@ $admin->password = Hash::make(111111)
          $i::with(['brand'])->where('id',4)->orWhereHas('brand',function($q){$q->where('name','LIKE','%%');})->get()->sortBy('brand.name')
          
          $i::with(['brand'])->where('id',4)->orWhereHas('brand',function($q){$q->where('name','LIKE','%%');})->get()->sortBy('brand.name',0) 1-desc
+         
+         $i::with(['getRuItem'])->whereHas('getRuItem', function($f){$f->where('ru_name','LIKE','%rub%')->orWhere('desc','LIKE','%df%');})->get()
+         
+         $i::with(['brand','getRuItem','getItemShortCut','getItemTag','getItemRuTagName'])->whereHas('getRuItem', function($f){$f->where('ru_name','LIKE','%rub%')->orWhere('desc','LIKE','%df%');})->get()->pluck('id')
+
                     

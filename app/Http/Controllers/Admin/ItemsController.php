@@ -22,7 +22,7 @@ use Exception;
 use Auth;
 use App\Http\Controllers\Controller;
 //use PhpParser\Node\Expr\Cast\Bool_;
-use Illuminate\Support\Collection;
+//use Illuminate\Support\Collection;
 
 class ItemsController extends Controller
 {
@@ -83,14 +83,14 @@ class ItemsController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'img_upload' => 'mimes:jpeg,png,jpg|max:5120',
             'uk_name' => 'max:255|required|unique:uk_items',
             'ru_name' => 'max:200|required|unique:ru_items',
             'ru_desc' => 'required',
             'uk_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric|required',
-            'old_price' => 'numeric|required',
+            'new_price' => 'numeric|required',
             'sub_categories' => 'required',
         ]);
         $user = Auth::user()->name;
@@ -131,12 +131,12 @@ class ItemsController extends Controller
                 }
             }
         } catch (Exception $e) {
-            Log::error('Item add', ['msg' => $e->getMessage(), 'user' => $user]);
+            Log::error('Item add', ['msg' => $e->getMessage(), 'user' => $user, 'item id'=>$item_id]);
             return redirect()
                 ->back()
                 ->withErrors(['Error' => $e->getMessage()]);
         }
-        Log::info('Item add', ['user' => $user]);
+        Log::info('Item add', ['user' => $user, 'item id'=>$item_id]);
         return redirect(route('items.index'))->with('msg', 'Новий товар додано до бази!');
     }
 
@@ -191,14 +191,14 @@ class ItemsController extends Controller
     public function update(Request $request, $id)
     {
         request()->validate([
-            'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'img_upload' => 'mimes:jpeg,png,jpg|max:5120',
             'uk_name' => 'max:255|required',
             'ru_name' => 'max:200|required',
             'uk_desc' => 'required',
             'ru_desc' => 'required',
             'brand_id' => 'required|numeric',
             'price' => 'numeric',
-            'old_price' => 'numeric',
+            'new_price' => 'numeric',
             'sub_categories' => 'required',
             'item_url_slug' => 'required|max:250',
         ]);
@@ -214,7 +214,7 @@ class ItemsController extends Controller
 //            if($request->price - floor($request->price)>0) {return 'has decimals';} else {return 'no decimals';}
             $item::findOrFail($id)->update([
                 'price' => $request->price,
-                'old_price' => $request->old_price,
+                'new_price' => $request->new_price,
                 'brand_id' => $request->brand_id,
                 'enabled' => $request->enabled,
                 'item_url_slug' => 'p-' . $request->item_url_slug,
@@ -254,10 +254,10 @@ class ItemsController extends Controller
                 throw new Exception("Теги на записано");
             }
         } catch (Exception $e) {
-            Log::error('Item update', ['msg' => $e->getMessage(), 'user' => $user]);
+            Log::error('Item update', ['msg' => $e->getMessage(), 'user' => $user, 'item id'=>$id]);
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-        Log::info('Item update', ['user' => $user]);
+        Log::info('Item update', ['user' => $user, 'item id'=>$id]);
         return redirect(route('items.index'))->with('msg', 'Зміни було застосовано');
     }
 
@@ -277,11 +277,11 @@ class ItemsController extends Controller
             $img = new WithImg();
             $img->delete_photo($photo);
         } catch (QE $qe) {
-            Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user]);
+            Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user, 'item id'=>$id]);
             //TODO:: delete $qe debug
             return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe->getMessage()]);
         }
-        Log::info('Item destroy', ['user' => $user]);
+        Log::info('Item destroy', ['user' => $user, 'item id'=>$id]);
         return redirect(route('items.index'))->with('msg', ' Товар видалено з бази');
     }
 
@@ -328,7 +328,7 @@ class ItemsController extends Controller
         $item = new Item();
         $item->item_url_slug = 'p-' . url_slug($request->ru_name);
         $item->price = $request->price;
-        $item->old_price = $request->old_price;
+        $item->new_price = $request->new_price;
         $item->brand_id = $request->brand_id;
         $item->enabled = $request->enabled;
         $item->item_photo = $photo;

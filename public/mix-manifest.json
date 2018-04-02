@@ -1,7 +1,7 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/css/site.css": "/css/site.css",
-    "/js/site.js": "/js/site.js",
-    "/images/vendor/trumbowyg/icons.svg": "/images/vendor/trumbowyg/icons.svg"
+    "/js/app.js": "/js/app.js?id=e3e6942b75a43f83d1ff",
+    "/css/app.css": "/css/app.css?id=b3b6ba0e185340da5ffd",
+    "/css/site.css": "/css/site.css?id=69dd059af6fc7a4196b9",
+    "/js/site.js": "/js/site.js?id=c8f3c28206c12d722358",
+    "/images/vendor/trumbowyg/icons.svg": "/images/vendor/trumbowyg/icons.svg?id=16d8b902308f2e340aa2"
 }

@@ -29,7 +29,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="ru-item-name" placeholder="Название продукта"
-                                   name="ru_name" value="{{ old('ru_name') }}" aria-label="Название продукта"
+                                   name="ru_name" value="{{old('ru_name')}}" aria-label="Название продукта"
                                    aria-describedby="ru-item-name" maxlength="255">
                         </div>
                         {{-- Description --}}
@@ -38,7 +38,7 @@
                                 <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control editor" aria-label="description"
-                                      name="ru_desc" rows="5">{{ old('ru_desc') }}</textarea>
+                                      name="ru_desc" rows="5">{{old('ru_desc')}}</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -52,7 +52,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="uk-item-name" placeholder="Назва продукта"
-                                   name="uk_name" value="{{ old('uk_name') }}" aria-label="Назва продукта"
+                                   name="uk_name" value="{{old('uk_name')}}" aria-label="Назва продукта"
                                    aria-describedby="uk-item-name" maxlength="255">
                         </div>
                         {{-- Description --}}
@@ -61,7 +61,7 @@
                                 <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control editor" aria-label="description"
-                                      name="uk_desc" rows="5">{{ old('uk_desc') }}</textarea>
+                                      name="uk_desc" rows="5">{{old('uk_desc')}}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
@@ -110,10 +110,10 @@
                     <span class="input-group-text" id="item-price-new">Стара ціна&nbsp;<small> (перекпеслена)</small>
                     </span>
                     </div>
-                    @php $new_price = (old('old_price'))?old('old_price'):'0.00' @endphp
+                    @php $new_price = (old('new_price'))?old('new_price'):'0.00' @endphp
                     <input type="number" class="form-control" id="item-price-new" placeholder="Нова ціна продукта"
 
-                           name="old_price" value="{{$new_price}}"
+                           name="new_price" value="{{$new_price}}"
                            aria-label="Перекреслена ціна продукта"
                            aria-describedby="item-price-new" step="0.01">
                 </div>
@@ -167,7 +167,7 @@
                         <select class="custom-select" id="attrs">
                             <option selected value="">Оберіть...</option>
                             @foreach ($attrs as $attr)
-                                <option value="{{ $attr->id }}">{{ $attr->ru_name }}</option>
+                                <option value="{{ $attr->id }}">{{$attr->ru_name}}</option>
                             @endforeach
                         </select>
                         <a href="#" class="btn btn-warning add_attr" role="button"><i class="fas fa-plus"></i></a>
@@ -182,7 +182,7 @@
                         <span class="input-group-text">Фото</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="img_upload" name="img_upload">
+                        <input type="file" class="custom-file-input" id="img_upload" name="img_upload" accept="image/*">
                         <label class="custom-file-label" for="img_upload">Оберіть файл</label>
                     </div>
                 </div>

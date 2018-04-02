@@ -87,10 +87,10 @@ class SubCategoryController extends Controller
                 throw  new Exception('Язикові файли не було записано');
             }
         } catch (Exception $e) {
-            Log::error('SubCategory add', ['msg' => $e->getMessage(), 'user' => $user]);
+            Log::error('SubCategory add', ['msg' => $e->getMessage(), 'user' => $user, 'sub-cat id'=>$sub_cat_id]);
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
-        Log::info('SubCategory add', ['user' => $user]);
+        Log::info('SubCategory add', ['user' => $user, 'sub-cat id'=>$sub_cat_id]);
         return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію створено');
     }
 
@@ -163,10 +163,10 @@ class SubCategoryController extends Controller
             ]);
             $this->storeLangSubCat($request, $id);
         } catch (QE $qe) {
-            Log::error('SubCategory update', ['msg' => $qe, 'user' => $user]);
+            Log::error('SubCategory update', ['msg' => $qe, 'user' => $user, 'sub-cat id'=>$id]);
             return redirect()->back()->withErrors(['sub_cat_error' => 'Сталась помилка запису змін ' . $qe]);
         }
-        Log::info('SubCategory update', ['user' => $user]);
+        Log::info('SubCategory update', ['user' => $user, 'sub-cat id'=>$id]);
         return redirect(route('subcategory.index'))->with('msg', 'Зміни вненсено');
     }
 
@@ -186,11 +186,11 @@ class SubCategoryController extends Controller
             $sub_cat::findOrFail($id)->delete();
             $img->delete_photo($photo);
         } catch (QE $qe) {
-            Log::error('SubCategory delete', ['msg' => $qe, 'user' => $user]);
+            Log::error('SubCategory delete', ['msg' => $qe, 'user' => $user, 'sub-cat id'=>$id]);
             //TODO: remove debug info
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах' . $qe]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах' . $qe->getMessage()]);
         }
-        Log::info('SubCategory delete', ['user' => $user]);
+        Log::info('SubCategory delete', ['user' => $user, 'sub-cat id'=>$id]);
         return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію видалено з бази');
     }
 

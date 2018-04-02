@@ -55,11 +55,11 @@ class CategoryController extends Controller
             $img = new WithImg();
             $img->delete_photo($photo);
         } catch (QE $qe) {
-            Log::error('Category delete', ['msg' => $qe->getMessage(), 'user' => $user]);
+            Log::error('Category delete', ['msg' => $qe->getMessage(), 'user' => $user, 'cat id'=>$id]);
             //TODO: remove debug info below $me
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.' . $qe]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.' . $qe->getMessage()]);
         }
-        Log::info('Category delete', ['user' => $user]);
+        Log::info('Category delete', ['user' => $user, 'cat id'=>$id]);
         return redirect(route('cats.index'))->with('msg', 'Категорію видалено з бази');
     }
 
@@ -140,12 +140,12 @@ class CategoryController extends Controller
             ]);
             $this->storeLangCat($request, $id);
         } catch (QE $qe) {
-            Log::error('Category update', ['msg' => $qe->getMessage(), 'user' => $user]);
+            Log::error('Category update', ['msg' => $qe->getMessage(), 'user' => $user, 'cat id'=>$id]);
             return redirect()
                 ->back()
                 ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n" . $qe]);
         }
-        Log::info('Category update', ['user' => $user]);
+        Log::info('Category update', ['user' => $user, 'cat id'=>$id]);
         return redirect(route('cats.index'))->with('msg', 'Зміни внесено!');
     }
 
@@ -182,10 +182,10 @@ class CategoryController extends Controller
                 throw new Exception('Язикові файли не було записано');
             }
         } catch (Exception $e) {
-            Log::error('Category create', ["msg" => $e->getMessage(), 'user' => $user]);
+            Log::error('Category create', ["msg" => $e->getMessage(), 'user' => $user, 'cat id'=>$cat_id]);
             return redirect()->back()->withErrors(['Error' => $e->getMessage()]);
         }
-        Log::info('Category create', ['user' => $user]);
+        Log::info('Category create', ['user' => $user, 'cat id'=>$cat_id]);
         return redirect(route('cats.index'))->with('msg', 'Категорію створено');
     }
 

@@ -42,9 +42,17 @@ class Category extends Model
         get();
     }
 
+    public function getSubcategoriesUrlSlug(){
+        return $this->hasMany(SubCategory::class,'cat_id')->select('cat_id','sub_cat_url_slug as slug');
+    }
+
+    public function getRuSubCategories(){
+        return $this->hasManyThrough(RuSubCategory::class, SubCategory::class, 'cat_id', 'sub_cat_id', 'id', 'id')->select('ru_name as name', 'sub_cat_url');
+    }
     /** getting URL of categories their names and own URL sub-categories with names
      * @return Array
      */
+    /*
     public function getNamesAndUrlSubCats4Menu()
     {
         return DB::table('categories as c')->
@@ -53,6 +61,5 @@ class Category extends Model
         join('sub_categories as sc', 'sc.cat_id', '=', 'c.id')->
         join('uk_sub_categories as scu', 'scu.sub_cat_id', '=', 'sc.id')->
         get();
-
-    }
+    }*/
 }

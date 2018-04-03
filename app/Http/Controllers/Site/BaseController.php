@@ -12,7 +12,7 @@ class BaseController extends Controller
     protected $stars = false;
     protected $data = [];
 
-    public function __construct(Request $request)
+    public function __construct()
     {
         $this->stars = new StarsController();
     }

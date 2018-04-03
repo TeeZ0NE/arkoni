@@ -1,0 +1,32 @@
+.about {
+  h1 {
+    block-title(15px)
+  }
+  p {
+    text-indent 1.5em
+  }
+  strong {
+    font-family bold-family
+  }
+  .advantage {
+
+  }
+  .producers {
+    padding-left: 0;
+    list-style: none;
+    overflow: auto;
+    padding-bottom: 6px;
+    display flex
+    flex-wrap: wrap;
+    li {
+      width: 16%;
+      text-align: center;
+    }
+    li:not(nth-child(1)) {
+      margin 0 20px
+    }
+  }
+  .breadcrumbs + .container {
+    padding-bottom 10px
+  }
+}

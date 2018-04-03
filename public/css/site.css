@@ -4793,3 +4793,36 @@ aside .contacts-aside-block .phones {
 .contacts .phones .mail {
   margin-top: 30px;
 }
+.about h1 {
+  font-size: 1.5em;
+  text-align: center;
+  font-family: OpenSans-Bold, sans-serif;
+  padding-bottom: 15px;
+}
+.about p {
+  text-indent: 1.5em;
+}
+.about strong {
+  font-family: OpenSans-Bold, sans-serif;
+}
+.about .producers {
+  padding-left: 0;
+  list-style: none;
+  overflow: auto;
+  padding-bottom: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.about .producers li {
+  width: 16%;
+  text-align: center;
+}
+.about .producers li:not(nth-child(1)) {
+  margin: 0 20px;
+}
+.about .breadcrumbs + .container {
+  padding-bottom: 10px;
+}

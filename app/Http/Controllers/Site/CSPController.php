@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Site;
 
+use App;
+use App\Models\Item;
+use App\Models\SubCategory;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Site\StarsController;
 use Illuminate\Support\Facades\DB;
 
-use App;
-use App\Models\Item;
-use App\Models\SubCategory;
-use App\Models\Brand;
+//use App\Http\Controllers\Site\BaseController;
+
 
 class CSPController extends BaseController
 {
@@ -30,6 +32,8 @@ class CSPController extends BaseController
 
     public function __construct(Request $request)
     {
+        parent::__construct($request);
+
         $this->locale = mb_strtolower(App::getLocale());
         $this->sc_segment = $request->segment(2);
     }
@@ -57,17 +61,17 @@ class CSPController extends BaseController
     public function category(Request $request)
     {
         try {
-            $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
-                ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
-                ->where('cat_url_slug', $request->segment(2))
-                ->get()->toArray()[0];
+        $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
+            ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
+            ->where('cat_url_slug', $request->segment(2))
+            ->get()->toArray()[0];
 
-            $this->data['sub-categories'] = DB::table('sub_categories')->select(config('app.locale') . '_name as name', 'sub_cat_url_slug as slug', 'sub_cat_photo as photo')
-                ->join(config('app.locale') . '_sub_categories', 'sub_categories.id', '=', config('app.locale') . '_sub_categories.sub_cat_id')
-                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-                ->where('cat_url_slug', $request->segment(2))
-                ->orderBy('name')
-                ->get()->toArray();
+        $this->data['sub-categories'] = DB::table('sub_categories')->select(config('app.locale') . '_name as name', 'sub_cat_url_slug as slug', 'sub_cat_photo as photo')
+            ->join(config('app.locale') . '_sub_categories', 'sub_categories.id', '=', config('app.locale') . '_sub_categories.sub_cat_id')
+            ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
+            ->where('cat_url_slug', $request->segment(2))
+            ->orderBy('name')
+            ->get()->toArray();
 
         } catch (\Exception $e) {
             abort(404);
@@ -84,50 +88,76 @@ class CSPController extends BaseController
 
     public function sub_category(Request $request)
     {
-        try {
-            $this->data['sub-category'] = DB::table('sub_categories')->select(
-                config('app.locale') . '_sub_categories.' . config('app.locale') . '_name as name',
-                config('app.locale') . '_sub_categories.title',
-                config('app.locale') . '_sub_categories.desc',
-                config('app.locale') . '_sub_categories.h1',
-                config('app.locale') . '_sub_categories.seo_text',
-                config('app.locale') . '_sub_categories.h2',
-                config('app.locale') . '_sub_categories.seo_text_2',
-                config('app.locale') . '_categories.ru_name as category_name',
-                'categories.cat_url_slug as category_slug'
-            )
-                ->join(config('app.locale') . '_sub_categories', config('app.locale') . '_sub_categories.sub_cat_id', '=', 'sub_categories.id')
-                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-                ->join(config('app.locale') . '_categories', config('app.locale') . '_categories.cat_id', '=', 'categories.id')
-                ->where('sub_cat_url_slug', $request->segment(2))
-                ->get()->toArray()[0];
+//TODO: DELETE
+//        try {
+//            $this->data['sub-category'] = DB::table('sub_categories')->select(
+//                config('app.locale') . '_sub_categories.' . config('app.locale') . '_name as name',
+//                config('app.locale') . '_sub_categories.title',
+//                config('app.locale') . '_sub_categories.desc',
+//                config('app.locale') . '_sub_categories.h1',
+//                config('app.locale') . '_sub_categories.seo_text',
+//                config('app.locale') . '_sub_categories.h2',
+//                config('app.locale') . '_sub_categories.seo_text_2',
+//                config('app.locale') . '_categories.ru_name as category_name',
+//                'categories.cat_url_slug as category_slug'
+//            )
+//                ->join(config('app.locale') . '_sub_categories', config('app.locale') . '_sub_categories.sub_cat_id', '=', 'sub_categories.id')
+//                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
+//                ->join(config('app.locale') . '_categories', config('app.locale') . '_categories.cat_id', '=', 'categories.id')
+//                ->where('sub_cat_url_slug', $request->segment(2))
+//                ->get()->toArray()[0];
+//
+//            $this->data['products'] = DB::table('items')->select(
+//                config('app.locale') . '_name as name',
+//                config('app.locale') . '_items.desc',
+//                'item_photo as photo',
+//                'item_url_slug as slug',
+//                'price',
+//                'old_price')
+//                ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
+//                ->join('item_categories', 'item_categories.item_id', '=', 'items.id')
+//                ->join('sub_categories', 'sub_categories.id', '=', 'item_categories.sub_cat_id')
+//                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
+//                ->where([
+//                    ['sub_categories.sub_cat_url_slug', '=', $request->segment(2)],
+//                    ['enabled', '=', 1]
+//                ])
+//                ->paginate(10);
+//        } catch (\Exception $e) {
+//            abort(404);
+//        }
 
-            $this->data['products'] = DB::table('items')->select(
-                config('app.locale') . '_name as name',
-                config('app.locale') . '_items.desc',
-                'item_photo as photo',
-                'item_url_slug as slug',
-                'price',
-                'old_price')
-                ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
-                ->join('item_categories', 'item_categories.item_id', '=', 'items.id')
-                ->join('sub_categories', 'sub_categories.id', '=', 'item_categories.sub_cat_id')
-                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-                ->where([
-                    ['sub_categories.sub_cat_url_slug', '=', $request->segment(2)],
-                    ['enabled', '=', 1]
-                ])
-                ->paginate(10);
-        } catch (\Exception $e) {
-            abort(404);
-        }
+        $sort = ($request->sort) ? $request->sort : 'asc_name';
+        $bs = ($request->bs) ? $request->bs : Null;
+        $i_model = new Item;
+        $brand_model = new Brand();
+        $sort_config = $this->setSortConfig($sort);
+        // getting all items in SubCategory
+        $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
+        //gettings existing brands via ID
+
+        //TODO:DELETE
+//        return view('site.sub-category', [
+//            'class' => 'sub-category',
+//            'data' => $this->data,
+//            'title' => $this->data['sub-category']->title,
+//            'description' => $this->data['sub-category']->desc,
+//            'rating' => $this->stars->index($request),
+//        ]);
 
         return view('site.sub-category', [
+            'sort' => $sort,
             'class' => 'sub-category',
-            'data' => $this->data,
-            'title' => $this->data['sub-category']->title,
-            'description' => $this->data['sub-category']->desc,
+            'items' => $data['items']->paginate($this->page_count),
+            'segment' => $this->sc_segment,
+            'i_method' => $sort_config['method'],
+            'scat' => $this->getSubCategoryData(),
+            'scat_method' => $this->getSubCategoryMethod(),
+            'brands' => $brand_model->getSubCategoryBrands($data['brand_ids']),
+            'bs' => $bs,
             'rating' => $this->stars->index($request),
+            'title' => $this->getSubCategoryData()[$this->getSubCategoryMethod()]['title'],
+            'description' => $this->getSubCategoryData()[$this->getSubCategoryMethod()]['description'],
         ]);
     }
 
@@ -174,28 +204,30 @@ class CSPController extends BaseController
      * @param Request $request
      * @return $this
      */
-    public function getSubCategoryItems(Request $request)
-    {
-        $sort = ($request->sort) ? $request->sort : 'asc_name';
-        $bs = ($request->bs)?$request->bs:Null;
-        $i_model = new Item;
-        $brand_model = new Brand();
-        $sort_config = $this->setSortConfig($sort);
-        // getting all items in SubCategory
-        $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
-        //gettings existing brands via ID
 
-        return view('getSubCategory-test')->with([
-            'sort' => $sort,
-            'items' => $data['items']->paginate($this->page_count),
-            'segment' => $this->sc_segment,
-            'i_method' => $sort_config['method'],
-            'scat' => $this->getSubCategoryData(),
-            'scat_method' => $this->getSubCategoryMethod(),
-            'brands'=>$brand_model->getSubCategoryBrands($data['brand_ids']),
-            'bs'=>$bs,
-        ]);
-    }
+    //TODO::Remove after
+//    public function getSubCategoryItems(Request $request)
+//    {
+//        $sort = ($request->sort) ? $request->sort : 'asc_name';
+//        $bs = ($request->bs) ? $request->bs : Null;
+//        $i_model = new Item;
+//        $brand_model = new Brand();
+//        $sort_config = $this->setSortConfig($sort);
+//        // getting all items in SubCategory
+//        $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
+//        //gettings existing brands via ID
+//
+//        return view('getSubCategory-test')->with([
+//            'sort' => $sort,
+//            'items' => $data['items']->paginate($this->page_count),
+//            'segment' => $this->sc_segment,
+//            'i_method' => $sort_config['method'],
+//            'scat' => $this->getSubCategoryData(),
+//            'scat_method' => $this->getSubCategoryMethod(),
+//            'brands' => $brand_model->getSubCategoryBrands($data['brand_ids']),
+//            'bs' => $bs,
+//        ]);
+//    }
 
     /**
      * getting method 4 conclusion items in specific lang
@@ -280,6 +312,5 @@ class CSPController extends BaseController
         }
         return $orderBy;
     }
-
 
 }

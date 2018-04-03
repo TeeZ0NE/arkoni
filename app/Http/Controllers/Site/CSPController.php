@@ -7,8 +7,32 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Site\StarsController;
 use Illuminate\Support\Facades\DB;
 
+use App;
+use App\Models\Item;
+use App\Models\SubCategory;
+use App\Models\Brand;
+
 class CSPController extends BaseController
 {
+    /**
+     * String App locale
+     */
+    private $locale;
+    /**
+     * @var int  Page count in Pagination
+     */
+    private $page_count = 3;
+
+    /**
+     * @var String second segment in URL
+     */
+    private $sc_segment;
+
+    public function __construct(Request $request)
+    {
+        $this->locale = mb_strtolower(App::getLocale());
+        $this->sc_segment = $request->segment(2);
+    }
 
     public function catalog(Request $request)
     {
@@ -144,4 +168,118 @@ class CSPController extends BaseController
             'starts' => false, //hide starts in footer
         ]);
     }
+
+    /** Getting all Items in current SubCategory
+     * If exist filters (brand ID) then filter and sort else, if request hasn't filter do sort only
+     * @param Request $request
+     * @return $this
+     */
+    public function getSubCategoryItems(Request $request)
+    {
+        $sort = ($request->sort) ? $request->sort : 'asc_name';
+        $bs = ($request->bs)?$request->bs:Null;
+        $i_model = new Item;
+        $brand_model = new Brand();
+        $sort_config = $this->setSortConfig($sort);
+        // getting all items in SubCategory
+        $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
+        //gettings existing brands via ID
+
+        return view('getSubCategory-test')->with([
+            'sort' => $sort,
+            'items' => $data['items']->paginate($this->page_count),
+            'segment' => $this->sc_segment,
+            'i_method' => $sort_config['method'],
+            'scat' => $this->getSubCategoryData(),
+            'scat_method' => $this->getSubCategoryMethod(),
+            'brands'=>$brand_model->getSubCategoryBrands($data['brand_ids']),
+            'bs'=>$bs,
+        ]);
+    }
+
+    /**
+     * getting method 4 conclusion items in specific lang
+     * @return String Method in Item Model
+     */
+    private function getItemMethod()
+    {
+        $item_methods = array('getRuItem', 'getUkItem');
+        switch ($this->locale) {
+            case 'uk':
+                return $item_methods[1];
+                break;
+            default:
+                return $item_methods[0];
+        }
+    }
+
+    /** getting SubCategory ID
+     * @return Integer
+     */
+    private function getSubCategoryId()
+    {
+        $sc = new SubCategory();
+        // getting SubCategory ID
+        $sc_id = $sc->getSubCategoryId($this->sc_segment);
+        return $sc_id;
+    }
+
+    /**
+     * getting data only about SubCategory
+     * title, desc and so
+     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     */
+    private function getSubCategoryData()
+    {
+        $sc_data = SubCategory::with($this->getSubCategoryMethod())->where('id', $this->getSubCategoryId())->first();
+        return $sc_data;
+    }
+
+    /**
+     * getting method existing in SubCategory Model
+     * @return String Method
+     */
+    private function getSubCategoryMethod()
+    {
+        $sc_methods = array('RuSubCategory', 'UkSubCategory');
+
+        switch ($this->locale) {
+            case 'uk':
+                return $sc_methods[1];
+                break;
+            default:
+                return $sc_methods[0];
+        }
+    }
+
+    /**
+     * setting sorting parameters
+     * @param String $sort
+     * @return array
+     */
+    private function setSortConfig($sort)
+    {
+        $asc_arr = array('asc_name', 'asc_price');
+        $order = (in_array($sort, $asc_arr)) ? 1 : 0;
+        $method = $this->getItemMethod();
+        switch ($sort) {
+            case 'asc_price':
+            case 'desc_price':
+                $orderBy = ([
+                    'order' => $order,
+                    'sortBy' => "price",
+                    'method' => $method,
+                ]);
+                break;
+            default:
+                $orderBy = ([
+                    'order' => $order,
+                    'sortBy' => $method . ".name",
+                    'method' => $method,
+                ]);
+        }
+        return $orderBy;
+    }
+
+
 }

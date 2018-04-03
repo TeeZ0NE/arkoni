@@ -91,7 +91,7 @@ Route::group(
         Route::get('/', 'Site\SiteController@front')->name('home');
         Route::get('/catalog', 'Site\CSPController@catalog')->name('catalog');
         Route::get('/c-{name}', 'Site\CSPController@category')->name('category');
-        Route::get('/s-{name}', 'Site\CSPController@sub_category')->name('sub-category');
+//        Route::get('/s-{name}', 'Site\CSPController@sub_category')->name('sub-category');
         Route::get('/p-{name}', 'Site\CSPController@product')->name('product');
         Route::get('/stars', 'Site\StarsController@index');
         Route::get('/blog', 'Site\BlogController@index')->name('blog');
@@ -102,4 +102,8 @@ Route::group(
         Route::group(['middleware' => ['purify']], function () {
             Route::get('search', 'Site\SearchEngineController')->name('se.search');
         });
+
+
+        Route::get('/s-{name?}{sort?}', 'Site\CSPController@getSubCategoryItems')->name('sub-category');
+
     });

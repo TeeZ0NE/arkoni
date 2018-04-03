@@ -12,14 +12,6 @@ class RuItem extends Model
     );
     public $timestamps = false;
 
-    public function getRuNameAttribute()
-    {
-        return $this->attributes['name'];
-    }
-
-    public function getDescAttribute(){
-        return $this->attributes['desart'];
-    }
     public function getItem(){
         return $this->belongsTo(Item::class, 'item_id');
     }

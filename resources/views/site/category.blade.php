@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="title">{{ $data['category']->h1 }}</h1>
-                    {{ $data['category']->seo_text }}
+                    {!! $data['category']->seo_text !!}
                 </div>
             </div>
         </div>
@@ -18,11 +18,10 @@
     <div class="products">
         <div class="container">
             <div class="row">
-
                 @foreach($data['sub-categories'] as $item)
                     <div class="col-md-3">
                         <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
-                            <img src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
                         </a>
                         <div class="name">{{ $item->name }}</div>
                         <a class="go-to"
@@ -39,7 +38,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="title">{{$data['category']->h2}}</h2>
-                    {{ $data['category']->seo_text_2 }}
+                    {!! $data['category']->seo_text_2 !!}
                 </div>
             </div>
         </div>

@@ -52,9 +52,8 @@
                             <div class="shadow">
                                 <div class="title">@lang('front.choice.item-1.title')</div>
                                 <div class="desc">@lang('front.choice.item-1.desc')</div>
-                                <div class="price">@lang('front.choice.item-1.price')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')<i
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-podvesnye-potolki') }}">@lang('general.learn-more')<i
                                             class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
@@ -62,9 +61,8 @@
                             <div class="shadow">
                                 <div class="title">@lang('front.choice.item-2.title')</div>
                                 <div class="desc">@lang('front.choice.item-2.desc')</div>
-                                <div class="price">@lang('front.choice.item-2.price')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')<i
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-laki-kraski') }}">@lang('general.learn-more')<i
                                             class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
@@ -72,9 +70,8 @@
                             <div class="shadow">
                                 <div class="title">@lang('front.choice.item-3.title')</div>
                                 <div class="desc">@lang('front.choice.item-3.desc')</div>
-                                <div class="price">@lang('front.choice.item-3.price')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')<i
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-dobavki-v-beton') }}">@lang('general.learn-more')<i
                                             class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
@@ -82,9 +79,8 @@
                             <div class="shadow">
                                 <div class="title">@lang('front.choice.item-4.title')</div>
                                 <div class="desc">@lang('front.choice.item-4.desc')</div>
-                                <div class="price">@lang('front.choice.item-4.price')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')<i
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-stroitelnaya-himiya') }}">@lang('general.learn-more')<i
                                             class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
@@ -92,9 +88,8 @@
                             <div class="shadow">
                                 <div class="title">@lang('front.choice.item-5.title')</div>
                                 <div class="desc">@lang('front.choice.item-5.desc')</div>
-                                <div class="price">@lang('front.choice.item-5.price')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')<i
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-fasadnye-materialy') }}">@lang('general.learn-more')<i
                                             class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
@@ -102,9 +97,8 @@
                             <div class="shadow">
                                 <div class="title">@lang('front.choice.item-6.title')</div>
                                 <div class="desc">@lang('front.choice.item-6.desc')</div>
-                                <div class="price">@lang('front.choice.item-6.price')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')<i
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-utepliteli') }}">@lang('general.learn-more')<i
                                             class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
@@ -185,50 +179,24 @@
                 <div class="col-md-12">
                     <div class="title">@lang('front.best-offers.title')</div>
                 </div>
-                <div class="col-md-3">
-                    <div class="block block-1">
-                        <img src="" alt="" class="img-thumbnail">
-                        {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                        <div class="desc">Минеральная вата Роклайт 1200х600х50 мм 5,76 м2</div>
-                        <div class="price">201.20 @lang('general.uah')</div>
-                        <a class="go-to"
-                           href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
+                @foreach($data['rand-top-products'] as $item)
+                    <div class="col-md-3">
+                        <div class="block">
+                            <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
+                                <img class="img-fluid" src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
+                            </a>
+                            <div class="name">{{ $item->name }}</div>
+                            @if($item->price != 0)
+                                <div class="price">{{ number_format($item->price, 2, '.', '') }}@lang('general.uah')</div>
+                            @else
+                                <div class="price">@lang('sub-category.specify')</div>
+                            @endif
+                            <a class="go-to"
+                               href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">@lang('general.learn-more')
+                                    <i class="far fa-long-arrow-alt-right"></i></a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="block block-1">
-                        <img src="" alt="" class="img-thumbnail">
-                        {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                        <div class="desc">Минеральная вата Роклайт 1200х600х50 мм 5,76 м2</div>
-                        <div class="price">201.20 @lang('general.uah')</div>
-                        <a class="go-to"
-                           href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="block block-1">
-                        <img src="" alt="" class="img-thumbnail">
-                        {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                        <div class="desc">Минеральная вата Роклайт 1200х600х50 мм 5,76 м2 b 5,76 м2</div>
-                        <div class="price">201.20 @lang('general.uah')</div>
-                        <a class="go-to"
-                           href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="block block-1">
-                        <img src="" alt="" class="img-thumbnail">
-                        {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                        <div class="desc">Минеральная вата Роклайт 1200х600х50 мм 5,76 м2</div>
-                        <div class="price">201.20 @lang('general.uah')</div>
-                        <a class="go-to"
-                           href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -253,43 +221,39 @@
                     <div class="title">@lang('front.comments.title')</div>
                     <div id="comments-slider">
                         <div class="frame">
-                            <img src="" alt="" class="img-thumbnail rounded-circle">
-                            {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            <div class="name">@lang('front.comments.name-1')</div>
+                            <img class="rounded-circle" src="{{ asset('images/commentator-1.png') }}" alt="">
+                            <div class="name">@lang('front.comments.commentator-1.name')</div>
                             <div class="text-block">
                                 <i class="fas fa-quote-right"></i>
-                                <span class="title">@lang('front.comments.title-1')</span>
-                                <div class="comment">@lang('front.comments.comment-1')</div>
+                                <span class="title">@lang('front.comments.commentator-1.title')</span>
+                                <div class="comment">@lang('front.comments.commentator-1.comment')</div>
                             </div>
                         </div>
                         <div class="frame">
-                            <img src="" alt="" class="img-thumbnail rounded-circle">
-                            {{--                            <img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            <div class="name">@lang('front.comments.name-1')</div>
+                            <img class="rounded-circle" src="{{ asset('images/commentator-2.png') }}" alt="">
+                            <div class="name">@lang('front.comments.commentator-2.name')</div>
                             <div class="text-block">
                                 <i class="fas fa-quote-right"></i>
-                                <span class="title">@lang('front.comments.title-1')</span>
-                                <div class="comment">@lang('front.comments.comment-1')</div>
+                                <span class="title">@lang('front.comments.commentator-2.title')</span>
+                                <div class="comment">@lang('front.comments.commentator-2.comment')</div>
                             </div>
                         </div>
                         <div class="frame">
-                            <img src="" alt="" class="img-thumbnail rounded-circle">
-                            {{--<img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            <div class="name">@lang('front.comments.name-1')</div>
+                            <img class="rounded-circle" src="{{ asset('images/commentator-3.png') }}" alt="">
+                            <div class="name">@lang('front.comments.commentator-3.name')</div>
                             <div class="text-block">
                                 <i class="fas fa-quote-right"></i>
-                                <span class="title">@lang('front.comments.title-1')</span>
-                                <div class="comment">@lang('front.comments.comment-1')</div>
+                                <span class="title">@lang('front.comments.commentator-3.title')</span>
+                                <div class="comment">@lang('front.comments.commentator-3.comment')</div>
                             </div>
                         </div>
                         <div class="frame">
-                            <img src="" alt="" class="img-thumbnail rounded-circle">
-                            {{--                            <img src="{{ asset('images/comments/.png') }}" alt="">--}}
-                            <div class="name">@lang('front.comments.name-1')</div>
+                            <img class="rounded-circle" src="{{ asset('images/commentator-4.png') }}" alt="">
+                            <div class="name">@lang('front.comments.commentator-4.name')</div>
                             <div class="text-block">
                                 <i class="fas fa-quote-right"></i>
-                                <span class="title">@lang('front.comments.title-1')</span>
-                                <div class="comment">@lang('front.comments.comment-1')</div>
+                                <span class="title">@lang('front.comments.commentator-4.title')</span>
+                                <div class="comment">@lang('front.comments.commentator-4.comment')</div>
                             </div>
                         </div>
                     </div>

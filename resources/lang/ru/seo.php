@@ -11,5 +11,9 @@ return [
     'blog-inside' => '',
     'contacts-title' => '',
     'contacts-description' => '',
+    'search-title' => '',
+    'search-description' => '',
+    'about-title' => '',
+    'about-description' => '',
     '' => '',
 ];

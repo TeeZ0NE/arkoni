@@ -117,7 +117,7 @@ class CSPController extends BaseController
                     ['sub_categories.sub_cat_url_slug', '=', $request->segment(2)],
                     ['enabled', '=', 1]
                 ])
-                ->paginate(2);
+                ->paginate(10);
         } catch (\Exception $e) {
             abort(404);
         }

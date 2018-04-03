@@ -97,9 +97,10 @@ Route::group(
         Route::get('/blog', 'Site\BlogController@index')->name('blog');
         Route::get('/b-{name}', 'Site\BlogController@inside')->name('blog-inside');
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
+        Route::get('/about', 'Site\SiteController@about')->name('about');
         //search engine
         Route::group(['middleware' => ['purify']], function () {
-            Route::get('search', 'SearchEngineController')->name('se.search');
+            Route::get('search', 'Site\SearchEngineController')->name('se.search');
         });
 
 

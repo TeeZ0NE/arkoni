@@ -170,14 +170,14 @@
         background url("../images/choice-foam.png") no-repeat
       }
     }
-    .go-to, .price {
+    .go-to {
       display none
     }
     li:hover {
       &:before {
         transform: scale(1.2);
       }
-      .go-to, .price {
+      .go-to {
         display block
       }
       .desc {
@@ -213,7 +213,7 @@
     .go-to {
       go-to()
       position: absolute;
-      bottom: 40px;
+      bottom: 32px;
       left: 0;
       right: 0;
       width 180px
@@ -306,63 +306,62 @@
     }
   }
 
-  .services {
-    padding-top 30px
-    .col-md-4 {
-      display: inline-flex;
-    }
-    .calc-aside-block,
-    .block {
-      border-radius 4px
-      padding 35px 15px 120px 15px
-      text-align center
-      position relative
-      z-index 1
-      &:after {
-        display block
-        content ''
-        position absolute
-        bottom 0
-        right 0
-        background url("../images/services.png") no-repeat
-        height: 193px;
-        z-index: -1;
-      }
-      box-shadow()
-    }
-    .calc-aside-block {
-      &:after {
-        width: 200px;
-        left: 0;
-      }
-    }
-    .block-2 {
-      &:after {
-        width: 151px;
-        background-position: -220px 0px;
-      }
-    }
-    .block-3 {
-      &:after {
-        width: 180px;
-        background-position: -372px 0px;
-      }
-    }
-    .title {
-      block-title(10px)
-      font-size 1.125em
-    }
-    .go-to {
-      go-to()
-      position: absolute;
-      bottom: 40px;
-      left: 0;
-      right: 0;
-    }
-  }
-
 }
 
+.services {
+  padding-top 30px
+  .col-md-4 {
+    display: inline-flex;
+  }
+  .calc-aside-block,
+  .block {
+    border-radius 4px
+    padding 35px 15px 120px 15px
+    text-align center
+    position relative
+    z-index 1
+    &:after {
+      display block
+      content ''
+      position absolute
+      bottom 0
+      right 0
+      background url("../images/services.png") no-repeat
+      height: 193px;
+      z-index: -1;
+    }
+    box-shadow()
+  }
+  .calc-aside-block {
+    &:after {
+      width: 200px;
+      left: 0;
+    }
+  }
+  .block-2 {
+    &:after {
+      width: 151px;
+      background-position: -220px 0px;
+    }
+  }
+  .block-3 {
+    &:after {
+      width: 180px;
+      background-position: -372px 0px;
+    }
+  }
+  .title {
+    block-title(10px)
+    font-size 1.125em
+  }
+  .go-to {
+    go-to()
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+  }
+}
 .producers {
   padding-bottom 30px
   .title {
@@ -428,5 +427,8 @@
     i {
       transform: rotateY(160deg);
     }
+  }
+  a {
+    color white
   }
 }

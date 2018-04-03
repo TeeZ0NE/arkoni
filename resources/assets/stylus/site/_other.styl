@@ -44,3 +44,30 @@ body {
 strong {
   font-family OpenSans-Bold, sans-serif
 }
+
+.pagination {
+  margin 20px 0 0
+  a {
+    color: base-color
+  }
+  .page-item {
+    border d0d0d0;
+    &:not(:nth-child(1)) {
+      margin-left 15px
+    }
+    a {
+      border-radius 5px
+      &:hover {
+        color: base-color
+      }
+    }
+  }
+  .page-item.active {
+    a {
+      border-color: #e8e8e8;
+      background-color: #e8e8e8;
+      color: base-color
+    }
+
+  }
+}

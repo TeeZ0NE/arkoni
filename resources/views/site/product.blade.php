@@ -16,12 +16,27 @@
                     </div>
                     <div class="col-md-8">
                         <div class="title" itemprop="name">{{ $data['product']->name }}</div>
+
                         <ul class="commerce">
-                            <li class="stock"><i class="fas fa-tag"></i> @lang('products.stock')</li>
-                            <li class="top-sales"><i class="fas fa-thumbs-up"></i> @lang('products.top-sales')</li>
-                            <li class="recommend"><i class="fas fa-certificate"></i> @lang('products.recommend')
-                            </li>
+                            <li class="promotion">@lang('general.promotion')</li>
+                            <li class="top-sales">@lang('general.top-sales')</li>
+                            <li class="exclusive">@lang('general.exclusive')</li>
                         </ul>
+
+                        {{--@if($item->price != 0 || $item->old_price != 0)--}}
+                            {{--@if($item->old_price != 0 && $item->price == 0)--}}
+                                {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                            {{--@elseif($item->old_price == 0 && $item->price != 0)--}}
+                                {{--<div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                            {{--@else--}}
+                                {{--<span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>--}}
+                                {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                            {{--@endif--}}
+                        {{--@else--}}
+                            {{--<div class="">@lang('sub-category.specify')</div>--}}
+                        {{--@endif--}}
+
+
                         <div class="price-block">
                             <span class="old-price">{{ number_format($data['product']->price, 2, '.', '') }} @lang('general.uah')</span>
                             <span class="offers" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -69,7 +84,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="title">@lang('product.desc')</div>
-                    {{ $data['product']->desc }}
+                    {!! $data['product']->desc  !!}
                 </div>
             </div>
         </div>

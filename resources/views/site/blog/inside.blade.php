@@ -9,8 +9,8 @@
             <main class="col-md-9" role="main">
                 <article>
                     <ul class="commerce">
-                        <li class="promotion"><i class="fas fa-tag"></i>@lang('general.promotion')</li>
-                        <li class="material"><i class="fas fa-thumbs-up"></i>@lang('general.material')</li>
+                        <li class="promotion">@lang('general.promotion')</li>
+                        <li class="material">@lang('general.material')</li>
                     </ul>
                     <div class="date">19.03.18</div>
                     <div class="views"><i class="far fa-eye"></i>387</div>

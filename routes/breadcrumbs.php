@@ -39,3 +39,13 @@ Breadcrumbs::register('contacts', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(__('breadcrumbs.contacts'), route('contacts'));
 });
+
+Breadcrumbs::register('search', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.search'), route('se.search'));
+});
+
+Breadcrumbs::register('about', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.about'), route('about'));
+});

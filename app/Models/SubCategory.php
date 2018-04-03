@@ -80,5 +80,13 @@ class SubCategory extends Model
     public function getSubCategoryId($segment){
         return $this::where('sub_cat_url_slug',$segment)->select('id')->first()->id;
     }
+
+    public function getParenCategory(){
+        return $this::with(['getCategory'])->select('cat_id')->first();
+    }
+
+    public function getParentCategoryId(){
+        
+    }
 }
 

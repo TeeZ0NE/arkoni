@@ -11,6 +11,7 @@ use App;
 use App\Models\Item;
 use App\Models\SubCategory;
 use App\Models\Brand;
+use App\Models\Category;
 
 class CSPController extends BaseController
 {
@@ -194,6 +195,8 @@ class CSPController extends BaseController
             'scat_method' => $this->getSubCategoryMethod(),
             'brands'=>$brand_model->getSubCategoryBrands($data['brand_ids']),
             'bs'=>$bs,
+            'cat'=>$this->getCategoryData(),
+            'cat_method'=>$this->getCategoryMethod(),
         ]);
     }
 
@@ -281,5 +284,22 @@ class CSPController extends BaseController
         return $orderBy;
     }
 
+    private function getCategoryId(){
+        return SubCategory::with('getCategory')->where('id',$this->getSubCategoryId())->first()->cat_id;
+    }
 
+    private function getCategoryMethod(){
+        $c_methods = array('RuCategoryJustName','UkCategoryJustName');
+        switch ($this->locale){
+            case 'uk':
+                return $c_methods[1];
+                break;
+            default: return $c_methods[0];
+        }
+    }
+
+    private function getCategoryData(){
+        $c_data = Category::with($this->getCategoryMethod())->where('id', $this->getCategoryId())->first();
+        return $c_data;
+    }
 }

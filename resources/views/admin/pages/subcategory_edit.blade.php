@@ -41,14 +41,14 @@
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="ru_name" name="ru_name"
-                                   value="{{$sub_cat->RuSubCategory->ru_name}}" maxlength="255">
+                                   value="{{$sub_cat->RuSubCategory['name']}}" maxlength="255">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
-                                   aria-describedby="cat-title-ru" value="{{$sub_cat->RuSubCategory->title}}"
+                                   aria-describedby="cat-title-ru" value="{{$sub_cat->RuSubCategory['title']}}"
                                    name="ru_title" maxlength="70">
                         </div>
                         <div class="input-group mb-3">
@@ -56,35 +56,35 @@
                                 <span class="input-group-text">Description</span>
                             </div>
                             <textarea class="form-control" aria-label="Page description"
-                                      name="ru_desc" rows="5">{{$sub_cat->RuSubCategory->desc}}</textarea>
+                                      name="ru_desc" rows="5">{{$sub_cat->RuSubCategory['description']}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h1-ru">H1</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h1" aria-label="Заголовок h1"
-                                   aria-describedby="cat-h1-ru" value="{{$sub_cat->RuSubCategory->h1}}" name="ru_h1">
+                                   aria-describedby="cat-h1-ru" value="{{$sub_cat->RuSubCategory['h1']}}" name="ru_h1">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text"
-                                      name="ru_seo_text" rows="5"> {{$sub_cat->RuSubCategory->seo_text}}</textarea>
+                                      name="ru_seo_text" rows="5"> {{$sub_cat->RuSubCategory['seo_text']}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h2-ru">H2</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h2" aria-label="Заголовок h2"
-                                   aria-describedby="cat-h2-ru" value="{{$sub_cat->RuSubCategory->h2}}" name="ru_h2">
+                                   aria-describedby="cat-h2-ru" value="{{$sub_cat->RuSubCategory['h2']}}" name="ru_h2">
                         </div>
                          <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text 2"
-                                      name="ru_seo_text_2" rows="5"> {{$sub_cat->RuSubCategory->seo_text_2}}</textarea>
+                                      name="ru_seo_text_2" rows="5"> {{$sub_cat->RuSubCategory['seo_text_2']}}</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -96,14 +96,14 @@
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="cat-name-uk"
-                                   value="{{$sub_cat->UkSubCategory->uk_name}}" name="uk_name" maxlength="255">
+                                   value="{{$sub_cat->UkSubCategory['name']}}" name="uk_name" maxlength="255">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
-                                   aria-describedby="cat-title-ru" value="{{$sub_cat->UkSubCategory->title}}"
+                                   aria-describedby="cat-title-ru" value="{{$sub_cat->UkSubCategory['title']}}"
                                    name="uk_title" maxlength="70">
                         </div>
                         <div class="input-group mb-3">
@@ -111,35 +111,35 @@
                                 <span class="input-group-text">Description</span>
                             </div>
                             <textarea class="form-control" aria-label="Page description"
-                                      name="uk_desc" rows="5">{{$sub_cat->UkSubCategory->desc}}</textarea>
+                                      name="uk_desc" rows="5">{{$sub_cat->UkSubCategory['description']}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h1-uk">H1</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h1" aria-label="Заголовок h1"
-                                   aria-describedby="cat-h1-uk" value="{{$sub_cat->UkSubCategory->h1}}" name="uk_h1">
+                                   aria-describedby="cat-h1-uk" value="{{$sub_cat->UkSubCategory['h1']}}" name="uk_h1">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text"
-                                      name="uk_seo_text" rows="5"> {{$sub_cat->UkSubCategory->seo_text}}</textarea>
+                                      name="uk_seo_text" rows="5"> {{$sub_cat->UkSubCategory['seo_text']}}</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h2-uk">H2</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h2" aria-label="Заголовок h2"
-                                   aria-describedby="cat-h2-uk" value="{{$sub_cat->UkSubCategory->h2}}" name="uk_h2">
+                                   aria-describedby="cat-h2-uk" value="{{$sub_cat->UkSubCategory['h2']}}" name="uk_h2">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text"
-                                      name="uk_seo_text_2" rows="5"> {{$sub_cat->UkSubCategory->seo_text_2}}</textarea>
+                                      name="uk_seo_text_2" rows="5"> {{$sub_cat->UkSubCategory['seo_text_2']}}</textarea>
                         </div>
                         {{--/UK--}}
                     </div>

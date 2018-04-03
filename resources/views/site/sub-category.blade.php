@@ -153,5 +153,5 @@
         </div>
     </div>
 
-    {{ print_array($data) }}
+    {{--{{ print_array($data) }}--}}
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App;
 use App\Http\Controllers\Site\BaseController;
+use App\Http\Controllers\Site\StarsController;
 
 /** Retriev and return searching data into view
  * Class SearchEngineController
@@ -20,10 +21,11 @@ class SearchEngineController extends BaseController
     /**
      * @var int  Page count in Pagination
      */
-    private $page_count = 3;
+    private $page_count = 5;
 
     public function __construct()
     {
+        parent::__construct();
         $this->locale = mb_strtolower(App::getLocale());
     }
 
@@ -35,16 +37,16 @@ class SearchEngineController extends BaseController
         $item_model = new Item();
         //search and sort config
         $s_config = $this->searchConfig($sort);
-        $items = $item_model->search4site($s_config, $q)->paginate($this->page_count);
+        $this->data['items'] = $item_model->search4site($s_config, $q)->paginate($this->page_count);
 
         return view('site.search.index')->with([
             'q' => $q,
             'class' => 'search',
-            'items' => $items,
+            'data' => $this->data, //searched items
             'method' => $s_config['method'],
             'title' => __('seo.search-title'),
             'description' => __('seo.search-description'),
-            'rating' => null,
+            'rating' => $this->stars->index($request),
             'sort' => $sort,
         ]);
     }

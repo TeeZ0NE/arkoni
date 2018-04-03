@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-6">
                 @if(isset($class) && $class == 'front')
                     @include('site._logo')
                 @else
@@ -10,7 +10,7 @@
                     </a>
                 @endif
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6">
                 <nav>
                     <ul>
                         <li><a href="{{ LaravelLocalization::LocalizeURL('/catalog') }}">@lang('footer.catalog')</a>
@@ -24,7 +24,7 @@
                     </ul>
                 </nav>
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-6 order-sm-1 col-md-2 order-md-0">
                 <nav>
                     <ul>
                         <li><a href="{{ LaravelLocalization::LocalizeURL('/about') }}">@lang('main-menu.about')</a></li>
@@ -35,7 +35,7 @@
                     </ul>
                 </nav>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 order-sm-0 col-md-3 order-md-1">
                 @if(!isset($starts))
                     <div id="rating-block" class="rating-block">
                         <div itemscope itemtype="http://schema.org/Product">

@@ -51,4 +51,15 @@ class SiteController extends BaseController
         ]);
     }
 
+    public function about(Request $request)
+    {
+        return view('site.about', [
+            'class' => 'about',
+            'data' => $this->data,
+            'title' => __('seo.about-title'),
+            'description' => __('seo.about-description'),
+            'rating' => $this->stars->index($request),
+        ]);
+    }
+
 }

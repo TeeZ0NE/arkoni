@@ -9,7 +9,7 @@
             <div class="col-12">
                 <article>
                     <h1 class="title">@lang('about.h1')</h1>
-                    @lang('about.text')
+                    @lang('about.text', ['img-url' => asset('images/producers')])
                 </article>
             </div>
         </div>

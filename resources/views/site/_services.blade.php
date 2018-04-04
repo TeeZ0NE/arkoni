@@ -9,7 +9,7 @@
                     <div class="title">@lang('front.services.block-2.title')</div>
                     <div class="body">@lang('front.services.block-2.body')</div>
                     <a class="go-to"
-                       href="{{ LaravelLocalization::LocalizeURL('/brigadesпше ы') }}">@lang('front.services.block-2.go-to')<i
+                       href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('front.services.block-2.go-to')<i
                                 class="far fa-long-arrow-alt-right"></i></a>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     <div class="title">@lang('front.services.block-3.title')</div>
                     <div class="body">@lang('front.services.block-3.body')</div>
                     <a class="go-to"
-                       href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('front.services.block-3.go-to')<i
+                       href="{{ LaravelLocalization::LocalizeURL('/blog') }}">@lang('front.services.block-3.go-to')<i
                                 class="fas fa-long-arrow-alt-right"></i></a>
                 </div>
             </div>

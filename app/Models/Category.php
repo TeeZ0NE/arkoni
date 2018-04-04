@@ -22,6 +22,15 @@ class Category extends Model
         return $this->hasOne(UkCategory::class, 'cat_id');
     }
 
+    public function RuCategoryJustName()
+    {
+        return $this->hasOne(RuCategory::class, 'cat_id')->select('cat_id', 'ru_name as name');
+    }
+
+    public function UkCategoryJustName()
+    {
+        return $this->hasOne(UkCategory::class, 'cat_id')->select('cat_id','uk_name as name');
+    }
     /**
      * getting just name and ID of categories
      * Default returnin' without search and sort by name RU

@@ -8,16 +8,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="title">Каталог товаров</h1>
-                    <p>Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci non
-                        sapien. Duis sagittis imperdiet eros ac posuere. Nunc sapien diam, sollicitudin commodo posuere
-                        non, aliquam nec urna.</p>
-                    <p>Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue
-                        vulputate quis nec sapien.
-                        Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus orci
-                        non sapien. Duis sagittis
-                        imperdiet eros ac posuere. Nunc sapien diam, sollicitudin commodo posuere non, aliquam nec
-                        urna.</p>
+                    <h1 class="title">@lang('catalog-and-category.h1')</h1>
+                    @lang('catalog-and-category.seo-1')
                 </div>
             </div>
         </div>
@@ -48,23 +40,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        <h2 class="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h2>
-                        <p>Quisque sodales mi in mi congue, sed laoreet velit rutrum. Vestibulum et purus enim. Vivamus
-                            bibendum ligula in turpis hendrerit, ut luctus urna tempus. Phasellus vulputate quam eget
-                            diam tincidunt, ut
-                            sollicitudin lacus iaculis. Morbi accumsan porta eros at viverra. Vivamus velit enim,
-                            sodales tempus fermentum eget,
-                            facilisis id massa. Curabitur dictum, ex eget gravida aliquet, nisl ipsum mattis neque, sed
-                            gravida dolor mi vel mi.
-                            Aliquam in tortor posuere est feugiat ultricies. Suspendisse eu elit at purus molestie
-                            vehicula. Maecenas varius
-                            molestie dui feugiat vehicula. </p>
-                        <p>Nunc vitae tempor magna, eu imperdiet turpis. Pellentesque accumsan ante sed magna congue
-                            vulputate quis nec sapien.
-                            Donec malesuada, turpis id ornare ultricies, diam odio faucibus nunc, eget egestas lacus
-                            orci non sapien. Duis sagittis
-                            imperdiet eros ac posuere. Nunc sapien diam, sollicitudin commodo posuere non, aliquam nec
-                            urna.</p>
+                        <h2 class="title">@lang('catalog-and-category.h2')</h2>
+                        @lang('catalog-and-category.seo-2')
                     </div>
                 </div>
             </div>

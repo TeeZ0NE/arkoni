@@ -59,34 +59,50 @@ return [
         'title' => 'Лучшие предложения от Аркони',
     ],
     'seo' => [
-        'title' => 'Aenean pulvinar magna in pulvinar sollicitudin',
-        'body' => '<p>Duis finibus eleifend erat, vitae gravida tellus porta non. In convallis velit eu quam vestibulum,
-tristique semper odio egestas. Curabitur scelerisque sapien leo, ac semper libero pretium a. Integer vulputate id ante
-quis feugiat. Nulla facilisi. Praesent quis lectus ac odio hendrerit lacinia. Sed accumsan ac turpis eget sollicitudin.</p>
-<p>Nam arcu nulla, ornare quis tempus a, rutrum at ipsum. Nulla et mattis dolor. Aliquam vel enim sed lacus consectetur
-feugiat. Aliquam aliquam placerat ipsum eu convallis. Curabitur a arcu viverra nunc semper feugiat sit amet a felis.
-Donec pellentesque mollis est ac vestibulum. Pellentesque ornare et massa in pellentesque. Vivamus in elit a massa
-congue malesuada at vel leo. Nullam commodo lacus orci, quis malesuada lectus hendrerit et. In nisi arcu, pharetra in
-volutpat id, venenatis in justo. Curabitur in scelerisque lorem, dignissim pharetra leo. Duis ut lorem condimentum,
-laoreet nibh a, lacinia augue. Integer dui est, tempor ullamcorper nisi sit amet, lobortis placerat mauris. Praesent
-mauris risus, interdum vel turpis et, tristique viverra ex. Morbi ac interdum neque. Praesent ut consequat nisi.</p>
-<p>Mauris mollis ornare tortor non fringilla. Phasellus augue elit, facilisis tincidunt aliquet sed, aliquet eu mauris.
-Etiam ultrices elit eget mauris posuere fermentum. Praesent dignissim sapien sed arcu pharetra pulvinar. Vivamus
-accumsan nisl sed ipsum luctus, eget bibendum libero luctus. Phasellus eleifend venenatis mi, id fringilla mi
-pellentesque a. Praesent ut venenatis diam. Etiam et ipsum posuere, congue nibh sed, pharetra sem. Vestibulum lacinia
-volutpat varius. Sed est augue, congue fringilla velit in, commodo suscipit nibh. Ut vehicula nisl vitae porta sagittis.
-Donec lacinia condimentum tortor eget posuere.</p>',
+        'title' => 'Стройбаза Аркони - товары для строительства и ремонта, оптом и врозницу',
+        'body' => '<p>Склад-магазин Аркони - база строительных и отделочных материалов в центре Винницы. Мы предлагаем
+широкий выбор товаров для строительства и ремонта не только по низким ценам, но и высокого качества. Продажа
+стройматериалов осуществляется непосредственно в магазине, но с помощью нашего интернет-каталога вы можете ознакомиться
+со всеми товарами, которые мы предлагаем, а также заказать доставку в другой город Украины. Оптовые цены в нашем
+строительном магазине действуют на все категории товаров, так как мы сотрудничаем напрямую с лучшими производителями
+стройматериалов.</p>
+<p>Выбирайте строительные и отделочные материалы по оптовым ценам на нашем сайте или на складе-магазине, а наши опытные
+специалисты проконсультируют вас и предложат самые лучшие варианты для вашего ремонта и строительства. Сайт
+строительного магазина Аркони - это полноценный каталог для выбора стройматериалов. Вы можете ознакомиться со всеми
+характеристиками товаров, а также рассчитать стоимость необходимых товаров.</p> 
+<p>На складе-магазине Аркони можно приобрести стройматериалы оптом следующих категорий:</p>
+<ul>
+<li>лаки и краски для наружных и внутренних работ;</li>
+<li>подвесные потолки и каркасы для них;</li>
+<li>добавки в бетон разных видов;</li>
+<li>фасадные материалы, включая все для водосточных систем;</li>
+<li>утеплители и строительную химию;</li>
+<li>грунтовки, пены, силиконы;</li>
+<li>гипсокартон и комплектующие к нему;</li>
+<li>материалы для кровли;</li>
+<li>тротуарную плитку и тд.</li>
+</ul>
+<p>Стройбаза Аркони - это ассортимент товаров для строительства и ремонта, оптом и в розницу. Склад стройматериалов
+находится в центре Винницы по адресу пер. Цегельный, 2. Вы можете заказать необходимые материалы прямо с сайта, а после
+этого забрать товар на складе или оформить доставку по адресу.</p>
+<p>Магазин строительных материалов Аркони работает с 1995 года и за это время обрел не только бесценный опыт, но и
+большое количество положительных отзывов от клиентов. Наши строительные и отделочные материалы не только качественные,
+но и недорогие по сравнению с конкурентами. Мы предлагаем нашим клиентам купить дешевые строительные материалы от
+проверенных поставщиков с гарантией качества, что обеспечит долговечность вашего ремонта и надежность строения.</p>
+<p>База строительных материалов Аркони - это огромный выбор материалов в одном месте, комфортные условия заказа товара,
+надежные производители. Вы выбираете материалы для стройки дома? У нас вы найдете прекрасное соотношение цены, качества,
+ассортимента, обслуживания и доставки. А это все, что нужно для комфортной покупки стройматериалов в интернет-каталоге.</p>',
     ],
     'services' => [
         'block-2' => [
-            'title' => 'Потрібна допомога з виконнням ремонтних робіт?',
-            'body' => 'Наші високваліфіковані будівельні бригади позбавлять Вас від зайвих турбот',
-            'go-to' => 'Дізнатись більше',
+            'title' => 'Нужна помощь с выполнением ремонтных работ?',
+            'body' => 'Наши высококвалифицированные строительные бригады избавят Вас от лишних хлопот',
+            'go-to' => 'Узнать больше',
         ],
         'block-3' => [
-            'title' => 'Як зробити ремонт у ванні самостійно, без зайвих витрат?',
-            'body' => 'Ми розкажемо, які  матеріали підходять для ремонту у ванній кімнаті, порадимо з чого краще почати...',
-            'go-to' => 'Читати блог',
+            'title' => 'Как сделать ремонт в ванной самостоятельно, без лишних затрат?',
+            'body' => 'Мы расскажем, какие материалы подходят для ремонта в ванной комнате, посоветуем с чего лучше начать...',
+            'go-to' => 'Читать блог',
         ],
     ],
     'comments' => [
@@ -115,8 +131,8 @@ Donec lacinia condimentum tortor eget posuere.</p>',
     'producers-title' => 'Мы являемся региональными представителями 11-ти торговых марок',
     'google-map' => [
         'brand' => 'Магазин- склад “Арконі',
-        'located' => 'Знаходимось за адресою:',
-        'work' => 'Працюємо для Вас',
-        'call' => 'Виникли питання.  Телефонуйте!',
+        'located' => 'Находимся по адресу:',
+        'work' => 'Работаем для Вас',
+        'call' => 'Возникли вопросы. Звоните!',
     ]
 ];

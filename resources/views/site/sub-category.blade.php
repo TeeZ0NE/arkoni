@@ -2,10 +2,10 @@
 
 @section('content')
 
-    {{--{!! Breadcrumbs::render('sub-category', [--}}
-    {{--'category_name' => $data['sub-category']->category_name,--}}
-    {{--'category_slug' => $data['sub-category']->category_slug,--}}
-    {{--'sub-category' => $scat->$scat_method['name']]) !!}--}}
+    {!! Breadcrumbs::render('sub-category', [
+    'category_name' => $cat->$cat_method['name'],
+    'category_slug' => $cat->cat_url_slug,
+    'sub-category' => $scat->$scat_method['name']]) !!}
 
     <div class="container">
         <div class="row">
@@ -152,6 +152,7 @@
         </div>
     </div>
 
+    {{--TODO: DELETE--}}
     {{--{{ print_array($items) }}--}}
 
     {{--<center>Sub category data</center>--}}

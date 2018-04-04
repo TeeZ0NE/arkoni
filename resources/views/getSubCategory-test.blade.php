@@ -1,4 +1,8 @@
 {{--TODO: delete me. I'm a garbage--}}
+<p>Category</p>
+{{$cat->cat_url_slug}}
+{{$cat->$cat_method['name']}}
+{{$cat->id}}
 <center>Sub category data</center>
 id -  {{$scat->id}}<br>
 name - {{$scat->$scat_method['name']}}<br>

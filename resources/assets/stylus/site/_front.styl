@@ -233,6 +233,23 @@
     .container {
       position relative
       z-index 1
+      ul {
+        list-style none
+        padding-left: 1.5em;
+        li {
+          position: relative;
+          &:before {
+            content: '\F00C';
+            position: absolute;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 1em;
+            color: #ff4e00;
+            left: -22px;
+            top: 2px;
+          }
+        }
+      }
       &:after {
         position absolute
         display block
@@ -362,6 +379,7 @@
     right: 0;
   }
 }
+
 .producers {
   padding-bottom 30px
   .title {

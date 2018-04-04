@@ -3693,6 +3693,23 @@ strong {
   position: relative;
   z-index: 1;
 }
+.front .seo .container ul {
+  list-style: none;
+  padding-left: 1.5em;
+}
+.front .seo .container ul li {
+  position: relative;
+}
+.front .seo .container ul li:before {
+  content: '\F00C';
+  position: absolute;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 1em;
+  color: #ff4e00;
+  left: -22px;
+  top: 2px;
+}
 .front .seo .container:after {
   position: absolute;
   display: block;
@@ -4804,6 +4821,23 @@ aside .contacts-aside-block .phones {
 }
 .about strong {
   font-family: OpenSans-Bold, sans-serif;
+}
+.about .advantage {
+  list-style: none;
+  padding-left: 1.5em;
+}
+.about .advantage li {
+  position: relative;
+}
+.about .advantage li:before {
+  content: '\F00C';
+  position: absolute;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 1em;
+  color: #ff4e00;
+  left: -22px;
+  top: 2px;
 }
 .about .producers {
   padding-left: 0;

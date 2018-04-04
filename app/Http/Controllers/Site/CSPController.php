@@ -85,6 +85,7 @@ class CSPController extends BaseController
 
     public function sub_category(Request $request)
     {
+        //TODO:: DELETE ME
 //        try {
 //            $this->data['sub-category'] = DB::table('sub_categories')->select(
 //                config('app.locale') . '_sub_categories.' . config('app.locale') . '_name as name',
@@ -161,6 +162,7 @@ class CSPController extends BaseController
 
     public function product(Request $request)
     {
+        //DELETE ME
         try {
             $this->data['product'] = DB::table('items')->select(
                 'items.id as id',
@@ -176,6 +178,8 @@ class CSPController extends BaseController
                     ['enabled', '=', 1],
                 ])
                 ->get()->toArray()[0];
+
+
 
             $this->data['product']->attrs = DB::table('item_attributes')->select(
                 config('app.locale') . '_name as name',
@@ -197,6 +201,7 @@ class CSPController extends BaseController
         ]);
     }
 
+    //TODO:: DELETE ME
     /** Getting all Items in current SubCategory
      * If exist filters (brand ID) then filter and sort else, if request hasn't filter do sort only
      * @param Request $request

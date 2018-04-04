@@ -1,4 +1,5 @@
 {{--TODO: delete me. I'm a garbage--}}
+
 <p>Category</p>
 {{$cat->cat_url_slug}}
 {{$cat->$cat_method['name']}}

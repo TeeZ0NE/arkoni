@@ -3102,6 +3102,16 @@ strong {
   background-color: #e8e8e8;
   color: #333;
 }
+.main-menu,
+.header {
+  display: none;
+}
+@media (max-width: 575px) {
+  .breadcrumbs .breadcrumb {
+    padding: 0.75rem 0 0;
+    margin-bottom: 6px;
+  }
+}
 .error-404 .error-bg {
   background: url(/images/arkoni-404-bg.png?88f8550d15b5569b9de7d9e803e1bdf0) no-repeat;
   background-size: cover;
@@ -3906,13 +3916,13 @@ strong {
   width: 46%;
   position: absolute;
 }
-.google-map .col-md-5 {
+.google-map .content {
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.35);
   padding-left: 50px;
   padding-top: 20px;
 }
-.google-map .col-md-5 > div {
+.google-map .content > div {
   line-height: 2em;
   position: relative;
 }
@@ -3944,6 +3954,30 @@ strong {
 }
 .google-map a {
   color: #fff;
+}
+@media (max-width: 992px) {
+  .google-map .shadow {
+    width: 55%;
+  }
+}
+@media (max-width: 768px) {
+  .google-map .shadow {
+    width: 65%;
+  }
+  .google-map .content {
+    padding-left: 42px;
+    padding-top: 15px;
+  }
+}
+@media (max-width: 575px) {
+  .google-map .shadow {
+    width: 100%;
+  }
+}
+@media (max-width: 380px) {
+  .google-map .brand {
+    font-size: 1.2em;
+  }
 }
 .catalog .seo-block-1,
 .category .seo-block-1 {
@@ -4803,12 +4837,18 @@ aside .contacts-aside-block .phones {
 }
 .contacts .phones {
   list-style: none;
+  padding-left: 0;
 }
 .contacts .phones a {
   color: #333;
 }
 .contacts .phones .mail {
   margin-top: 30px;
+}
+@media (max-width: 575px) {
+  .contacts .breadcrumbs + .container {
+    padding-bottom: 20px;
+  }
 }
 .about h1 {
   font-size: 1.5em;
@@ -4851,11 +4891,16 @@ aside .contacts-aside-block .phones {
       flex-wrap: wrap;
 }
 .about .producers li {
-  width: 16%;
-  text-align: center;
-}
-.about .producers li:not(nth-child(1)) {
-  margin: 0 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 30px;
 }
 .about .breadcrumbs + .container {
   padding-bottom: 10px;

@@ -82,11 +82,15 @@ $(function () {
 
     //google maps
     //if front page
-    if(window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
-        initMap();
+    if (window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
+        if ($(window).innerWidth() <= 768) {
+            initMap({lat: 49.238323, lng: 28.460862});
+        } else {
+            initMap();
+        }
     }
 
-    function initMap() {
+    function initMap(position) {
         //create map
         var map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 49.237887, lng: 28.460762},
@@ -94,7 +98,7 @@ $(function () {
         });
         //create marker
         var marker = new google.maps.Marker({
-            position: {lat: 49.238323, lng: 28.463262},
+            position: position || {lat: 49.238323, lng: 28.463262},
             map: map
         });
     }

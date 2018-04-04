@@ -1,7 +1,6 @@
 @extends('site.index')
 
 @section('content')
-
     {!! Breadcrumbs::render('sub-category', [
     'category_name' => $cat->$cat_method['name'],
     'category_slug' => $cat->cat_url_slug,
@@ -151,6 +150,10 @@
             </div>
         </div>
     </div>
+    {{--TODO: tags echo--}}
+    <div class="alert alert-warning text-center">@foreach($tags as $tag_key=>$tag_value)
+            <a href="{{$tag_key}}">{{$tag_value}}</a>
+        @endforeach</div>
 
     {{--TODO: DELETE--}}
     {{--{{ print_array($items) }}--}}

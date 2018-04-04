@@ -24,16 +24,16 @@
                         </ul>
 
                         {{--@if($item->price != 0 || $item->old_price != 0)--}}
-                            {{--@if($item->old_price != 0 && $item->price == 0)--}}
-                                {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
-                            {{--@elseif($item->old_price == 0 && $item->price != 0)--}}
-                                {{--<div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>--}}
-                            {{--@else--}}
-                                {{--<span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>--}}
-                                {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
-                            {{--@endif--}}
+                        {{--@if($item->old_price != 0 && $item->price == 0)--}}
+                        {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                        {{--@elseif($item->old_price == 0 && $item->price != 0)--}}
+                        {{--<div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>--}}
                         {{--@else--}}
-                            {{--<div class="">@lang('sub-category.specify')</div>--}}
+                        {{--<span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>--}}
+                        {{--<div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>--}}
+                        {{--@endif--}}
+                        {{--@else--}}
+                        {{--<div class="">@lang('sub-category.specify')</div>--}}
                         {{--@endif--}}
 
 
@@ -61,8 +61,8 @@
                         @endif
                         <div class="phone-block">
                             @lang('product.arrange')
-                                <div class="phone"><i class="fas fa-phone"></i>{{ config('contacts.phone-1-alt') }}
-                                </div>
+                            <div class="phone"><i class="fas fa-phone"></i>{{ config('contacts.phone-1-alt') }}
+                            </div>
                         </div>
                     </div>
                     {{--<div class="col-md-12">--}}
@@ -104,7 +104,7 @@
                         <div class="price">201.20 @lang('general.uah')</div>
                         <a class="go-to"
                            href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
+                            <i class="far fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -115,7 +115,7 @@
                         <div class="price">201.20 @lang('general.uah')</div>
                         <a class="go-to"
                            href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
+                            <i class="far fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -126,7 +126,7 @@
                         <div class="price">201.20 @lang('general.uah')</div>
                         <a class="go-to"
                            href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
+                            <i class="far fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -137,7 +137,7 @@
                         <div class="price">201.20 @lang('general.uah')</div>
                         <a class="go-to"
                            href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('general.learn-more')
-                                <i class="far fa-long-arrow-alt-right"></i></a>
+                            <i class="far fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -146,4 +146,35 @@
 
     @include('site._services')
 
+    <div class="text-center">
+        id:{{$item->id}}<br>
+        name:{{$item->$item_method['name']}}<br>
+        desc:{{$item->$item_method['description']}}<br>
+        price: {{$item->price}}<br>
+        old_price:{{$item->old_price}}<br>
+        brand:{{$item->brand['name']}}<br>
+        tags name: @foreach($tags as $tag_key=>$tag_value)
+            <a href="{{$tag_key}}">{{$tag_value}}</a>
+        @endforeach
+        <br>
+        <img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo" class="img-fluid w-25"><br>
+        shortcuts: @foreach($item->getItemShortcut as $sh){{$sh['name']}}::@endforeach<br>
+        attributes: @foreach($item_attrs as $ia){{$ia->attributesLang[$column]}}-{{$ia->value}}<br>@endforeach<br>
+    </div>
+    <hr>
+    <center>Same products</center>
+    @isset($same_items)
+        <div class="text-center">
+            @foreach($same_items as $item)
+                id:{{$item->id}}<br>
+                url: {{$item->item_url_slug}}<br>
+                name:{{$item->$item_method['name']}}<br>
+                desc:{{$item->$item_method['description']}}<br>
+                price: {{$item->price}}<br>
+                old_price:{{$item->old_price}}<br>
+                <br>
+                <img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo" class="img-fluid w-25"><br>
+            @endforeach
+        </div>
+    @endisset
 @endsection

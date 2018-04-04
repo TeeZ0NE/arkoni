@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Site\StarsController;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
+use App\Models\ItemAttribute;
+use App\Models\Attribute;
+use App\Models\ItemCategory;
 
 class CSPController extends BaseController
 {
@@ -154,13 +157,15 @@ class CSPController extends BaseController
             'rating' => $this->stars->index($request),
             'title' => $this->getSubCategoryData()[$this->getSubCategoryMethod()]['title'],
             'description' => $this->getSubCategoryData()[$this->getSubCategoryMethod()]['description'],
-            'cat'=>$this->getCategoryData(),
-            'cat_method'=>$this->getCategoryMethod(),
+            'cat' => $this->getCategoryData(),
+            'cat_method' => $this->getCategoryMethod(),
+            'tags'=>$this->tagCombine($data['items']),
         ]);
     }
 
     public function product(Request $request)
     {
+        $item_model = new Item();
         try {
             $this->data['product'] = DB::table('items')->select(
                 'items.id as id',
@@ -186,7 +191,20 @@ class CSPController extends BaseController
         } catch (\Exception $e) {
             abort(404);
         }
-
+// with url_slug search item ID
+        $item_id = $this->getItemId($request->segment(2));
+        $same_ids = $this->getSameProductsIds($item_model->getItemSubCategoryId($item_id),$item_id);
+        $same_items = ($same_ids)
+            ?   Item::with([$this->getItemMethod(),])->find($same_ids)
+            : Null;
+        $item = Item::with([
+            $this->getItemMethod(),
+            $this->getTagMethod(),
+            'getItemTag',
+            'brand',
+            'getItemShortcut',
+        ])->findOrFail($item_id);
+        $tag_comb = $this->itemTagCombine($item);
         return view('site.product', [
             'class' => 'product',
             'data' => $this->data,
@@ -194,6 +212,20 @@ class CSPController extends BaseController
             'description' => '',
             'rating' => $this->stars->index($request),
             'starts' => false, //hide starts in footer
+            //'item'=>Item::findOrFail($item_id)->with([
+//                $this->getItemMethod(),
+//                $this->getTagMethod(),
+//                'getItemTag',
+//                'getItemShortcut',
+//            ]),
+        'item'=>$item,
+            'item_method'=>$this->getItemMethod(),
+            'tag_method'=>$this->getTagMethod(),
+            'column'=>$this->getColumn(),
+            'tags'=>$tag_comb,
+            "attrs" => Attribute::get(['id', $this->getColumn()]),
+            "item_attrs" => ItemAttribute::with('attributesLang')->where('item_id', $item_id)->get(),
+            "same_items" => $same_items,
         ]);
     }
 
@@ -241,6 +273,16 @@ class CSPController extends BaseController
             default:
                 return $item_methods[0];
         }
+    }
+
+    /**
+     * getting item ID
+     * @param String $segment
+     * @return Integer ID
+     */
+    private function getItemId($segment){
+        $item_id = Item::where([['item_url_slug','=',$segment],['enabled','=',1]])->first()->id;
+        return $item_id;
     }
 
     /** getting SubCategory ID
@@ -292,6 +334,7 @@ class CSPController extends BaseController
         $asc_arr = array('asc_name', 'asc_price');
         $order = (in_array($sort, $asc_arr)) ? 1 : 0;
         $method = $this->getItemMethod();
+        $t_method = $this->getTagMethod();
         switch ($sort) {
             case 'asc_price':
             case 'desc_price':
@@ -299,6 +342,7 @@ class CSPController extends BaseController
                     'order' => $order,
                     'sortBy' => "price",
                     'method' => $method,
+                    't_method' => $t_method,
                 ]);
                 break;
             default:
@@ -306,27 +350,137 @@ class CSPController extends BaseController
                     'order' => $order,
                     'sortBy' => $method . ".name",
                     'method' => $method,
+                    't_method' => $t_method,
                 ]);
         }
         return $orderBy;
     }
 
-    private function getCategoryId(){
-        return SubCategory::with('getCategory')->where('id',$this->getSubCategoryId())->first()->cat_id;
+    /**
+     * getting category ID
+     * @return Integer cat ID
+     */
+    private function getCategoryId()
+    {
+        return SubCategory::with('getCategory')->where('id', $this->getSubCategoryId())->first()->cat_id;
     }
 
-    private function getCategoryMethod(){
-        $c_methods = array('RuCategoryJustName','UkCategoryJustName');
-        switch ($this->locale){
+    /**
+     * getting methods 4 lang from model
+     * @return String method
+     */
+    private function getCategoryMethod()
+    {
+        $c_methods = array('RuCategoryJustName', 'UkCategoryJustName');
+        switch ($this->locale) {
             case 'uk':
                 return $c_methods[1];
                 break;
-            default: return $c_methods[0];
+            default:
+                return $c_methods[0];
         }
     }
 
-    private function getCategoryData(){
+    /**
+     * Getting all data about SubCategory
+     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     */
+    private function getCategoryData()
+    {
         $c_data = Category::with($this->getCategoryMethod())->where('id', $this->getCategoryId())->first();
         return $c_data;
+    }
+
+    /**
+     * getting methods 4 different languages from tag model
+     * @return String
+     */
+    private function getTagMethod()
+    {
+        $t_methods = array('getItemRuTag', 'getItemUkTag');
+        switch ($this->locale) {
+            case 'uk':
+                return $t_methods[1];
+                break;
+            default:
+                return $t_methods[0];
+        }
+    }
+
+    /**
+     * getting column from DB lang columns
+     * @return string column name
+     */
+    private function getColumn()
+    {
+        $t_colums = array('ru_name', 'uk_name');
+        switch ($this->locale) {
+            case 'uk':
+                return $t_colums[1];
+                break;
+            default:
+                return $t_colums[0];
+        }
+    }
+
+    /**
+     * 4 items array only
+     * combining tags in items 4 excluding repeating values
+     * retriev URL as key and Lang name as Value
+     * @param $items
+     * @return array
+     */
+    private function tagCombine($items){
+        $tag_key = array();
+        $tag_value = array();
+        foreach ($items as $item){
+            foreach ($item->getItemTag as $tag){
+                $tag_key[]=$tag->tag_url_slug;
+            }
+            foreach ($item[$this->getTagMethod()] as $tm){
+                $tag_value[]=$tm[$this->getColumn()];
+            }
+        }
+        $comb = array_combine($tag_key,$tag_value);
+        return $comb;
+    }
+
+    /**
+     * getting array of URL slug as key and name as Value
+     * 4 item only
+     * @param $item
+     * @return array
+     */
+    private function itemTagCombine($item){
+        $tag_key = array();
+        $tag_value = array();
+            foreach ($item->getItemTag as $tag){
+                $tag_key[]=$tag->tag_url_slug;
+            }
+            foreach ($item[$this->getTagMethod()] as $tm){
+                $tag_value[]=$tm[$this->getColumn()];
+            }
+        $comb = array_combine($tag_key,$tag_value);
+        return $comb;
+    }
+
+    /**
+     * getting IDs if exist
+     * @param Int $sub_cat_id
+     * @param  Int $current_id
+     * @return null|Array
+     */
+    private function getSameProductsIds($sub_cat_id, $current_id){
+       $ic=new ItemCategory() ;
+        $all_ids = $ic->where([['sub_cat_id','=',$sub_cat_id],['item_id','<>',$current_id]])->pluck('item_id');
+        switch($all_ids->count()){
+            case 1: $count = 1;break;
+            case 2: $count = 2;break;
+            case 3: $count = 3;break;
+            case 0: $count = 0;break;
+            default: $count = 4;
+        }
+        $same_ids = ($count)?$all_ids->random($count):Null;
+        return $same_ids;
     }
 }

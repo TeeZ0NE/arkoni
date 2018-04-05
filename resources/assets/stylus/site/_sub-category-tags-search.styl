@@ -13,9 +13,28 @@
     padding 35px 0
     background #e8e8e8
   }
-
+  .tags {
+    list-style none
+    padding-left 0
+    margin-top 30px
+    li {
+      float left
+      &:not(:nth-child(1)) {
+        margin-left 15px
+      }
+    }
+    a {
+      color: #868585
+      border 1px solid #868585
+      padding: 4px 10px;
+      border-radius 5px
+      font-size .875em
+      text-decoration none
+    }
+  }
 }
 
+.tags,
 .search,
 .sub-category {
   .item {
@@ -165,6 +184,7 @@
     margin-bottom 30px
   }
 }
+
 
 .search {
   .smile {

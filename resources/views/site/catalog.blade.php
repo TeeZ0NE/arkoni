@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row">
                 @foreach($data['category'] as $item)
-                    <div class="col-md-3">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
                         <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                             <img class="img-fluid" src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
                         </a>
@@ -39,10 +39,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="col-md-12">
-                        <h2 class="title">@lang('catalog-and-category.h2')</h2>
-                        @lang('catalog-and-category.seo-2')
-                    </div>
+                    <h2 class="title">@lang('catalog-and-category.h2')</h2>
+                    @lang('catalog-and-category.seo-2')
                 </div>
             </div>
         </div>

@@ -11,17 +11,17 @@ return [
 <p>На сегодняшний день фирма является <strong>региональным представителем</strong> продукции <strong>от ведущих мировых
 производителей</strong> (брендов):</p>
 <ul class="producers">
+<li><img src=":img-url/penosil.png" alt="penosil"></li>
 <li><img src=":img-url/virtuoz.png" alt="virtuoz"></li>
 <li><img src=":img-url/albes.png" alt="albes"></li>
-<li><img src=":img-url/farbi-kabe.png" alt="farbi-kabe"></li>
 <li><img src=":img-url/armostrong.png" alt="armostrong"></li>
-<li><img src=":img-url/knauf.png" alt="knauf"></li>
-<li><img src=":img-url/green-line.png" alt="green-line"></li>
-<li><img src=":img-url/tehnonikol.png" alt="tehnonikol"></li>
-<li><img src=":img-url/polycolor.png" alt="polycolor"></li>
+<li><img src=":img-url/farbi-kabe.png" alt="farbi-kabe"></li>
 <li><img src=":img-url/pili-plast.png" alt="pili-plast"></li>
 <li><img src=":img-url/dops.png" alt="dops"></li>
-<li><img src=":img-url/penosil.png" alt="penosil"></li>
+<li><img src=":img-url/tehnonikol.png" alt="tehnonikol"></li>
+<li><img src=":img-url/knauf.png" alt="knauf"></li>
+<li><img src=":img-url/polycolor.png" alt="polycolor"></li>
+<li><img src=":img-url/green-line.png" alt="green-line"></li>
 </ul>
 <p>Кроме того, фирма <strong>"АРКОНИ"</strong> осуществляет весь спектр строительно-монтажных и ремонтных работ с гарантией качества:
 строительство и ремонт частных домов, коттеджей ("под ключ"), а также ремонт офисов, комнат и производственных помещений.</p>

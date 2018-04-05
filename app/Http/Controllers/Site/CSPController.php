@@ -88,44 +88,6 @@ class CSPController extends BaseController
 
     public function sub_category(Request $request)
     {
-//        try {
-//            $this->data['sub-category'] = DB::table('sub_categories')->select(
-//                config('app.locale') . '_sub_categories.' . config('app.locale') . '_name as name',
-//                config('app.locale') . '_sub_categories.title',
-//                config('app.locale') . '_sub_categories.desc',
-//                config('app.locale') . '_sub_categories.h1',
-//                config('app.locale') . '_sub_categories.seo_text',
-//                config('app.locale') . '_sub_categories.h2',
-//                config('app.locale') . '_sub_categories.seo_text_2',
-//                config('app.locale') . '_categories.ru_name as category_name',
-//                'categories.cat_url_slug as category_slug'
-//            )
-//                ->join(config('app.locale') . '_sub_categories', config('app.locale') . '_sub_categories.sub_cat_id', '=', 'sub_categories.id')
-//                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-//                ->join(config('app.locale') . '_categories', config('app.locale') . '_categories.cat_id', '=', 'categories.id')
-//                ->where('sub_cat_url_slug', $request->segment(2))
-//                ->get()->toArray()[0];
-//
-//            $this->data['products'] = DB::table('items')->select(
-//                config('app.locale') . '_name as name',
-//                config('app.locale') . '_items.desc',
-//                'item_photo as photo',
-//                'item_url_slug as slug',
-//                'price',
-//                'old_price')
-//                ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
-//                ->join('item_categories', 'item_categories.item_id', '=', 'items.id')
-//                ->join('sub_categories', 'sub_categories.id', '=', 'item_categories.sub_cat_id')
-//                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-//                ->where([
-//                    ['sub_categories.sub_cat_url_slug', '=', $request->segment(2)],
-//                    ['enabled', '=', 1]
-//                ])
-//                ->paginate(10);
-//        } catch (\Exception $e) {
-//            abort(404);
-//        }
-
         $sort = ($request->sort) ? $request->sort : 'asc_name';
         $bs = ($request->bs) ? $request->bs : Null;
         $i_model = new Item;
@@ -134,15 +96,6 @@ class CSPController extends BaseController
         // getting all items in SubCategory
         $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
         //gettings existing brands via ID
-
-        //TODO:DELETE
-//        return view('site.sub-category', [
-//            'class' => 'sub-category',
-//            'data' => $this->data,
-//            'title' => $this->data['sub-category']->title,
-//            'description' => $this->data['sub-category']->desc,
-//            'rating' => $this->stars->index($request),
-//        ]);
 
         return view('site.sub-category', [
             'sort' => $sort,
@@ -166,45 +119,21 @@ class CSPController extends BaseController
     public function product(Request $request)
     {
         $item_model = new Item();
-        try {
-            $this->data['product'] = DB::table('items')->select(
-                'items.id as id',
-                config('app.locale') . '_name as name',
-                config('app.locale') . '_items.desc',
-                'item_photo as photo',
-                'item_url_slug as slug',
-                'price',
-                'old_price')
-                ->join(config('app.locale') . '_items', 'id', '=', 'item_id')
-                ->where([
-                    ['item_url_slug', '=', $request->segment(2)],
-                    ['enabled', '=', 1],
-                ])
-                ->get()->toArray()[0];
-
-            $this->data['product']->attrs = DB::table('item_attributes')->select(
-                config('app.locale') . '_name as name',
-                'value')
-                ->join('attributes', 'attributes.id', '=', 'item_attributes.attr_id')
-                ->where('item_id', '=', $this->data['product']->id)
-                ->get()->toArray();
-        } catch (\Exception $e) {
-            abort(404);
-        }
 // with url_slug search item ID
         $item_id = $this->getItemId($request->segment(2));
         $same_ids = $this->getSameProductsIds($item_model->getItemSubCategoryId($item_id),$item_id);
-        $same_items = ($same_ids)
+        $this->data['same_items'] = ($same_ids)
             ?   Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
-        $item = Item::with([
+        $this->data['item'] = Item::with([
             $this->getItemMethod(),
             $this->getTagMethod(),
             'getItemTag',
             'brand',
             'getItemShortcut',
         ])->findOrFail($item_id);
-        $tag_comb = $this->itemTagCombine($item);
+        $this->data['tags'] = $this->itemTagCombine($this->data['item']);
+
         return view('site.product', [
             'class' => 'product',
             'data' => $this->data,
@@ -212,52 +141,44 @@ class CSPController extends BaseController
             'description' => '',
             'rating' => $this->stars->index($request),
             'starts' => false, //hide starts in footer
-            //'item'=>Item::findOrFail($item_id)->with([
-//                $this->getItemMethod(),
-//                $this->getTagMethod(),
-//                'getItemTag',
-//                'getItemShortcut',
-//            ]),
-        'item'=>$item,
             'item_method'=>$this->getItemMethod(),
             'tag_method'=>$this->getTagMethod(),
             'column'=>$this->getColumn(),
-            'tags'=>$tag_comb,
             "attrs" => Attribute::get(['id', $this->getColumn()]),
             "item_attrs" => ItemAttribute::with('attributesLang')->where('item_id', $item_id)->get(),
-            "same_items" => $same_items,
         ]);
     }
 
-    /** Getting all Items in current SubCategory
-     * If exist filters (brand ID) then filter and sort else, if request hasn't filter do sort only
-     * @param Request $request
-     * @return $this
-     */
-//    public function getSubCategoryItems(Request $request)
-//    {
+    public function tags(Request $request)
+    {
 //        $sort = ($request->sort) ? $request->sort : 'asc_name';
-//        $bs = ($request->bs)?$request->bs:Null;
+//        $bs = ($request->bs) ? $request->bs : Null;
 //        $i_model = new Item;
 //        $brand_model = new Brand();
 //        $sort_config = $this->setSortConfig($sort);
 //        // getting all items in SubCategory
 //        $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
 //        //gettings existing brands via ID
-//
-//        return view('getSubCategory-test')->with([
+
+
+        return view('site.tags', [
 //            'sort' => $sort,
+            'class' => 'tagstags',
 //            'items' => $data['items']->paginate($this->page_count),
 //            'segment' => $this->sc_segment,
 //            'i_method' => $sort_config['method'],
 //            'scat' => $this->getSubCategoryData(),
 //            'scat_method' => $this->getSubCategoryMethod(),
-//            'brands'=>$brand_model->getSubCategoryBrands($data['brand_ids']),
-//            'bs'=>$bs,
-//            'cat'=>$this->getCategoryData(),
-//            'cat_method'=>$this->getCategoryMethod(),
-//        ]);
-//    }
+//            'brands' => $brand_model->getSubCategoryBrands($data['brand_ids']),
+//            'bs' => $bs,
+            'rating' => $this->stars->index($request),
+            'title' => '',
+            'description' => '',
+//            'cat' => $this->getCategoryData(),
+//            'cat_method' => $this->getCategoryMethod(),
+//            'tags'=>$this->tagCombine($data['items']),
+        ]);
+    }
 
     /**
      * getting method 4 conclusion items in specific lang
@@ -284,6 +205,7 @@ class CSPController extends BaseController
         $item_id = Item::where([['item_url_slug','=',$segment],['enabled','=',1]])->first()->id;
         return $item_id;
     }
+
 
     /** getting SubCategory ID
      * @return Integer
@@ -454,12 +376,12 @@ class CSPController extends BaseController
     private function itemTagCombine($item){
         $tag_key = array();
         $tag_value = array();
-            foreach ($item->getItemTag as $tag){
-                $tag_key[]=$tag->tag_url_slug;
-            }
-            foreach ($item[$this->getTagMethod()] as $tm){
-                $tag_value[]=$tm[$this->getColumn()];
-            }
+        foreach ($item->getItemTag as $tag){
+            $tag_key[]=$tag->tag_url_slug;
+        }
+        foreach ($item[$this->getTagMethod()] as $tm){
+            $tag_value[]=$tm[$this->getColumn()];
+        }
         $comb = array_combine($tag_key,$tag_value);
         return $comb;
     }
@@ -471,7 +393,7 @@ class CSPController extends BaseController
      * @return null|Array
      */
     private function getSameProductsIds($sub_cat_id, $current_id){
-       $ic=new ItemCategory() ;
+        $ic=new ItemCategory() ;
         $all_ids = $ic->where([['sub_cat_id','=',$sub_cat_id],['item_id','<>',$current_id]])->pluck('item_id');
         switch($all_ids->count()){
             case 1: $count = 1;break;

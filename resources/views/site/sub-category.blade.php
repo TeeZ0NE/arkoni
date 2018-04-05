@@ -19,7 +19,8 @@
                                 <ul>
                                     @foreach($brands as $brand)
                                         <li>
-                                            <input id="id-{{$brand->id}}" type="checkbox" name="bs[]" value="{{$brand->id}}"
+                                            <input id="id-{{$brand->id}}" type="checkbox" name="bs[]"
+                                                   value="{{$brand->id}}"
                                                    @isset($bs) @if(in_array($brand->id,$bs)) checked @endif @endisset>
                                             <label for="id-{{$brand->id}}">{{$brand->name}}</label>
                                         </li>
@@ -99,7 +100,6 @@
                                     </header>
                                     @if($item->getItemShortcut)
                                         <ul class="commerce">
-
                                             @foreach($item->getItemShortcut as $shc)
                                                 <li class="{{$shc->name}}">@lang('general.' . $shc->name)</li>
                                             @endforeach
@@ -134,6 +134,15 @@
                     </article>
                 @endforeach
                 {{ $items->appends(['sort'=>$sort, 'bs'=>$bs])->links('pagination.default') }}
+                @if(count($tags) > 0)
+                    <ul class="tags">
+                        @foreach($tags as $tag_key => $tag_value)
+                            <li>
+                                <a href="{{ LaravelLocalization::LocalizeURL('/' . $tag_key) }}">#{{$tag_value}}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             </div>
         </div>
     </div>
@@ -150,10 +159,6 @@
             </div>
         </div>
     </div>
-    {{--TODO: tags echo--}}
-    <div class="alert alert-warning text-center">@foreach($tags as $tag_key=>$tag_value)
-            <a href="{{$tag_key}}">{{$tag_value}}</a>
-        @endforeach</div>
 
     {{--TODO: DELETE--}}
     {{--{{ print_array($items) }}--}}

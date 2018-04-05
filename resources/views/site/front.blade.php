@@ -23,17 +23,17 @@
     <div class="info">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6 col-md-4">
                     <img src="{{ asset('images/info-delivery.png') }}" alt="">
                     <div class="title">@lang('front.info.block-1.title')</div>
                     <div class="body">@lang('front.info.block-1.body')</div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6 col-md-4">
                     <img src="{{ asset('images/info-oredr.png') }}" alt="">
                     <div class="title">@lang('front.info.block-2.title')</div>
                     <div class="body">@lang('front.info.block-2.body')</div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6 col-md-4">
                     <img src="{{ asset('images/info-market.png') }}" alt="">
                     <div class="title">@lang('front.info.block-3.title')</div>
                     <div class="body">@lang('front.info.block-3.body')</div>
@@ -180,7 +180,7 @@
                     <div class="title">@lang('front.best-offers.title')</div>
                 </div>
                 @foreach($data['rand-top-products'] as $item)
-                    <div class="col-md-3">
+                    <div class="col-sm-6 col-lg-3">
                         <div class="block">
                             <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                                 <img class="img-fluid" src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
@@ -204,7 +204,7 @@
     <div class="seo">
         <div class="container">
             <div class="row justify-content-end">
-                <div class="col col-md-10">
+                <div class="col-sm-12 col-lg-10">
                     <h3 class="title">@lang('front.seo.title')</h3>
                     <div class="body">@lang('front.seo.body')</div>
                 </div>

@@ -204,6 +204,7 @@
       margin 0 auto 15px
     }
     .block {
+      height: 100%;
       border-radius 4px
       padding 15px 15px 120px 15px;
       text-align center
@@ -311,15 +312,13 @@
       font-size 2em
       position: absolute;
       top: 50%;
+      z-index: 1;
       &:hover {
         cursor pointer
       }
     }
-    .slick-arrow.arrow-prev {
-      left: -25px;
-    }
     .slick-arrow.arrow-next {
-      right: -25px;
+      right: 0;
     }
   }
 
@@ -327,7 +326,7 @@
 
 .services {
   padding-top 30px
-  .col-md-4 {
+  .row > div {
     display: inline-flex;
   }
   .calc-aside-block,
@@ -412,7 +411,7 @@
     width: 46%;
     position absolute;
   }
-  .col-md-5 {
+  .content {
     color: white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
     padding-left: 50px;
@@ -448,5 +447,138 @@
   }
   a {
     color white
+  }
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 992px) {
+  .google-map {
+    .shadow {
+      width 55%
+    }
+  }
+
+  .services {
+    .row > div:nth-child(3) {
+      margin: 15px auto 0
+    }
+    .go-to {
+      width: 200px;
+    }
+  }
+
+  .front {
+    .seo .container:after {
+      display none
+    }
+    .best-offers .row > .col-sm-6 {
+      margin-bottom 20px
+    }
+    .choice {
+      .go-to {
+        width: 160px;
+      }
+      .title {
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .front {
+    .row > div > .title {
+      font-size 1.125em !important
+    }
+    .seo {
+      padding: 25px 0 0;
+    }
+    .best-offers {
+      padding: 0 0 15px;
+    }
+    .comments .text-block .title {
+      font-size: 1em;
+    }
+    .info {
+      padding: 25px 0;
+      .row > div:nth-child(3) {
+        margin: 15px auto 0;
+      }
+    }
+    .choice {
+      padding-bottom: 0;
+      ul {
+        display none
+      }
+      .title {
+        padding-bottom 0
+      }
+    }
+    .competitors {
+      display none
+    }
+  }
+
+  .google-map {
+    .shadow {
+      width: 65%;
+    }
+    .content {
+      padding-left: 42px;
+      padding-top: 15px;
+    }
+  }
+
+}
+
+@media (max-width: 575px) {
+  .google-map {
+    .shadow {
+      width 100%
+    }
+  }
+
+  .services {
+    .row > div:nth-child(2),
+    .row > div:nth-child(3) {
+      margin 15px 0 0
+    }
+  }
+
+  .front {
+    .comments {
+      img {
+        margin: 0 auto;
+        float none
+      }
+      .name {
+        width: 100%;
+        position: static;
+        margin: 6px 0;
+      }
+      .text-block {
+        margin-left: 0;
+        padding-right: 0;
+      }
+      .slick-arrow {
+        top: 25%;
+      }
+    }
+    .info .row > div:nth-child(2),
+    .info .row > div:nth-child(3) {
+      margin: 15px 0 0;
+    }
+  }
+  .producers {
+    display none
+  }
+}
+
+@media (max-width: 380px) {
+  .google-map .brand {
+    font-size: 1.2em;
   }
 }

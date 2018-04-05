@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row">
                 @foreach($data['sub-categories'] as $item)
-                    <div class="col-md-3">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
                         <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->slug) }}">
                             <img class="img-fluid" src="{{ asset('/storage/img/'.$item->photo) }}" alt="">
                         </a>

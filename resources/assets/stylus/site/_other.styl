@@ -47,6 +47,9 @@ strong {
 
 .pagination {
   margin 20px 0 0
+  .page-link {
+    padding: 4px 10px;
+  }
   a {
     color: base-color
   }
@@ -62,12 +65,24 @@ strong {
       }
     }
   }
-  .page-item.active {
-    a {
-      border-color: #e8e8e8;
-      background-color: #e8e8e8;
-      color: base-color
-    }
+  .page-item.active .page-link {
+    border-color: #e8e8e8;
+    background-color: #e8e8e8;
+    color: base-color
+    border-radius: 5px;
+  }
+}
 
+//.competitors,
+//.front-banner,
+//.main-menu,
+//.header {
+//  display none;
+//}
+
+@media (max-width: 575px) {
+  .breadcrumbs .breadcrumb {
+    padding: .75rem 0 0;
+    margin-bottom: 6px;
   }
 }

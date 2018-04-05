@@ -33,14 +33,45 @@
     display flex
     flex-wrap: wrap;
     li {
-      width: 16%;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 30px;
     }
-    li:not(nth-child(1)) {
-      margin 0 20px
+    img {
+
     }
   }
   .breadcrumbs + .container {
     padding-bottom 10px
+  }
+}
+
+@media (max-width: 1200px) {
+  .about .producers li {
+    margin: 0 48px;
+  }
+}
+
+@media (max-width: 992px) {
+  .about .producers li {
+    margin: 0 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about .producers {
+    li {
+      margin: 0;
+    }
+    img {
+      width: 88%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .about h1 {
+    font-size: 1.2em;
   }
 }

@@ -20,6 +20,15 @@ $(function () {
         arrows: true,
         nextArrow: '<i class="fas fa-angle-right slick-arrow arrow-next"></i>',
         prevArrow: '<i class="fas fa-angle-left slick-arrow arrow-prev"></i>',
+        responsive: [
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+        ]
     });
 
 
@@ -34,50 +43,29 @@ $(function () {
         arrows: false,
         autoplay: true,
         autoplaySpeed: 3000,
-        // responsive: [
-        //     {
-        //         breakpoint: 1200,
-        //         settings: {
-        //             slidesToShow: 7,
-        //             slidesToScroll: 7
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 992,
-        //         settings: {
-        //             slidesToShow: 5,
-        //             slidesToScroll: 5
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 680,
-        //         settings: {
-        //             slidesToShow: 4,
-        //             slidesToScroll: 4
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 540,
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 3
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 440,
-        //         settings: {
-        //             slidesToShow: 2,
-        //             slidesToScroll: 2
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 360,
-        //         settings: {
-        //             slidesToShow: 1,
-        //             slidesToScroll: 1
-        //         }
-        //     }
-        // ]
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 5
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+        ]
     });
 
     //google maps

@@ -16,7 +16,7 @@ class Tag extends Model
      */
     public function getRuTagsName()
     {
-        return $this->hasOne(RuTag::class, 'tag_id')->select(['ru_name', 'tag_id']);
+        return $this->hasOne(RuTag::class, 'tag_id')->select(['ru_name as name', 'tag_id']);
     }
 
     /**

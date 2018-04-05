@@ -85,8 +85,6 @@ class SubCategory extends Model
         return $this::with(['getCategory'])->select('cat_id')->first();
     }
 
-    public function getParentCategoryId(){
-        
-    }
+
 }
 

@@ -49,3 +49,8 @@ Breadcrumbs::register('about', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(__('breadcrumbs.about'), route('about'));
 });
+
+Breadcrumbs::register('tags', function ($breadcrumbs, $name) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push($name);
+});

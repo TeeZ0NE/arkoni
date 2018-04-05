@@ -1,7 +1,7 @@
 @extends('admin.admin')
-@section('title','Brands')
-@section('description','myDescription to brands info')
-@section('keywords','myKeyWords to brands info')
+@section('title','Arkony Admin')
+@section('description','Admin panel')
+@section('keywords',Null)
 @section('admin_main_content')
     <div class="row">
         <div class="col-12 p-0">

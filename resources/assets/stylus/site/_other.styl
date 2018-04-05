@@ -47,6 +47,9 @@ strong {
 
 .pagination {
   margin 20px 0 0
+  .page-link {
+    padding: 4px 10px;
+  }
   a {
     color: base-color
   }
@@ -62,29 +65,20 @@ strong {
       }
     }
   }
-  .page-item.active {
-    a {
-      border-color: #e8e8e8;
-      background-color: #e8e8e8;
-      color: base-color
-    }
-
+  .page-item.active .page-link {
+    border-color: #e8e8e8;
+    background-color: #e8e8e8;
+    color: base-color
+    border-radius: 5px;
   }
 }
 
-//.producers,
-//.comments,
-//.services,
-//.seo,
-//.best-offers,
 //.competitors,
-//.choice,
-//.info,
 //.front-banner,
-.main-menu,
-.header {
-  display none;
-}
+//.main-menu,
+//.header {
+//  display none;
+//}
 
 @media (max-width: 575px) {
   .breadcrumbs .breadcrumb {

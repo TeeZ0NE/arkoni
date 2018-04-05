@@ -19,12 +19,15 @@
         margin: 0 auto;
       }
     }
+    .priceCurrency,
+    .price-zero,
     .availability {
       display none
     }
     .old-price {
       position relative
       font-size 1.125em
+      padding-right 10px
       &:before {
         position: absolute;
         display: block;
@@ -50,7 +53,7 @@
           margin-left 10px
         }
       }
-      .stock {
+      .promotion {
         color #de0000
         border-color #de0000
       }
@@ -58,7 +61,7 @@
         color orange-color-hover
         border-color orange-color-hover
       }
-      .recommend {
+      .exclusive {
         color #0e7200
         border-color #0e7200
       }
@@ -66,13 +69,10 @@
     .price {
       font-size 1.5em
       font-family bold-family
-      margin-left 10px
     }
-    .img-thumbnail {
-      margin 30px auto 30px
-      width 200px
-      height 260px
-      display block
+    img {
+      margin: 0 auto 20px;
+      display: block;
     }
     .rating-block {
       text-align center
@@ -103,7 +103,7 @@
       a {
         color: #868585
         border 1px solid #868585
-        padding 2px 5px
+        padding: 4px 10px;
         border-radius 5px
         font-size .875em
         text-decoration none

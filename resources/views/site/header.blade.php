@@ -19,7 +19,9 @@
                             href="tel:{{ config('contacts.phone-2') }}">{{ config('contacts.phone-2') }}</a></div>
             </div>
             <div class="col-md-3">
-                <div class="address"><i class="fas fa-map-marker-alt"></i>@lang('general.address-street')</div>
+                <div class="address"><i class="fas fa-map-marker-alt"></i>
+                    <a target="_blank" href="https://goo.gl/maps/kD2RDPM2KDP2">@lang('general.address-street')</a>
+                </div>
                 <div class="work-time"><i class="far fa-clock"></i>@lang('general.work-time')</div>
             </div>
             <div class="col-md-4">

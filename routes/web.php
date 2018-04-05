@@ -96,6 +96,7 @@ Route::group(
         Route::get('/stars', 'Site\StarsController@index');
         Route::get('/blog', 'Site\BlogController@index')->name('blog');
         Route::get('/b-{name}', 'Site\BlogController@inside')->name('blog-inside');
+        Route::get('/t-{name}', 'Site\CSPController@tags')->name('tags');
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
         Route::get('/about', 'Site\SiteController@about')->name('about');
         //search engine

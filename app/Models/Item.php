@@ -60,7 +60,7 @@ class Item extends Model
      */
     public function getSubCategoryItems($id, $sort_config, $bs=Null)
     {
-        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut'])->
+        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['t_method']])->
         where('enabled', 1)->
         whereHas('getSubCategories', function ($f) use ($id) {
             $f->where('id', $id);
@@ -125,8 +125,7 @@ class Item extends Model
 
     public function getItemRuTagName()
     {
-        return $this->hasManyThrough(RuTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id')->
-        select('item_id', 'ru_name');
+        return $this->hasManyThrough(RuTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id')->select('ru_name');
     }
 
     /**
@@ -179,6 +178,9 @@ class Item extends Model
             ? $all_items->sortBy($s_config['sortBy'])
             : $all_items->sortByDesc($s_config['sortBy']);
         return $items;
+    }
+    public function getItemSubCategoryId($item_id){
+        return $this::with(['getItemCategories'])->find($item_id)->getItemCategories->first()->sub_cat_id;
     }
     /* NOT USING
         /**searchin and sorting items

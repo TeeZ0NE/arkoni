@@ -30,7 +30,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="ru-item-name" placeholder="Название продукта"
-                                   name="ru_name" value="{{ $item->getRuItem['name']  }}"
+                                   name="ru_name" value="@if(old('ru_name')){{old('ru_name')}}@else{{ $item->getRuItem['name']  }}@endif"
                                    aria-label="Название продукта"
                                    aria-describedby="ru-item-name" maxlength="255">
                         </div>
@@ -40,7 +40,7 @@
                                 <span class="input-group-text"><strong>Описание<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control editor" aria-label="description"
-                                      name="ru_desc" rows="5">{{ $item->getRuItem['description'] }}</textarea>
+                                      name="ru_desc" rows="5">@if(old('ru_desc')){{old('ru_desc')}}@else{{ $item->getRuItem['description'] }}@endif</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -54,7 +54,7 @@
                     </span>
                             </div>
                             <input type="text" class="form-control" id="uk-item-name" placeholder="Назва продукта"
-                                   name="uk_name" value="{{ $item->getUkItem['name'] }}" aria-label="Назва продукта"
+                                   name="uk_name" value="@if(old('uk_name')){{old('uk_name')}}@else{{ $item->getUkItem['name'] }}@endif" aria-label="Назва продукта"
                                    aria-describedby="uk-item-name" maxlength="255">
                         </div>
                         {{-- Description --}}
@@ -63,7 +63,7 @@
                                 <span class="input-group-text"><strong>Опис<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control editor" aria-label="description"
-                                      name="uk_desc" rows="5">{{ $item->getUkItem['description'] }}</textarea>
+                                      name="uk_desc" rows="5">@if(old('uk_desc')){{old('uk_desc')}}@else{{ $item->getUkItem['description'] }}@endif</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
@@ -100,7 +100,7 @@
                     </div>
                     @php $price = (old('price'))?old('price'):$item->price  @endphp
                     <input type="number" class="form-control" id="item-price" placeholder="Ціна продукта" name="price"
-                           value="{{$price}}" aria-label="Ціна продукта" aria-describedby="item-price"
+                           value="@if(old('price')){{old('price')}}@else{{$price}}@endif" aria-label="Ціна продукта" aria-describedby="item-price"
                            step="0.01">
                 </div>
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> При заповненні поля "Стара ціна" на
@@ -212,7 +212,7 @@
                     </div>
                     <input type="text" class="form-control" placeholder="URL"
                            aria-label="url" aria-describedby="url-slug"
-                           value="{{mb_substr($item->item_url_slug,2)}}" required name="item_url_slug">
+                           value="@if(old('item_url_slug')){{old('item_url_slug')}}@else{{mb_substr($item->item_url_slug,2)}}@endif" required name="item_url_slug">
                 </div>
                 {{-- Photo --}}
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше

@@ -70,6 +70,10 @@ class SubCategoryController extends Controller
             'ru_title' => 'required|max:70',
             'uk_title' => 'required|max:70',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'ru_h1' => 'max:255',
+            'uk_h1' => 'max:255',
+            'uk_h2' => 'max:255',
+            'ru_h2' => 'max:255',
         ]);
         $user = Auth::user()->name;
         $photo = config('app.img_default');

@@ -122,6 +122,10 @@ class CategoryController extends Controller
             'ru_desc' => 'max:255|required',
             'cat_url_slug' => 'required|max:250',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'ru_h1' => 'max:255',
+            'uk_h1' => 'max:255',
+            'uk_h2' => 'max:255',
+            'ru_h2' => 'max:255',
         ]);
         $user = Auth::user()->name;
         $id = $request->id;
@@ -143,7 +147,7 @@ class CategoryController extends Controller
             Log::error('Category update', ['msg' => $qe->getMessage(), 'user' => $user, 'cat id'=>$id]);
             return redirect()
                 ->back()
-                ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n" . $qe]);
+                ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n"]);
         }
         Log::info('Category update', ['user' => $user, 'cat id'=>$id]);
         return redirect(route('cats.index'))->with('msg', 'Зміни внесено!');
@@ -164,6 +168,10 @@ class CategoryController extends Controller
             'uk_desc' => 'max:255|required',
             'ru_desc' => 'max:255|required',
             'img_upload' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'ru_h1' => 'max:255',
+            'uk_h1' => 'max:255',
+            'uk_h2' => 'max:255',
+            'ru_h2' => 'max:255',
         ]);
         $user = Auth::user()->name;
         $photo = config('app.img_default');

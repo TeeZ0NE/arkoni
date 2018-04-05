@@ -11,6 +11,7 @@ $(function () {
             ['formatting'],
             ['strong', 'em'],
             ['link'],
+            ['insertImage'],
             ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
             ['unorderedList', 'orderedList'],
             ['horizontalRule'],

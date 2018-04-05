@@ -30,7 +30,7 @@
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="ru_name"
-                                   value="{{$cat->RuCategory->ru_name}}" required name="ru_name" maxlength="255">
+                                   value="@if(old('ru_name')){{old('ru_name')}}@else{{$cat->RuCategory->ru_name}}@endif" required name="ru_name" maxlength="255">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -39,8 +39,7 @@
                                 </span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="title"
-                                   aria-describedby="cat-title-ru" value="{{$cat->RuCategory->title}}" name="ru_title"
-                                   maxlength="70">
+                                   aria-describedby="cat-title-ru" value="@if(old('ru_title')){{old('ru_title')}}@else{{$cat->RuCategory->title}}@endif" name="ru_title"                                        maxlength="70">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -50,35 +49,35 @@
                             </div>
                             <textarea class="form-control" aria-label="Page description"
                                       required name="ru_desc" maxlength="255"
-                                      rows="5">{{$cat->RuCategory->desc}}</textarea>
+                                      rows="5">@if(old('ru_desc')){{old('ru_desc')}}@else{{$cat->RuCategory->desc}}@endif</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h1-ru">H1</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h1" aria-label="Заголовок h1"
-                                   aria-describedby="cat-h1-ru" value="{{$cat->RuCategory->h1}}" name="ru_h1">
+                                   aria-describedby="cat-h1-ru" value="@if(old('ru_h1')){{old('ru_h1')}}@else{{$cat->RuCategory->h1}}@endif" name="ru_h1">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text"
-                                      name="ru_seo_text" rows="5">{{$cat->RuCategory->seo_text}}</textarea>
+                                      name="ru_seo_text" rows="5">@if(old('ru_seo_text')){{old('ru_seo_text')}}@else{{$cat->RuCategory->seo_text}}@endif</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h2-ru">H2</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h2" aria-label="Заголовок h2"
-                                   aria-describedby="cat-h2-ru" value="{{$cat->RuCategory->h2}}" name="ru_h2">
+                                   aria-describedby="cat-h2-ru" value="@if(old('ru_h2')){{old('ru_h2')}}@else{{$cat->RuCategory->h2}}@endif" name="ru_h2">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text 2"
-                                      name="ru_seo_text_2" rows="5">{{$cat->RuCategory->seo_text_2}}</textarea>
+                                      name="ru_seo_text_2" rows="5">@if(old('ru_seo_text_2')){{old('ru_seo_text_2')}}@else{{$cat->RuCategory->seo_text_2}}@endif</textarea>
                         </div>
                         {{--/RU--}}
                     </div>
@@ -91,7 +90,7 @@
                             </div>
                             <input type="text" class="form-control" placeholder="Название категории"
                                    aria-label="Название категории" aria-describedby="cat-name-uk"
-                                   value="{{$cat->UkCategory->uk_name}}" name="uk_name" maxlength="255">
+                                   value="@if(old('uk_name')){{old('uk_name')}}@else{{$cat->UkCategory->uk_name}}@endif" name="uk_name" maxlength="255">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -99,43 +98,42 @@
                                       id="cat-title-ru"><strong>Title<sup>*</sup></strong></span>
                             </div>
                             <input type="text" class="form-control" placeholder="Title" aria-label="Заголовок вкладки"
-                                   aria-describedby="cat-title-ru" value="{{$cat->UkCategory->title}}" required
-                                   name="uk_title">
+                                   aria-describedby="cat-title-ru" value="@if(old('uk_title')){{old('uk_title')}}@else{{$cat->UkCategory->title}}@endif" required    name="uk_title">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><strong>Description<sup>*</sup></strong></span>
                             </div>
                             <textarea class="form-control" aria-label="Page description"
-                                      required name="uk_desc" rows="5">{{$cat->UkCategory->desc}}</textarea>
+                                      required name="uk_desc" rows="5">@if(old('uk_desc')){{old('uk_desc')}}@else{{$cat->UkCategory->desc}}@endif</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h1-uk">H1</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h1" aria-label="Заголовок h1"
-                                   aria-describedby="cat-h1-uk" value="{{$cat->UkCategory->h1}}" name="uk_h1">
+                                   aria-describedby="cat-h1-uk" value="@if(old('uk_h1')){{old('uk_h1')}}@else{{$cat->UkCategory->h1}}@endif" name="uk_h1">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text"
-                                      name="uk_seo_text" rows="5"> {{$cat->UkCategory->seo_text}}</textarea>
+                                      name="uk_seo_text" rows="5">@if(old('uk_seo_text')){{old('uk_seo_text')}}@else{{$cat->UkCategory->seo_text}}@endif</textarea>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="cat-h2-uk">H2</span>
                             </div>
                             <input type="text" class="form-control" placeholder="Заголовок h2" aria-label="Заголовок h2"
-                                   aria-describedby="cat-h2-uk" value="{{$cat->UkCategory->h2}}" name="uk_h2">
+                                   aria-describedby="cat-h2-uk" value="@if(old('uk_h2')){{old('uk_h2')}}@else{{$cat->UkCategory->h2}}@endif" name="uk_h2">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">SEO текст 2</span>
                             </div>
                             <textarea class="form-control editor" aria-label="seo text 2"
-                                      name="uk_seo_text_2" rows="5">{{$cat->UkCategory->seo_text_2}}</textarea>
+                                      name="uk_seo_text_2" rows="5">@if(old('uk_seo_text_2')){{old('uk_seo_text')}}@else{{$cat->UkCategory->seo_text_2}}@endif</textarea>
                         </div>
                         {{--/UK--}}
                     </div>
@@ -147,7 +145,7 @@
                     </div>
                     <input type="text" class="form-control" placeholder="URL"
                            aria-label="url" aria-describedby="url-slug"
-                           value="{{mb_substr($cat->cat_url_slug,2)}}" required name="cat_url_slug" maxlength="250">
+                           value="@if(old('cat_url_slug')){{old('cat_url_slug')}}@else{{mb_substr($cat->cat_url_slug,2)}}@endif" required name="cat_url_slug" maxlength="250">
                 </div>
                 <p class="alert alert-info p-0 pl-md-2"><strong>Увага!</strong> Завантажуйте зображення розміром більше 300 px для коректного їх відображення</p>
                 <div class="input-group mb-3">

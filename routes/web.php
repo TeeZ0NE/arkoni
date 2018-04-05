@@ -73,12 +73,18 @@ Route::prefix('admin')->group(function () {
         Route::get('items/query', 'Admin\ItemsController@search')->name('items.search');
         Route::resource('items', 'Admin\ItemsController');
     });
-     // Tags
+    // Tags
     Route::group(['middleware' => ['purify']], function () {
         Route::get('tags/query', 'Admin\TagController@search')->name('tags.search');
         Route::resource('tags', 'Admin\TagController');
     });
     Route::get('images', 'Admin\ImagesController')->name('images');
+    // Blog
+    Route::group(['middleware' => ['purify']], function () {
+        Route::get('blog/query', 'Admin\BlogController@search')->name('blog.search');
+        Route::get('blog/upt-views/{id}','Admin\BlogController@addView')->name('blog.add_view');
+        Route::resource('blog', 'Admin\BlogController');
+    });
 });
 
 //site route

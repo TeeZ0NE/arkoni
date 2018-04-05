@@ -106,3 +106,4 @@ FROM items AS i
 LEFT JOIN item_tags AS it ON it.item_id=i.id
 LEFT JOIN ru_tags AS rt ON it.tag_id=rt.tag_id;
 
+SELECT item_id FROM item_categories where sub_cat_id=1;

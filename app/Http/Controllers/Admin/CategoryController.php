@@ -147,7 +147,7 @@ class CategoryController extends Controller
             Log::error('Category update', ['msg' => $qe->getMessage(), 'user' => $user, 'cat id'=>$id]);
             return redirect()
                 ->back()
-                ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n" . $qe]);
+                ->withErrors(['cat_error' => "Сталась помилка запису змін.\r\n"]);
         }
         Log::info('Category update', ['user' => $user, 'cat id'=>$id]);
         return redirect(route('cats.index'))->with('msg', 'Зміни внесено!');

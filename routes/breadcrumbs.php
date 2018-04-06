@@ -31,7 +31,7 @@ Breadcrumbs::register('blog', function ($breadcrumbs) {
 });
 
 Breadcrumbs::register('blog-inside', function ($breadcrumbs, $name) {
-    $breadcrumbs->parent('blog-inside');
+    $breadcrumbs->parent('blog');
     $breadcrumbs->push($name);
 });
 

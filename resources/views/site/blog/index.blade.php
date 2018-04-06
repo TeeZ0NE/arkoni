@@ -6,33 +6,39 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12"><div class="title">@lang('blog.title')</div></div>
+            <div class="col-12">
+                <div class="title">@lang('blog.title')</div>
+            </div>
             <main class="col-md-9" role="main">
-                <article>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <a href="{{ LaravelLocalization::LocalizeURL('/b-eqweqweqw') }}">
-                                <img class="thumb" src="{{ asset('/storage/img/') }}" alt="">
-                            </a>
+                @foreach($data['articles'] as $item)
+                    <article>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="{{ LaravelLocalization::LocalizeURL('/' . $item->slug) }}">
+                                    <img class="img-fluid" src="{{ asset('/storage/img/' . $item->photo) }}" alt="">
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="views"><i class="far fa-eye"></i>{{ $item->views }}</div>
+                                <header>
+                                    <a href="{{ LaravelLocalization::LocalizeURL('/' . $item->slug) }}">{{ $item->title }}</a>
+                                </header>
+                                <p>{{ do_excerpt($item->body, 40) }}</p>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                            <ul class="commerce">
-                                <li class="promotion"></i>@lang('general.promotion')</li>
-                                <li class="material">@lang('general.material')</li>
-                            </ul>
-                            <div class="views"><i class="far fa-eye"></i>387</div>
-                            <header><a href="{{ LaravelLocalization::LocalizeURL('/b-deqwedasda') }}">Акция «БЕСПЛАТНАЯ ДОСТАВКА» - отличная возможность снизить затраты на приобретение стройматериалов!</a></header>
-                            <p>Всегда отличная возможность сэкономить существенную сумму. Не ищите «подводных камней» и подвохов в наших акциях</p>
-                        </div>
-                    </div>
-                </article>
-
-                {{--{{ $data['products']->links('pagination.default') }}--}}
+                    </article>
+                @endforeach
+                @if($data['articles']->total() > 0)
+                    {{ $data['articles']->links('pagination.default') }}
+                @endif
             </main>
             <aside class="col-md-3">
                 @include('site.blog.aside')
             </aside>
         </div>
     </div>
+
+    {{--TODO: DELETE--}}
+    {{--{{ print_array($data) }}--}}
 
 @endsection

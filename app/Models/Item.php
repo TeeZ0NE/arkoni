@@ -88,6 +88,40 @@ class Item extends Model
     }
 
     /**
+     * @param Integer $id SubCategory ID
+     * @param Array $sort_config getting config 4 sorting
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getTagItems($id, $sort_config, $bs=Null)
+    {
+        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['t_method']])->
+        where('enabled', 1)->
+        whereHas('getItemTag', function ($f) use ($id) {
+            $f->where('id', $id);
+        })->
+//        whereIn('brand_id',[1,2])->
+        select('id', 'item_photo', 'price', 'old_price', 'brand_id', 'item_url_slug')->
+        get();
+        //if has filter to brand do filter
+        if($bs){
+            $items = ($sort_config['order'])
+                ? $all_items->whereIn('brand_id',$bs)->sortBy($sort_config['sortBy'])
+                : $all_items->whereIn('brand_id',$bs)->sortByDesc($sort_config['sortBy']);
+        }else{
+            $items = ($sort_config['order'])
+                ? $all_items->sortBy($sort_config['sortBy'])
+                : $all_items->sortByDesc($sort_config['sortBy']);
+        }
+         //getting array with existing brands IDs
+         $brand_ids = $all_items->pluck('brand_id');
+        $data=array(
+            'items'=>$items,
+            'brand_ids'=>$brand_ids,
+            );
+        return $data;
+    }
+
+    /**
      * get 4 item shortcuts whitch it has and shortcutname
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */

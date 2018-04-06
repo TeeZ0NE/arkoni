@@ -216,6 +216,16 @@ class Item extends Model
     public function getItemSubCategoryId($item_id){
         return $this::with(['getItemCategories'])->find($item_id)->getItemCategories->first()->sub_cat_id;
     }
+
+    /**
+     * get item parent category
+     * @param  integer $item_id item ID
+     * @return Integer
+     */
+    public function getItemCategoryId($item_id){
+        return $this::with('getSubCategories')->find($item_id)->getSubCategories->first()->cat_id;
+    }
+
     /* NOT USING
         /**searchin and sorting items
          * sort by price, enabled, by brand, by RU name

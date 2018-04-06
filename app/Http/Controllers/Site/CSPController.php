@@ -41,14 +41,14 @@ class CSPController extends BaseController
 
     public function catalog(Request $request)
     {
-        try {
+//        try {
             $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'cat_photo as photo')
                 ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
                 ->orderBy('name')
                 ->get()->toArray();
-        } catch (\Exception $e) {
-            abort(404);
-        }
+//        } catch (\Exception $e) {
+//            abort(404);
+//        }
 
         return view('site.catalog', [
             'class' => 'catalog',
@@ -61,7 +61,7 @@ class CSPController extends BaseController
 
     public function category(Request $request)
     {
-        try {
+//        try {
             $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
                 ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
                 ->where('cat_url_slug', $request->segment(2))
@@ -74,9 +74,9 @@ class CSPController extends BaseController
                 ->orderBy('name')
                 ->get()->toArray();
 
-        } catch (\Exception $e) {
-            abort(404);
-        }
+//        } catch (\Exception $e) {
+//            abort(404);
+//        }
 
         return view('site.category', [
             'class' => 'category',

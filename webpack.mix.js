@@ -25,6 +25,7 @@ mix.js([
     .copyDirectory('resources/assets/images', 'public/images');
 
 mix.copy('node_modules/trumbowyg/dist/ui/icons.svg','public/images/vendor/trumbowyg/icons.svg');
+mix.copy('resources/assets/ico/*','public/');
 // mix.copyDirectory('resources/assets/markitup/templates', 'public/js/markitup/templates');
 
 mix.webpackConfig({

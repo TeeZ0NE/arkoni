@@ -19,6 +19,4 @@ yarn-error.log
 /storage/purify/*
 storage/logs/
 /nbproject/*
-resources/assets/notes.md
-resources/assets/sql/arkoni_script.sql
 arkoni.loc.tar.gz

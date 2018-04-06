@@ -16,7 +16,7 @@ class WithImg
      * @param Boolean $water_mark boolean set or not watermark
      * @return string
      */
-    public function set_image($file, $ru_name, $file_ext,  $water_mark, $width = 300)
+    public function set_image($file, $ru_name, $file_ext,  $water_mark, $width)
     {
         $file_name = time() . url_slug($ru_name) . '.' . $file_ext;
         $public_path = config('app.img_path');
@@ -54,12 +54,13 @@ class WithImg
      * @param File $file img_upload
      * @param String $name
      * @param  boolean $water_mark
+     * @param Integer $width image size
      * @return string image file name
      */
-    public function getImageFileName($file, $name, $water_mark = True)
+    public function getImageFileName($file, $name, $water_mark = True, $width = 300)
     {
         $file_ext = $file->extension();
-        $photo = $this->set_image($file, $name, $file_ext, $water_mark);
+        $photo = $this->set_image($file, $name, $file_ext, $water_mark, $width);
         return $photo;
     }
 }

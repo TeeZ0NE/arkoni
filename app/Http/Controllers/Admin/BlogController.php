@@ -64,7 +64,7 @@ class BlogController extends Controller
         $photo = config('app.img_default');
         if ($request->hasFile('img_upload')) {
             $img = new WithImg();
-            $photo = $img->getImageFileName($request->file('img_upload'), $request->title, False);
+            $photo = $img->getImageFileName($request->file('img_upload'), $request->title, False, 825);
         }
         try {
             $id = $this->storeBlogData($request, $photo);
@@ -130,7 +130,7 @@ class BlogController extends Controller
                 Log::error('Update blog', ['msg' => 'deleting file' . $e->getMessage(), 'user' => $user, 'blog id' => $id]);
                 return redirect()->back()->withErrors(['msg' => $e->getMessage()]);
             };
-            $photo = $img->getImageFileName($request->file('img_upload'), $request->title, False);
+            $photo = $img->getImageFileName($request->file('img_upload'), $request->title, False, 825);
         }
         try {
             $blog::findOrFail($id)->update([

@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,6 @@ Route::prefix('admin')->group(function () {
             Route::post('/store', 'Admin\CategoryController@store')->name('cat.store');
         });
     });
-
     // SubCategory
     Route::group(['middleware' => ['purify']], function () {
         Route::get('subcategory/query', 'Admin\SubCategoryController@search')->name('subcategory.search');
@@ -74,13 +73,18 @@ Route::prefix('admin')->group(function () {
         Route::get('items/query', 'Admin\ItemsController@search')->name('items.search');
         Route::resource('items', 'Admin\ItemsController');
     });
-     // Tags
+    // Tags
     Route::group(['middleware' => ['purify']], function () {
         Route::get('tags/query', 'Admin\TagController@search')->name('tags.search');
         Route::resource('tags', 'Admin\TagController');
     });
     Route::get('images', 'Admin\ImagesController')->name('images');
-// Users
+    // Blog
+    Route::group(['middleware' => ['purify']], function () {
+        Route::get('blog/query', 'Admin\BlogController@search')->name('blog.search');
+        Route::get('blog/upt-views/{id}','Admin\BlogController@addView')->name('blog.add_view');
+        Route::resource('blog', 'Admin\BlogController');
+    });
 });
 
 //site route
@@ -93,10 +97,20 @@ Route::group(
         Route::get('/', 'Site\SiteController@front')->name('home');
         Route::get('/catalog', 'Site\CSPController@catalog')->name('catalog');
         Route::get('/c-{name}', 'Site\CSPController@category')->name('category');
-        Route::get('/s-{name}', 'Site\CSPController@sub_category')->name('sub-category');
+        Route::get('/s-{name?}{sort?}', 'Site\CSPController@sub_category')->name('sub-category');
         Route::get('/p-{name}', 'Site\CSPController@product')->name('product');
         Route::get('/stars', 'Site\StarsController@index');
         Route::get('/blog', 'Site\BlogController@index')->name('blog');
         Route::get('/b-{name}', 'Site\BlogController@inside')->name('blog-inside');
+        Route::get('/t-{name}', 'Site\CSPController@tags')->name('tags');
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
+        Route::get('/about', 'Site\SiteController@about')->name('about');
+        //search engine
+        Route::group(['middleware' => ['purify']], function () {
+            Route::get('search', 'Site\SearchEngineController')->name('se.search');
+        });
+
+
+//        Route::get('/s-{name?}{sort?}', 'Site\CSPController@getSubCategoryItems')->name('sub-category');
+
     });

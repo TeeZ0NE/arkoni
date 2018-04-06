@@ -16,7 +16,7 @@ class Tag extends Model
      */
     public function getRuTagsName()
     {
-        return $this->hasOne(RuTag::class, 'tag_id')->select(['ru_name', 'tag_id']);
+        return $this->hasOne(RuTag::class, 'tag_id')->select(['ru_name as name', 'tag_id']);
     }
 
     /**
@@ -61,5 +61,9 @@ class Tag extends Model
 
     public function items(){
         return $this->belongsToMany(Item::class,'item_tags','item_id','tag_id');
+    }
+
+    public function getTagId($segment){
+        return $this::where('tag_url_slug', $segment)->select('id')->first()->id;
     }
 }

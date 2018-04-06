@@ -26,7 +26,7 @@ class Item extends Model
      */
     public function getRuItem()
     {
-        return $this->hasOne(RuItem::class, 'item_id', 'id');
+        return $this->hasOne(RuItem::class, 'item_id', 'id')->select('item_id', 'ru_name as name', 'desc as description');
     }
 
     /**
@@ -35,7 +35,7 @@ class Item extends Model
      */
     public function getUkItem()
     {
-        return $this->hasOne(UkItem::class, 'item_id');
+        return $this->hasOne(UkItem::class, 'item_id')->select('item_id', 'uk_name as name', 'desc as description');
     }
 
     public function getItemAttributes()
@@ -46,6 +46,79 @@ class Item extends Model
     public function getItemCategories()
     {
         return $this->hasMany(ItemCategory::class, 'item_id');
+    }
+
+    public function getSubCategories()
+    {
+        return $this->belongsToMany(SubCategory::class, 'item_categories', 'item_id', 'sub_cat_id');
+    }
+
+    /**
+     * @param Integer $id SubCategory ID
+     * @param Array $sort_config getting config 4 sorting
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getSubCategoryItems($id, $sort_config, $bs=Null)
+    {
+        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['t_method']])->
+        where('enabled', 1)->
+        whereHas('getSubCategories', function ($f) use ($id) {
+            $f->where('id', $id);
+        })->
+//        whereIn('brand_id',[1,2])->
+        select('id', 'item_photo', 'price', 'old_price', 'brand_id', 'item_url_slug')->
+        get();
+        //if has filter to brand do filter
+        if($bs){
+            $items = ($sort_config['order'])
+                ? $all_items->whereIn('brand_id',$bs)->sortBy($sort_config['sortBy'])
+                : $all_items->whereIn('brand_id',$bs)->sortByDesc($sort_config['sortBy']);
+        }else{
+            $items = ($sort_config['order'])
+                ? $all_items->sortBy($sort_config['sortBy'])
+                : $all_items->sortByDesc($sort_config['sortBy']);
+        }
+         //getting array with existing brands IDs
+         $brand_ids = $all_items->pluck('brand_id');
+        $data=array(
+            'items'=>$items,
+            'brand_ids'=>$brand_ids,
+            );
+        return $data;
+    }
+
+    /**
+     * @param Integer $id SubCategory ID
+     * @param Array $sort_config getting config 4 sorting
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getTagItems($id, $sort_config, $bs=Null)
+    {
+        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['t_method']])->
+        where('enabled', 1)->
+        whereHas('getItemTag', function ($f) use ($id) {
+            $f->where('id', $id);
+        })->
+//        whereIn('brand_id',[1,2])->
+        select('id', 'item_photo', 'price', 'old_price', 'brand_id', 'item_url_slug')->
+        get();
+        //if has filter to brand do filter
+        if($bs){
+            $items = ($sort_config['order'])
+                ? $all_items->whereIn('brand_id',$bs)->sortBy($sort_config['sortBy'])
+                : $all_items->whereIn('brand_id',$bs)->sortByDesc($sort_config['sortBy']);
+        }else{
+            $items = ($sort_config['order'])
+                ? $all_items->sortBy($sort_config['sortBy'])
+                : $all_items->sortByDesc($sort_config['sortBy']);
+        }
+         //getting array with existing brands IDs
+         $brand_ids = $all_items->pluck('brand_id');
+        $data=array(
+            'items'=>$items,
+            'brand_ids'=>$brand_ids,
+            );
+        return $data;
     }
 
     /**
@@ -84,6 +157,11 @@ class Item extends Model
         return $this->hasManyThrough(UkTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id');
     }
 
+    public function getItemRuTagName()
+    {
+        return $this->hasManyThrough(RuTag::class, ItemTag::class, 'item_id', 'tag_id', 'id', 'tag_id')->select('ru_name');
+    }
+
     /**
      * search with methods or in methods which exist
      * @param String $column ru_name, name, etc
@@ -108,108 +186,138 @@ class Item extends Model
             get();
         }
     }
-/* NOT USING
-    /**searchin and sorting items
-     * sort by price, enabled, by brand, by RU name
-     * @param null $q Query what we searchin
-     * @param $sort asc or desc
-     * @return array or null
+
+    /**
+     * search with methods or in methods which exist
+     * @param String $column ru_name, name, etc
+     * @param String $method brand, getUkItem, etc.
+     * @param String or Int $q query to search
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
+    public function search4site(Array $s_config, $q = Null)
+    {
+        $column = $s_config['column'];
+        //if sorting in child tables
+        $all_items = $this::with(['brand', $s_config['method']])->
+        whereHas($s_config['method'], function ($f) use ($q, $column) {
+            $f->where($column, 'LIKE', '%' . $q . '%')->
+            orWhere('desc', 'LIKE', '%' . $q . '%');
+        })->
+        orWhereHas('brand', function ($f) use ($q) {
+            $f->where('name', 'LIKE', '%' . $q . '%');
+        })->
+        select('id', 'price', 'old_price', 'item_url_slug', 'item_photo', 'brand_id')->
+        get();
+        $items = ($s_config['order'])
+            ? $all_items->sortBy($s_config['sortBy'])
+            : $all_items->sortByDesc($s_config['sortBy']);
+        return $items;
+    }
+    public function getItemSubCategoryId($item_id){
+        return $this::with(['getItemCategories'])->find($item_id)->getItemCategories->first()->sub_cat_id;
+    }
+    /* NOT USING
+        /**searchin and sorting items
+         * sort by price, enabled, by brand, by RU name
+         * @param null $q Query what we searchin
+         * @param $sort asc or desc
+         * @return array or null
+         */
 //TODO:: delete this method in future
-/*
-    public function searchAndSort_old($sort, $q = Null)
-    {
-        $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
-        $order = (in_array($sort, $asc_arr)) ? 'asc' : 'desc';
-        switch ($sort) {
-            case 'asc_iname':
-            case 'desc_iname':
-                $order_by = 'rui.ru_name';
-                break;
+    /*
+        public function searchAndSort_old($sort, $q = Null)
+        {
+            $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
+            $order = (in_array($sort, $asc_arr)) ? 'asc' : 'desc';
+            switch ($sort) {
+                case 'asc_iname':
+                case 'desc_iname':
+                    $order_by = 'rui.ru_name';
+                    break;
 
-            case 'asc_brand':
-            case 'desc_brand':
-                $order_by = 'b.name';
-                break;
+                case 'asc_brand':
+                case 'desc_brand':
+                    $order_by = 'b.name';
+                    break;
 
-            case 'asc_price':
-            case 'desc_price':
-                $order_by = 'price';
-                break;
+                case 'asc_price':
+                case 'desc_price':
+                    $order_by = 'price';
+                    break;
 
-            case 'asc_enabled':
-            case 'desc_enabled':
-                $order_by = 'enabled';
-                break;
-            default:
-                $order_by = 'rui.ru_name';
-                break;
+                case 'asc_enabled':
+                case 'desc_enabled':
+                    $order_by = 'enabled';
+                    break;
+                default:
+                    $order_by = 'rui.ru_name';
+                    break;
+            }
+
+            return DB::table('items as i')->
+            select('rui.ru_name', 'uki.uk_name', 'i.*', 'b.name as b_name', 'rui.desc')->
+            join('brands as b', 'i.brand_id', '=', 'b.id')->
+            join('ru_items as rui', 'rui.item_id', '=', 'i.id')->
+            join('uk_items as uki', 'uki.item_id', '=', 'i.id')->
+            where('i.id', '=', $q)->
+            orWhere($order_by, 'LIKE', '%' . $q . '%')->
+            orderBy($order_by, $order);
         }
 
-        return DB::table('items as i')->
-        select('rui.ru_name', 'uki.uk_name', 'i.*', 'b.name as b_name', 'rui.desc')->
-        join('brands as b', 'i.brand_id', '=', 'b.id')->
-        join('ru_items as rui', 'rui.item_id', '=', 'i.id')->
-        join('uk_items as uki', 'uki.item_id', '=', 'i.id')->
-        where('i.id', '=', $q)->
-        orWhere($order_by, 'LIKE', '%' . $q . '%')->
-        orderBy($order_by, $order);
-    }
-
-    //TODO: eldest. Delete?
-    public function getAllItems()
-    {
-        return DB::table('items as i')->
-        select('rui.ru_name', 'uki.uk_name', 'i.*', 'b.name as b_name', 'rui.desc')->
-        join('brands as b', 'i.brand_id', '=', 'b.id')->
-        join('ru_items as rui', 'rui.item_id', '=', 'i.id')->
-        join('uk_items as uki', 'uki.item_id', '=', 'i.id')->
-        orderBy('rui.ru_name', 'asc');
-    }
-
-    private function orderBy($sort)
-    {
-        $orderBy = array(
-            'method' => Null,
-            'column' => Null,
-            'sortBy' => Null,
-            'order' => Null,
-        );
-        $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
-        $methods = array('brand', 'getRuItem');
-        $columns = array('name', 'ru_name');
-        $order = (in_array($sort, $asc_arr)) ? 0 : 1;
-        switch ($sort) {
-            case 'asc_iname':
-            case 'desc_iname':
-                return $orderBy([
-                    'method' => $methods[1],
-                    'sortBy' => $methods[1] . ".$columns[1]",
-                    'order' => $order,
-                    'column' => $columns[1]
-                ]);
-                break;
-
-            case 'asc_brand':
-            case 'desc_brand':
-                $order_by = 'b.name';
-                break;
-
-            case 'asc_price':
-            case 'desc_price':
-                $order_by = 'price';
-                break;
-
-            case 'asc_enabled':
-            case 'desc_enabled':
-                $order_by = 'enabled';
-                break;
-            default:
-                $order_by = 'rui.ru_name';
-                break;
+        //TODO: eldest. Delete?
+        public function getAllItems()
+        {
+            return DB::table('items as i')->
+            select('rui.ru_name', 'uki.uk_name', 'i.*', 'b.name as b_name', 'rui.desc')->
+            join('brands as b', 'i.brand_id', '=', 'b.id')->
+            join('ru_items as rui', 'rui.item_id', '=', 'i.id')->
+            join('uk_items as uki', 'uki.item_id', '=', 'i.id')->
+            orderBy('rui.ru_name', 'asc');
         }
-    }
-*/
+
+        private function orderBy($sort)
+        {
+            $orderBy = array(
+                'method' => Null,
+                'column' => Null,
+                'sortBy' => Null,
+                'order' => Null,
+            );
+            $asc_arr = array('asc_iname', 'asc_brand', 'asc_price', 'asc_enabled');
+            $methods = array('brand', 'getRuItem');
+            $columns = array('name', 'ru_name');
+            $order = (in_array($sort, $asc_arr)) ? 0 : 1;
+            switch ($sort) {
+                case 'asc_iname':
+                case 'desc_iname':
+                    return $orderBy([
+                        'method' => $methods[1],
+                        'sortBy' => $methods[1] . ".$columns[1]",
+                        'order' => $order,
+                        'column' => $columns[1]
+                    ]);
+                    break;
+
+                case 'asc_brand':
+                case 'desc_brand':
+                    $order_by = 'b.name';
+                    break;
+
+                case 'asc_price':
+                case 'desc_price':
+                    $order_by = 'price';
+                    break;
+
+                case 'asc_enabled':
+                case 'desc_enabled':
+                    $order_by = 'enabled';
+                    break;
+                default:
+                    $order_by = 'rui.ru_name';
+                    break;
+            }
+        }
+    */
 
     /*
         public function search(Request $request)

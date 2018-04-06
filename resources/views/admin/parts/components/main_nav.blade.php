@@ -13,6 +13,7 @@
     <li class="nav-item"><a href="{{route('attrs')}}" class="nav-link">Атрибути</a></li>
     <li class="nav-item"><a href="{{route('tags.index')}}" class="nav-link">Теги</a></li>
     <li class="nav-item"><a href="{{route('items.index')}}" class="nav-link">Товари</a></li>
+    <li class="nav-item"><a href="{{route('blog.index')}}" class="nav-link">Блог</a></li>
     {{--<li class="nav-item"><a href="{{route('images')}}" class="nav-link">Зображення</a></li>--}}
     {{--<li class="nav-item"><a href="#" class="nav-link disabled">Користувачі</a></li>--}}
     {{--<li class="nav-item"><a href="#" class="nav-link disabled">Адміністратори</a></li>--}}

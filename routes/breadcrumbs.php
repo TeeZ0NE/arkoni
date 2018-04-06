@@ -31,11 +31,26 @@ Breadcrumbs::register('blog', function ($breadcrumbs) {
 });
 
 Breadcrumbs::register('blog-inside', function ($breadcrumbs, $name) {
-    $breadcrumbs->parent('blog-inside');
+    $breadcrumbs->parent('blog');
     $breadcrumbs->push($name);
 });
 
 Breadcrumbs::register('contacts', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(__('breadcrumbs.contacts'), route('contacts'));
+});
+
+Breadcrumbs::register('search', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.search'), route('se.search'));
+});
+
+Breadcrumbs::register('about', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.about'), route('about'));
+});
+
+Breadcrumbs::register('tags', function ($breadcrumbs, $name) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push($name);
 });

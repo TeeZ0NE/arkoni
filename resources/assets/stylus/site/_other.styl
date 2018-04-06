@@ -44,3 +44,49 @@ body {
 strong {
   font-family OpenSans-Bold, sans-serif
 }
+
+.pagination {
+  margin 20px 0 0
+  .page-link {
+    padding: 4px 10px;
+  }
+  a {
+    color: base-color
+  }
+  .page-item {
+    border d0d0d0;
+    &:not(:nth-child(1)) {
+      margin-left 15px
+    }
+    a {
+      border-radius 5px
+      &:hover {
+        color: base-color
+      }
+    }
+  }
+  .page-item.active .page-link {
+    border-color: #e8e8e8;
+    background-color: #e8e8e8;
+    color: base-color
+    border-radius: 5px;
+  }
+}
+
+#disqus_thread {
+  width 100%
+}
+
+//.competitors,
+//.front-banner,
+//.main-menu,
+//.header {
+//  display none;
+//}
+
+@media (max-width: 575px) {
+  .breadcrumbs .breadcrumb {
+    padding: .75rem 0 0;
+    margin-bottom: 6px;
+  }
+}

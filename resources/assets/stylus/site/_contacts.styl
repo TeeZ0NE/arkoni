@@ -1,0 +1,33 @@
+.contacts {
+  .brand {
+    font-family bold-family
+    font-size 1.5em
+    margin-bottom 20px
+  }
+  .breadcrumbs + .container {
+    text-align center
+    padding-bottom 50px
+    font-size 1.125em
+    .fas {
+      color orange-color-hover
+      margin-right 10px
+      transform: rotateY(160deg);
+    }
+  }
+  .phones {
+    list-style none
+    padding-left: 0;
+    a {
+      color: base-color
+    }
+    .mail {
+      margin-top 30px
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .contacts .breadcrumbs + .container {
+    padding-bottom: 20px;
+  }
+}

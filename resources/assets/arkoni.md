@@ -46,4 +46,15 @@ $admin->password = Hash::make(111111)
          $i::with(['brand'])->where('id',4)->orWhereHas('brand',function($q){$q->where('name','LIKE','%%');})->get()->sortBy('brand.name')
          
          $i::with(['brand'])->where('id',4)->orWhereHas('brand',function($q){$q->where('name','LIKE','%%');})->get()->sortBy('brand.name',0) 1-desc
+         
+         $i::with(['getRuItem'])->whereHas('getRuItem', function($f){$f->where('ru_name','LIKE','%rub%')->orWhere('desc','LIKE','%df%');})->get()
+         
+         $i::with(['brand','getRuItem','getItemShortCut','getItemTag','getItemRuTagName'])->whereHas('getRuItem', function($f){$f->where('ru_name','LIKE','%rub%')->orWhere('desc','LIKE','%df%');})->get()->pluck('id')
+
+    $i::with(['getSubCategories','brand'])->whereHas('getSubCategories', function($f){$f->where('sub_cat_url_slug','s-enk');})->whereIn('brand_id',[1,2])->get()
+    
+    DB::table('item_categories')->where([['sub_cat_id','=',1],['item_id','<>',3]])->pluck('item_id')->count()
+
+DB::table('item_categories')->where([['sub_cat_id','=',1],['item_id','<>',3]])->get()->pluck('item_id')->random(2)
+
                     

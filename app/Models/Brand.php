@@ -12,4 +12,8 @@ class Brand extends Model
     public function items(){
         return $this->hasMany(Item::class, 'brand_id', 'id');
     }
+
+    public function getBrands($brand_ids){
+        return $this::whereIn('id', $brand_ids)->get();
+    }
 }

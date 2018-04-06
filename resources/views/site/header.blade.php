@@ -11,13 +11,18 @@
                 @endif
             </div>
             <div class="col-md-2">
-                <div class="mobil"><i class="fas fa-mobile-alt"></i>{{ config('contacts.mobil') }}</div>
-                <div class="phone-1"><i class="fas fa-phone"></i>{{ config('contacts.phone-1') }}</div>
-                <div class="phone-2"><i class="fas fa-phone"></i>{{ config('contacts.phone-2') }}</div>
+                <div class="mobil"><i class="fas fa-mobile-alt"></i><a
+                            href="tel:{{ config('contacts.mobil') }}">{{ config('contacts.mobil') }}</a></div>
+                <div class="phone-1"><i class="fas fa-phone"></i><a
+                            href="tel:{{ config('contacts.phone-1') }}">{{ config('contacts.phone-1') }}</a></div>
+                <div class="phone-2"><i class="fas fa-phone"></i><a
+                            href="tel:{{ config('contacts.phone-2') }}">{{ config('contacts.phone-2') }}</a></div>
             </div>
             <div class="col-md-3">
-                <div class="address"><i class="fas fa-map-marker-alt"></i>@lang('front.google-map.address')</div>
-                <div class="work-time"><i class="far fa-clock"></i>@lang('front.google-map.work-time')</div>
+                <div class="address"><i class="fas fa-map-marker-alt"></i>
+                    <a target="_blank" href="https://goo.gl/maps/kD2RDPM2KDP2">@lang('general.address-street')</a>
+                </div>
+                <div class="work-time"><i class="far fa-clock"></i>@lang('general.work-time')</div>
             </div>
             <div class="col-md-4">
                 <ul class="language-switch">
@@ -30,9 +35,9 @@
                         </li>
                     @endforeach
                 </ul>
-                <form class="form-inline search">
+                <form class="form-inline search" method="get" action="{{ route('se.search') }}" role="search">
                     <input class="form-control mr-sm-2" type="search" placeholder="@lang('header.search')"
-                           aria-label="Search">
+                           aria-label="Search" name="q" value="@isset($q) {{$q}}@endisset">
                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </div>

@@ -11,4 +11,8 @@ class RuItem extends Model
         'item_id', 'ru_name', 'desc',
     );
     public $timestamps = false;
+
+    public function getItem(){
+        return $this->belongsTo(Item::class, 'item_id');
+    }
 }

@@ -15,18 +15,24 @@ class SubCategory extends Model
     public function getCategory()
     {
         return $this->belongsTo(Category::class, 'cat_id');
+
     }
 
     public function RuSubCategory()
     {
-        return $this->hasOne(RuSubCategory::class, 'sub_cat_id', 'id');
+        return $this->hasOne(RuSubCategory::class, 'sub_cat_id', 'id')->
+            select('sub_cat_id','ru_name as name', 'title', 'desc as description', 'h1', 'h2', 'seo_text', 'seo_text_2');
     }
 
     public function UkSubCategory()
     {
-        return $this->hasOne(UkSubCategory::class, 'sub_cat_id', 'id');
+        return $this->hasOne(UkSubCategory::class, 'sub_cat_id', 'id')->
+        select('sub_cat_id','uk_name as name', 'title', 'desc as description', 'h1', 'h2', 'seo_text', 'seo_text_2');
     }
 
+//    public function getItems(){
+//        return $this->hasManyThrough(Item::class, ItemCategory::class, 'sub_cat_id', 'id', 'id','item_id');
+//    }
     /**
      * getting just name and ID of categories
      * Default returnin' without search and sort by name RU
@@ -70,5 +76,15 @@ class SubCategory extends Model
         orderBy('rsc.ru_name')->
         get();
     }
+
+    public function getSubCategoryId($segment){
+        return $this::where('sub_cat_url_slug',$segment)->select('id')->first()->id;
+    }
+
+    public function getParenCategory(){
+        return $this::with(['getCategory'])->select('cat_id')->first();
+    }
+
+
 }
 

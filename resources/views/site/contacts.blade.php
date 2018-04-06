@@ -7,18 +7,27 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                ЧМП "АРКОНИ"
-                Связаться с нами вы всегда можете по телефонам указанным
-                +38 (098) 956-39-22
-                +38 (0432) 56-20-72
-                +38 (0432) 61-16-97
-                vi.stol85@gmail.com
-                Мы находимся впо адресу:
-                пер. Цегельный, 2, г. Винница
+                <div class="brand">@lang('contacts.brand')</div>
+                <div class="contact-us">@lang('contacts.contact-us')</div>
+                <ul class="phones">
+                    <li class="mobil"><i class="fas fa-mobile-alt"></i><a
+                                href="tel:{{ config('contacts.mobil-alt') }}">{{ config('contacts.mobil-alt') }}</a>
+                    </li>
+                    <li class="phone-1"><i class="fas fa-phone-square"></i><a
+                                href="tel:{{ config('contacts.phone-1-alt') }}">{{ config('contacts.phone-1-alt') }}</a>
+                    </li>
+                    <li class="phone-2"><i class="fas fa-phone-square"></i><a
+                                href="tel:{{ config('contacts.phone-2-alt') }}">{{ config('contacts.phone-2-alt') }}</a>
+                    </li>
+                    <li class="mail"><i class="fas fa-envelope"></i><a
+                                href="mailto:{{ config('contacts.mail') }}">{{ config('contacts.mail') }}</a></li>
+                </ul>
+                <div class="addr">@lang('contacts.addr')</div>
+                <div class="addr-street"><i class="fas fa-map-marker-alt"></i>@lang('general.address-street')</div>
             </div>
         </div>
     </div>
 
-    @include('site._google-map')
+    @include('site._google-map', ['contacts' => false])
 
 @endsection

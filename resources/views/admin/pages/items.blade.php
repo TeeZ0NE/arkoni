@@ -73,8 +73,8 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>
-                            <span class="alert-info">RU</span> {{ $item->getRuItem['ru_name'] }}<br>
-                            <span class="alert-info">UK</span> {{$item->getUkItem['uk_name']}}</td>
+                            <span class="alert-info">RU</span> {{ $item->getRuItem['name'] }}<br>
+                            <span class="alert-info">UK</span> {{$item->getUkItem['name']}}</td>
                         <td>{{ $item->brand['name'] }}</td>
                         <td>{{ $item->enabled }}</td>
                         <td>{{ $item->item_url_slug }}</td>
@@ -100,7 +100,7 @@
                         <td colspan="4">
                             <div class="border">
                                 <p class="text-center border-bottom lead alert-warning">Опис</p>
-                                <p class="p-2">{!! $item->getRuItem['desc'] !!}</p>
+                                <p class="p-2">{!! $item->getRuItem['description'] !!}</p>
                             </div>
                         </td>
                         <td colspan="4">

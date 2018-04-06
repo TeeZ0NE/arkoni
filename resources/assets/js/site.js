@@ -20,6 +20,15 @@ $(function () {
         arrows: true,
         nextArrow: '<i class="fas fa-angle-right slick-arrow arrow-next"></i>',
         prevArrow: '<i class="fas fa-angle-left slick-arrow arrow-prev"></i>',
+        responsive: [
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+        ]
     });
 
 
@@ -34,59 +43,42 @@ $(function () {
         arrows: false,
         autoplay: true,
         autoplaySpeed: 3000,
-        // responsive: [
-        //     {
-        //         breakpoint: 1200,
-        //         settings: {
-        //             slidesToShow: 7,
-        //             slidesToScroll: 7
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 992,
-        //         settings: {
-        //             slidesToShow: 5,
-        //             slidesToScroll: 5
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 680,
-        //         settings: {
-        //             slidesToShow: 4,
-        //             slidesToScroll: 4
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 540,
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 3
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 440,
-        //         settings: {
-        //             slidesToShow: 2,
-        //             slidesToScroll: 2
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 360,
-        //         settings: {
-        //             slidesToShow: 1,
-        //             slidesToScroll: 1
-        //         }
-        //     }
-        // ]
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 5
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+        ]
     });
 
     //google maps
     //if front page
-    if(window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
-        initMap();
+    if (window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
+        if ($(window).innerWidth() <= 768) {
+            initMap({lat: 49.238323, lng: 28.460862});
+        } else {
+            initMap();
+        }
     }
 
-    function initMap() {
+    function initMap(position) {
         //create map
         var map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 49.237887, lng: 28.460762},
@@ -94,7 +86,7 @@ $(function () {
         });
         //create marker
         var marker = new google.maps.Marker({
-            position: {lat: 49.238323, lng: 28.463262},
+            position: position || {lat: 49.238323, lng: 28.463262},
             map: map
         });
     }
@@ -106,7 +98,7 @@ $(function () {
             return index > 1
         }).join('/');
 
-        var ratingBlock = $('#rating-block', $('footer.footer, #item'));
+        var ratingBlock = $('#rating-block');
         var rating = ratingBlock.find('input.rating');
 
         if (!rating.length) {
@@ -163,5 +155,4 @@ $(function () {
         }
     }
 
-    //
 });

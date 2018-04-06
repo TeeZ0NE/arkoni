@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\ItemAttribute;
 use App\Models\Attribute;
 use App\Models\ItemCategory;
+use App\Models\Tag;
 
 class CSPController extends BaseController
 {
@@ -28,14 +29,14 @@ class CSPController extends BaseController
     /**
      * @var String second segment in URL
      */
-    private $sc_segment;
+    private $segment;
 
     public function __construct(Request $request)
     {
         parent::__construct($request);
 
         $this->locale = mb_strtolower(App::getLocale());
-        $this->sc_segment = $request->segment(2);
+        $this->segment = $request->segment(2);
     }
 
     public function catalog(Request $request)
@@ -89,6 +90,7 @@ class CSPController extends BaseController
     public function sub_category(Request $request)
     {
         $sort = ($request->sort) ? $request->sort : 'asc_name';
+        // brand sort
         $bs = ($request->bs) ? $request->bs : Null;
         $i_model = new Item;
         $brand_model = new Brand();
@@ -101,11 +103,11 @@ class CSPController extends BaseController
             'sort' => $sort,
             'class' => 'sub-category',
             'items' => $data['items']->paginate($this->page_count),
-            'segment' => $this->sc_segment,
+            'segment' => $this->segment,
             'i_method' => $sort_config['method'],
             'scat' => $this->getSubCategoryData(),
             'scat_method' => $this->getSubCategoryMethod(),
-            'brands' => $brand_model->getSubCategoryBrands($data['brand_ids']),
+            'brands' => $brand_model->getBrands($data['brand_ids']),
             'bs' => $bs,
             'rating' => $this->stars->index($request),
             'title' => $this->getSubCategoryData()[$this->getSubCategoryMethod()]['title'],
@@ -151,32 +153,32 @@ class CSPController extends BaseController
 
     public function tags(Request $request)
     {
-//        $sort = ($request->sort) ? $request->sort : 'asc_name';
-//        $bs = ($request->bs) ? $request->bs : Null;
-//        $i_model = new Item;
-//        $brand_model = new Brand();
-//        $sort_config = $this->setSortConfig($sort);
-//        // getting all items in SubCategory
-//        $data = $i_model->getSubCategoryItems($this->getSubCategoryId(), $sort_config, $bs);
+        $sort = ($request->sort) ? $request->sort : 'asc_name';
+        $bs = ($request->bs) ? $request->bs : Null;
+        $i_model = new Item;
+        $brand_model = new Brand();
+        $sort_config = $this->setSortConfig($sort);
+//        // getting all items with same Tag
+        $data = $i_model->getTagItems($this->getTagId(), $sort_config, $bs);
 //        //gettings existing brands via ID
 
 
         return view('site.tags', [
-//            'sort' => $sort,
-            'class' => 'tagstags',
-//            'items' => $data['items']->paginate($this->page_count),
-//            'segment' => $this->sc_segment,
-//            'i_method' => $sort_config['method'],
+            'sort' => $sort,
+            'class' => 'tags',
+            'items' => $data['items']->paginate($this->page_count),
+            'segment' => $this->segment,
+            'i_method' => $sort_config['method'],
 //            'scat' => $this->getSubCategoryData(),
 //            'scat_method' => $this->getSubCategoryMethod(),
-//            'brands' => $brand_model->getSubCategoryBrands($data['brand_ids']),
-//            'bs' => $bs,
+            'brands' => $brand_model->getBrands($data['brand_ids']),
+            'bs' => $bs,
             'rating' => $this->stars->index($request),
             'title' => '',
             'description' => '',
 //            'cat' => $this->getCategoryData(),
 //            'cat_method' => $this->getCategoryMethod(),
-//            'tags'=>$this->tagCombine($data['items']),
+            'tags'=>$this->tagCombine($data['items']),
         ]);
     }
 
@@ -214,7 +216,7 @@ class CSPController extends BaseController
     {
         $sc = new SubCategory();
         // getting SubCategory ID
-        $sc_id = $sc->getSubCategoryId($this->sc_segment);
+        $sc_id = $sc->getSubCategoryId($this->segment);
         return $sc_id;
     }
 
@@ -404,5 +406,15 @@ class CSPController extends BaseController
         }
         $same_ids = ($count)?$all_ids->random($count):Null;
         return $same_ids;
+    }
+
+    /**
+     * getting tag ID via segment from URL
+     * @return Int tag ID
+     */
+    private function getTagId(){
+        $t = new Tag();
+        $tag_id = $t->getTagId($this->segment);
+        return $tag_id;
     }
 }

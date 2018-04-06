@@ -62,4 +62,8 @@ class Tag extends Model
     public function items(){
         return $this->belongsToMany(Item::class,'item_tags','item_id','tag_id');
     }
+
+    public function getTagId($segment){
+        return $this::where('tag_url_slug', $segment)->select('id')->first()->id;
+    }
 }

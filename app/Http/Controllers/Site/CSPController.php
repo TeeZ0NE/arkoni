@@ -123,7 +123,7 @@ class CSPController extends BaseController
         $item_model = new Item();
 // with url_slug search item ID
         $item_id = $this->getItemId($request->segment(2));
-        $same_ids = $this->getSameProductsIds($item_model->getItemSubCategoryId($item_id),$item_id);
+        $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id),$item_id);
         $this->data['same_items'] = ($same_ids)
             ?   Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
@@ -394,9 +394,14 @@ class CSPController extends BaseController
      * @param  Int $current_id
      * @return null|Array
      */
-    private function getSameProductsIds($sub_cat_id, $current_id){
-        $ic=new ItemCategory() ;
-        $all_ids = $ic->where([['sub_cat_id','=',$sub_cat_id],['item_id','<>',$current_id]])->pluck('item_id');
+    private function getSameProductsIds($cat_id, $current_id){
+        /*$ic=new ItemCategory() ;
+        $all_ids = $ic->where([['sub_cat_id','=',$cat_id],['item_id','<>',$current_id]])->pluck('item_id');     */
+        $sub_cat_ids = DB::table('sub_categories')->where('cat_id',$cat_id)->pluck('id');
+        $all_ids = DB::table('item_categories')->
+        whereIn('sub_cat_id',$sub_cat_ids)->
+        where('item_id','<>',$current_id)->
+        pluck('item_id');
         switch($all_ids->count()){
             case 1: $count = 1;break;
             case 2: $count = 2;break;

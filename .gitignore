@@ -3,9 +3,10 @@
 /public/js/*
 /public/images/*
 /public/fonts/*
-/public/storage/*
 /public/*.png
 /public/*.ico
+/public/storage
+/public/mix-manifest.json
 /storage/*.key
 /vendor
 /.idea

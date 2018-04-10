@@ -154,33 +154,33 @@ class CSPController extends BaseController
     public function tags(Request $request)
     {
         $sort = ($request->sort) ? $request->sort : 'asc_name';
+        //brand sort
         $bs = ($request->bs) ? $request->bs : Null;
         $i_model = new Item;
         $brand_model = new Brand();
-        $tag_model = new Tag;
         $sort_config = $this->setSortConfig($sort);
 //        // getting all items with same Tag
-        $data = $i_model->getTagItems($this->getTagId(), $sort_config, $bs);
-//        //gettings existing brands via ID
-
-
+        $tag_id = $this->getTagId();
+        $tag_method = $this->getTagMethod();
+        //current Tag
+        $tag = Tag::with($tag_method)->whereId($tag_id)->first();
+        $data = $i_model->getTagItems($tag_id, $sort_config, $bs);
         return view('site.tags', [
             'sort' => $sort,
             'class' => 'tags',
             'items' => $data['items']->paginate($this->page_count),
             'segment' => $this->segment,
             'i_method' => $sort_config['method'],
-            'tag_method' => $this->getTagMethod(),
-            'tag' => Tag::with($this->getTagMethod())->whereId($this->getTagId())->first(),
             'column'=>$this->getColumn(),
             'brands' => $brand_model->getBrands($data['brand_ids']),
             'bs' => $bs,
             'rating' => $this->stars->index($request),
-            'title' => '',
-            'description' => '',
-//            'cat' => $this->getCategoryData(),
-//            'cat_method' => $this->getCategoryMethod(),
+            'title' => $tag[$tag_method]->title,
+            'description' => $tag[$tag_method]->description,
             'tags'=>$this->tagCombine($data['items']),
+            //TODO:: do are need?
+            'tag_method' => $tag_method,
+            'tag' => $tag,
         ]);
     }
 

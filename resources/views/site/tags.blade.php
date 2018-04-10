@@ -198,4 +198,7 @@
     {{--<hr>--}}
     {{--@endforeach--}}
     {{--{{$items->appends(['sort'=>$sort, 'bs'=>$bs])->links()}}&nbsp;total:{{$items->total()}}--}}
+    
+{{$tag->$tag_method->title}}
+    {{$tag->$tag_method->$column}}
 @endsection

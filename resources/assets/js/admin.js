@@ -11,6 +11,22 @@ $(function () {
             ['formatting'],
             ['strong', 'em'],
             ['link'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['removeformat'],
+            ['fullscreen']
+        ],
+        removeformatPasted: true
+    });
+    // settings 4 blog with image
+$('.blog-editor').trumbowyg({
+        lang: 'ua',
+        btns: [['viewHTML'],
+            ['undo', 'redo'], // Only supported in Blink browsers
+            ['formatting'],
+            ['strong', 'em'],
+            ['link'],
             ['insertImage'],
             ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
             ['unorderedList', 'orderedList'],

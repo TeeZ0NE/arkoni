@@ -191,8 +191,7 @@ class SubCategoryController extends Controller
             $img->delete_photo($photo);
         } catch (QE $qe) {
             Log::error('SubCategory delete', ['msg' => $qe, 'user' => $user, 'sub-cat id'=>$id]);
-            //TODO: remove debug info
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах' . $qe->getMessage()]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням, вірогідно використовується в товарах']);
         }
         Log::info('SubCategory delete', ['user' => $user, 'sub-cat id'=>$id]);
         return redirect(route('subcategory.index'))->with('msg', 'Підкатегорію видалено з бази');

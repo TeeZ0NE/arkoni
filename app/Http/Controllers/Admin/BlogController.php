@@ -34,6 +34,7 @@ class BlogController extends Controller
         $b = new Blog();
         return view('admin.pages.blogs')->with([
             'blogs' => $b->getBlogs2AdminIndex()->paginate($this->page_count),
+            'count'=>$b::count(),
         ]);
     }
 

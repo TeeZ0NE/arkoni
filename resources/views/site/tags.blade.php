@@ -145,5 +145,5 @@
         </ul>
     @endif
 
-    {{ print_array($tags) }}
+    {{$items[0]->$t_method[0]->$column}}
 @endsection

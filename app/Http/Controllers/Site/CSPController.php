@@ -41,10 +41,10 @@ class CSPController extends BaseController
 
     public function catalog(Request $request)
     {
-        $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'cat_photo as photo')
-            ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
-            ->orderBy('name')
-            ->get()->toArray();
+            $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'cat_photo as photo')
+                ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
+                ->orderBy('name')
+                ->get()->toArray();
 
         return view('site.catalog', [
             'class' => 'catalog',
@@ -57,17 +57,17 @@ class CSPController extends BaseController
 
     public function category(Request $request)
     {
-        $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
-            ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
-            ->where('cat_url_slug', $request->segment(2))
-            ->get()->toArray()[0];
+            $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
+                ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
+                ->where('cat_url_slug', $request->segment(2))
+                ->get()->toArray()[0];
 
-        $this->data['sub-categories'] = DB::table('sub_categories')->select(config('app.locale') . '_name as name', 'sub_cat_url_slug as slug', 'sub_cat_photo as photo')
-            ->join(config('app.locale') . '_sub_categories', 'sub_categories.id', '=', config('app.locale') . '_sub_categories.sub_cat_id')
-            ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-            ->where('cat_url_slug', $request->segment(2))
-            ->orderBy('name')
-            ->get()->toArray();
+            $this->data['sub-categories'] = DB::table('sub_categories')->select(config('app.locale') . '_name as name', 'sub_cat_url_slug as slug', 'sub_cat_photo as photo')
+                ->join(config('app.locale') . '_sub_categories', 'sub_categories.id', '=', config('app.locale') . '_sub_categories.sub_cat_id')
+                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
+                ->where('cat_url_slug', $request->segment(2))
+                ->orderBy('name')
+                ->get()->toArray();
 
         return view('site.category', [
             'class' => 'category',
@@ -114,7 +114,7 @@ class CSPController extends BaseController
         $item_model = new Item();
 // with url_slug search item ID
         $item_id = $this->getItemId($request->segment(2));
-        $same_ids = $this->getSameProductsIds($item_model->getItemSubCategoryId($item_id), $item_id);
+        $same_ids = $this->getSameProductsIds($item_model->getItemSubCategoryId($item_id),$item_id);
         $this->data['same_items'] = ($same_ids)
             ? Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
@@ -161,7 +161,8 @@ class CSPController extends BaseController
             'segment' => $this->segment,
             'i_method' => $sort_config['method'],
 //            'scat' => $this->getSubCategoryData(),
-//            'scat_method' => $this->getSubCategoryMethod(),
+//                       't_method' => $this->getTagMethod(),
+            'column'=>$this->getColumn(),
             'brands' => $brand_model->getBrands($data['brand_ids']),
             'bs' => $bs,
             'rating' => $this->stars->index($request),
@@ -388,27 +389,22 @@ class CSPController extends BaseController
      * @param  Int $current_id
      * @return null|Array
      */
-    private function getSameProductsIds($sub_cat_id, $current_id)
-    {
-        $ic = new ItemCategory();
-        $all_ids = $ic->where([['sub_cat_id', '=', $sub_cat_id], ['item_id', '<>', $current_id]])->pluck('item_id');
-        switch ($all_ids->count()) {
-            case 1:
-                $count = 1;
-                break;
-            case 2:
-                $count = 2;
-                break;
-            case 3:
-                $count = 3;
-                break;
-            case 0:
-                $count = 0;
-                break;
-            default:
-                $count = 4;
+    private function getSameProductsIds($cat_id, $current_id){
+        /*$ic=new ItemCategory() ;
+        $all_ids = $ic->where([['sub_cat_id','=',$cat_id],['item_id','<>',$current_id]])->pluck('item_id');     */
+        $sub_cat_ids = DB::table('sub_categories')->where('cat_id',$cat_id)->pluck('id');
+        $all_ids = DB::table('item_categories')->
+        whereIn('sub_cat_id',$sub_cat_ids)->
+        where('item_id','<>',$current_id)->
+        pluck('item_id');
+        switch($all_ids->count()){
+            case 1: $count = 1;break;
+            case 2: $count = 2;break;
+            case 3: $count = 3;break;
+            case 0: $count = 0;break;
+            default: $count = 4;
         }
-        $same_ids = ($count) ? $all_ids->random($count) : Null;
+        $same_ids = ($count)?$all_ids->random($count):Null;
         return $same_ids;
     }
 

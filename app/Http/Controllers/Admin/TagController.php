@@ -77,7 +77,6 @@ class TagController extends Controller
                 throw new Exception('Язикові файли не було записано');
             }
         } catch (QE $qe) {
-            //TODO: remove debug info $qe
             Log::error("Can't store tags", ['mes' => $qe->getMessage(), 'user' => $user, 'tag id'=>$tag_id]);
             return redirect()
                 ->back()
@@ -162,8 +161,7 @@ class TagController extends Controller
             $tag::findOrFail($id)->delete();
         } catch (QE $qe) {
             Log::error('Tag delete', ['msg' => $qe->getMessage(), 'user' => $user, 'tag id'=>$id]);
-            //TODO::delete $qe debug
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням тега' . $qe->getMessage()]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням тега']);
         }
         Log::info('Tag delete', ['user' => $user, 'tag id'=>$id]);
         return redirect(route('tags.index'))->with('msg', 'Тег видалено з бази');

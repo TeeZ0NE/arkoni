@@ -40,11 +40,10 @@ class BrandController extends Controller
         try {
             Brand::insert(['name' => $name]);
         } catch (QE $qe) {
-            //TODO: remove debug info $qe
             Log::error("Can't store brand", ['msg' => $qe->getMessage(), 'user' => $user]);
             return redirect()
                 ->back()
-                ->withErrors(['brand_name' => 'Такий виробник вже існує' . $qe->getMessage()]);
+                ->withErrors(['brand_name' => 'Такий виробник вже існує']);
         }
         Log::info('Brand add', ['user' => $user]);
         return redirect(route('brands'))->with('msg', 'Виробника додано');
@@ -75,9 +74,8 @@ class BrandController extends Controller
         try {
             Brand::findOrFail($id)->delete();
         } catch (QE $qe) {
-            //TODO: remove debug info $qe
             Log::error('Brand delete error', ['msg' => $qe, 'user' => $user, 'brand id'=>$id]);
-            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
+            return redirect()->back()->withErrors(['name' => 'Виникла проблема з видаленням назви виробника. Вірогідно він використовується в продуктах.']);
         }
         Log::info('Brand delete', ['user' => $user, 'brand id'=>$id]);
         return redirect(route('brands'))->with('msg', 'Виробника видалено з бази');
@@ -97,8 +95,7 @@ class BrandController extends Controller
         } catch (QE $qe) {
             Log::error('Brand update', ['msg' => $qe->getMessage(), 'user' => $user]);
             $request->flash();
-            //TODO: remove debug info $qe
-            return redirect(route('brands'))->withErrors(['update' => 'Не можливо змінити назву виробника.' . $qe->getMessage()]);
+            return redirect(route('brands'))->withErrors(['update' => 'Не можливо змінити назву виробника.']);
         }
         Log::info('Brand update', ['user' => $user]);
 //        session()->flash('msg', 'Назву виробника успішно змінено!');

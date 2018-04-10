@@ -278,8 +278,7 @@ class ItemsController extends Controller
             $img->delete_photo($photo);
         } catch (QE $qe) {
             Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user, 'item id'=>$id]);
-            //TODO:: delete $qe debug
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара' . $qe->getMessage()]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара']);
         }
         Log::info('Item destroy', ['user' => $user, 'item id'=>$id]);
         return redirect(route('items.index'))->with('msg', ' Товар видалено з бази');

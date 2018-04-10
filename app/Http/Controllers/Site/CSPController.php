@@ -123,12 +123,13 @@ class CSPController extends BaseController
         $item_model = new Item();
 // with url_slug search item ID
         $item_id = $this->getItemId($request->segment(2));
+        $item_method = $this->getItemMethod();
         $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id),$item_id);
         $this->data['same_items'] = ($same_ids)
             ?   Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
         $this->data['item'] = Item::with([
-            $this->getItemMethod(),
+            $item_method,
             $this->getItemTagMethod(),
             'getItemTag',
             'brand',
@@ -139,11 +140,11 @@ class CSPController extends BaseController
         return view('site.product', [
             'class' => 'product',
             'data' => $this->data,
-            'title' => '',
-            'description' => '',
+            'title' => $this->data['item'][$item_method]->name,
+            'description' => $this->data['item'][$item_method]->description,
             'rating' => $this->stars->index($request),
             'starts' => false, //hide starts in footer
-            'item_method'=>$this->getItemMethod(),
+            'item_method'=>$item_method,
             'tag_method'=>$this->getItemTagMethod(),
             'column'=>$this->getColumn(),
             "attrs" => Attribute::get(['id', $this->getColumn()]),

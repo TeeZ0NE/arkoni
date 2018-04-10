@@ -60,6 +60,4 @@
             </aside>
         </div>
     </div>
-    {{--TODO: DELETE--}}
-    {{--{{ print_array($data) }}--}}
 @endsection

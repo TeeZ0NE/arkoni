@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <img src="{{ asset('images/front-banner.png') }}" alt="">
+                    <div class="front-banner"></div>
                     <div class="shadow">
                         <h1 class="title">@lang('front.banner.title')</h1>
                         <div class="where">@lang('front.banner.where')</div>
@@ -175,7 +175,7 @@
 
     <div class="best-offers">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="title">@lang('front.best-offers.title')</div>
                 </div>
@@ -206,7 +206,14 @@
             <div class="row justify-content-end">
                 <div class="col-sm-12 col-lg-10">
                     <h3 class="title">@lang('front.seo.title')</h3>
-                    <div class="body">@lang('front.seo.body')</div>
+                    <div class="body">
+                        <div class="text text-preview">@lang('front.seo.body.preview')</div>
+                        <div class="text text-all">@lang('front.seo.body.all')</div>
+                        <div class="read-all">
+                            <span class="content-show">@lang('general.show-all')</span>
+                            <span class="content-hidden hide">@lang('general.hide-all')</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Site\BaseController;
 use App\Http\Controllers\Site\StarsController;
@@ -27,7 +28,7 @@ class BlogController extends BaseController
 
     public function inside(Request $request)
     {
-        $this->data['article'] = DB::table('blogs')->select('title', 'body', 'photo', 'views')
+        $this->data['article'] = DB::table('blogs')->select('id', 'title', 'body', 'photo', 'views')
             ->where('url_slug', '=', $request->segment(2))
             ->get()
             ->toArray()[0];
@@ -39,6 +40,8 @@ class BlogController extends BaseController
             ->inRandomOrder()
             ->take(3)
             ->get();
+
+        app('App\Http\Controllers\Admin\BlogController')->addView($this->data['article']->id);
 
         return view('site.blog.inside', [
             'class' => 'blog-inside',

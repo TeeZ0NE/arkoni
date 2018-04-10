@@ -93,7 +93,7 @@
 
     <div class="often-buy">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="title">@lang('product.often-buy.title')</div>
                 </div>

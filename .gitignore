@@ -3,7 +3,6 @@
 /public/js/*
 /public/images/*
 /public/fonts/*
-/public/storage/*
 /public/*.png
 /public/*.ico
 /public/mix-manifest.json

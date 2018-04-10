@@ -56,8 +56,7 @@ class CategoryController extends Controller
             $img->delete_photo($photo);
         } catch (QE $qe) {
             Log::error('Category delete', ['msg' => $qe->getMessage(), 'user' => $user, 'cat id'=>$id]);
-            //TODO: remove debug info below $me
-            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.' . $qe->getMessage()]);
+            return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням. Вірогідно використовується в підкатегоріях.']);
         }
         Log::info('Category delete', ['user' => $user, 'cat id'=>$id]);
         return redirect(route('cats.index'))->with('msg', 'Категорію видалено з бази');

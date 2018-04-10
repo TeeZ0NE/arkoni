@@ -41,11 +41,10 @@ class AttributesController extends Controller
         try {
             $attr->save();
         } catch (QE $qe) {
-            //TODO: remove debug info $qe
             Log::error("Can't store attributes", ['mes' => $qe->getMessage(), 'user' => $user]);
             return redirect()
                 ->back()
-                ->withErrors(['name' => 'Такий параметр вже існує' . $qe->getMessage()]);
+                ->withErrors(['name' => 'Такий параметр вже існує']);
         }
         Log::info('Attributes add', ['user' => $user]);
         return redirect(route('attrs'))->with('msg', 'Параметр додано');
@@ -73,8 +72,7 @@ class AttributesController extends Controller
             Log::error("Can't delete attributes", [
                 'mes' => $qe->getMessage(),
                 'user' => $user]);
-            //TODO: remove debug $qe
-            return redirect()->back()->withErrors(['attr_name' => 'Виникла проблема з видаленням параметра. Вірогідно він використовується в продуктах.' . $qe->getMessage()]);
+            return redirect()->back()->withErrors(['attr_name' => 'Виникла проблема з видаленням параметра. Вірогідно він використовується в продуктах.']);
         }
         Log::info('Attributes delete', ['user' => $user]);
         return redirect(route('attrs'))->with('msg', 'Параметр видалено з бази');

@@ -6,7 +6,7 @@
 
     <div class="container">
         <div class="row">
-            <main class="col-md-9" role="main">
+            <main class="col-md-12 col-lg-9" role="main">
                 <article>
                     <div class="views"><i class="far fa-eye"></i>{{ $data['article']->views }}</div>
                     <h1 class="title">{{ $data['article']->title }}</h1>
@@ -25,7 +25,7 @@
                                 <div class="watch-more">@lang('blog.watch-more')</div>
                             </div>
                             @foreach($data['similar'] as $item )
-                                <div class="col-md-4">
+                                <div class="col-sm-6 col-md-4">
                                     <img class="img-fluid" src="{{ asset('/storage/img/' . $item->photo) }}" alt="">
                                     <header><a href="{{ LaravelLocalization::LocalizeURL('/' . $item->url_slug) }}">{{ $item->title }}</a></header>
 
@@ -55,7 +55,7 @@
                     </footer>
                 </article>
             </main>
-            <aside class="col-md-3">
+            <aside class="col-lg-3 d-none d-lg-block">
                 @include('site.blog.aside')
             </aside>
         </div>

@@ -114,6 +114,7 @@ class CSPController extends BaseController
         $item_model = new Item();
 // with url_slug search item ID
         $item_id = $this->getItemId($request->segment(2));
+        $item_method = $this->getItemMethod();
         $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id),$item_id);
         $this->data['same_items'] = ($same_ids)
             ? Item::with([$this->getItemMethod(),])->find($same_ids)
@@ -155,6 +156,7 @@ class CSPController extends BaseController
         //current Tag
         $tag = Tag::with($tag_method)->whereId($tag_id)->first();
         $data = $i_model->getTagItems($tag_id, $sort_config, $bs);
+
         return view('site.tags', [
             'sort' => $sort,
             'class' => 'tags',

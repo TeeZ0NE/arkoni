@@ -74,6 +74,8 @@
     table {
       border 1px solid #ebebeb
       border-radius 5px
+      position: relative;
+      z-index: 1;
     }
     .top {
       background: #ebebeb;
@@ -211,7 +213,9 @@
       padding 15px 15px 120px 15px;
       text-align center
       position relative
-      box-shadow()
+      &:hover {
+        box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.25)
+      }
     }
     .go-to {
       go-to()
@@ -473,7 +477,6 @@
   }
 }
 
-
 @media (max-width: 1200px) {
   .front {
     .front-banner .shadow {
@@ -500,7 +503,7 @@
     .shadow {
       padding-top: 8%;
     }
-  .front-banner {
+    .front-banner {
       height: 270px;
     }
   }
@@ -535,6 +538,10 @@
         font-size: 1.2em;
       }
     }
+  }
+
+  .front .competitors .container:after {
+    display none
   }
 }
 

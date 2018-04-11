@@ -35,7 +35,7 @@
       display: block;
       margin: 15px auto;
     }
-    header {
+    .title {
       font-family: OpenSans-Bold, sans-serif;
       font-size: 1.8em;
       line-height: 1.4em;
@@ -61,6 +61,7 @@
       header {
         font-size 1em
         margin-top 10px
+        font-family bold-family
         a {
           color: base-color
         }
@@ -149,5 +150,11 @@ aside {
       line-height 1.8em
       font-size 1.3em
     }
+  }
+}
+
+@media (max-width: 575px) {
+  .blog article img {
+    margin-top: 0;
   }
 }

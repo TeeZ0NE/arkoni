@@ -60,7 +60,8 @@
                         @endif
                         <div class="phone-block">
                             @lang('product.arrange')
-                                <div class="phone"><i class="fas fa-phone"></i>{{ config('contacts.phone-1-alt') }}
+                                <div class="phone"><i class="fas fa-phone"></i>
+                                    <a href="tel:{{config('contacts.phone-1-alt')}}">{{ config('contacts.phone-1-alt') }}</a>
                                 </div>
                         </div>
                     </div>
@@ -99,9 +100,9 @@
                 </div>
                 @if(count($data['same_items']) > 0)
                     @foreach($data['same_items'] as $item)
-                        <div class="col-md-3">
+                        <div class="col-sm-6 col-lg-3">
                             <div class="block">
-                                <img src="{{ asset('storage/img/' . $item->item_photo) }}" alt="">
+                                <img class="img-fluid" src="{{ asset('storage/img/' . $item->item_photo) }}" alt="">
                                 <div class="desc">{{ $item->$item_method['name'] }}</div>
                                 @if($item->price != 0 || $item->old_price != 0)
                                     @if($item->old_price != 0 && $item->price == 0)

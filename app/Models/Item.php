@@ -60,7 +60,7 @@ class Item extends Model
      */
     public function getSubCategoryItems($id, $sort_config, $bs=Null)
     {
-        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['t_method']])->
+        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['ti_method']])->
         where('enabled', 1)->
         whereHas('getSubCategories', function ($f) use ($id) {
             $f->where('id', $id);
@@ -94,7 +94,7 @@ class Item extends Model
      */
     public function getTagItems($id, $sort_config, $bs=Null)
     {
-        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['t_method']])->
+        $all_items = $this::with([$sort_config['method'], 'getSubCategories', 'brand', 'getItemShortCut', 'getItemTag', $sort_config['ti_method']])->
         where('enabled', 1)->
         whereHas('getItemTag', function ($f) use ($id) {
             $f->where('id', $id);

@@ -114,13 +114,13 @@ class CSPController extends BaseController
         $item_model = new Item();
 // with url_slug search item ID
         $item_id = $this->getItemId($request->segment(2));
-        $same_ids = $this->getSameProductsIds($item_model->getItemSubCategoryId($item_id),$item_id);
+        $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id),$item_id);
         $this->data['same_items'] = ($same_ids)
             ? Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
         $this->data['item'] = Item::with([
-            $this->getItemMethod(),
-            $this->getTagMethod(),
+            $item_method,
+            $this->getItemTagMethod(),
             'getItemTag',
             'brand',
             'getItemShortcut',
@@ -130,13 +130,13 @@ class CSPController extends BaseController
         return view('site.product', [
             'class' => 'product',
             'data' => $this->data,
-            'title' => '',
-            'description' => '',
+            'title' => $this->data['item'][$item_method]->name,
+            'description' => $this->data['item'][$item_method]->description,
             'rating' => $this->stars->index($request),
             'starts' => false, //hide starts in footer
-            'item_method' => $this->getItemMethod(),
-            'tag_method' => $this->getTagMethod(),
-            'column' => $this->getColumn(),
+            'item_method'=>$item_method,
+            'tag_method'=>$this->getItemTagMethod(),
+            'column'=>$this->getColumn(),
             "attrs" => Attribute::get(['id', $this->getColumn()]),
             "item_attrs" => ItemAttribute::with('attributesLang')->where('item_id', $item_id)->get(),
         ]);
@@ -150,27 +150,28 @@ class CSPController extends BaseController
         $brand_model = new Brand();
         $sort_config = $this->setSortConfig($sort);
 //        // getting all items with same Tag
-        $data = $i_model->getTagItems($this->getTagId(), $sort_config, $bs);
-//        //gettings existing brands via ID
-
-
+        $tag_id = $this->getTagId();
+        $tag_method = $this->getTagMethod();
+        //current Tag
+        $tag = Tag::with($tag_method)->whereId($tag_id)->first();
+        $data = $i_model->getTagItems($tag_id, $sort_config, $bs);
         return view('site.tags', [
             'sort' => $sort,
             'class' => 'tags',
             'items' => $data['items']->paginate($this->page_count),
             'segment' => $this->segment,
             'i_method' => $sort_config['method'],
-//            'scat' => $this->getSubCategoryData(),
-//                       't_method' => $this->getTagMethod(),
+            't_method' => $this->getTagMethod(),
             'column'=>$this->getColumn(),
             'brands' => $brand_model->getBrands($data['brand_ids']),
             'bs' => $bs,
             'rating' => $this->stars->index($request),
-            'title' => '',
-            'description' => '',
-//            'cat' => $this->getCategoryData(),
-//            'cat_method' => $this->getCategoryMethod(),
-            'tags' => $this->tagCombine($data['items']),
+            'title' => $tag[$tag_method]->title,
+            'description' => $tag[$tag_method]->description,
+            'tags'=>$this->tagCombine($data['items']),
+            //TODO:: do are need?
+            'tag_method' => $tag_method,
+            'tag' => $tag,
         ]);
     }
 
@@ -251,7 +252,7 @@ class CSPController extends BaseController
         $asc_arr = array('asc_name', 'asc_price');
         $order = (in_array($sort, $asc_arr)) ? 1 : 0;
         $method = $this->getItemMethod();
-        $t_method = $this->getTagMethod();
+        $ti_method = $this->getItemTagMethod();
         switch ($sort) {
             case 'asc_price':
             case 'desc_price':
@@ -259,7 +260,7 @@ class CSPController extends BaseController
                     'order' => $order,
                     'sortBy' => "price",
                     'method' => $method,
-                    't_method' => $t_method,
+                    'ti_method' => $ti_method,
                 ]);
                 break;
             default:
@@ -267,7 +268,7 @@ class CSPController extends BaseController
                     'order' => $order,
                     'sortBy' => $method . ".name",
                     'method' => $method,
-                    't_method' => $t_method,
+                    'ti_method' => $ti_method,
                 ]);
         }
         return $orderBy;
@@ -312,18 +313,25 @@ class CSPController extends BaseController
      * getting methods 4 different languages from tag model
      * @return String
      */
-    private function getTagMethod()
+    private function getItemTagMethod()
     {
-        $t_methods = array('getItemRuTag', 'getItemUkTag');
+        $ti_methods = array('getItemRuTag', 'getItemUkTag');
         switch ($this->locale) {
             case 'uk':
-                return $t_methods[1];
+                return $ti_methods[1];
                 break;
             default:
-                return $t_methods[0];
+                return $ti_methods[0];
         }
     }
 
+    private function getTagMethod(){
+        $t_methods = array('getRuTag','getUkTag');
+        switch ($this->locale){
+            case 'uk':return $t_methods[1];break;
+            default: return $t_methods[0];
+        }
+    }
     /**
      * getting column from DB lang columns
      * @return string column name
@@ -347,19 +355,18 @@ class CSPController extends BaseController
      * @param $items
      * @return array
      */
-    private function tagCombine($items)
-    {
+    private function tagCombine($items){
         $tag_key = array();
         $tag_value = array();
-        foreach ($items as $item) {
-            foreach ($item->getItemTag as $tag) {
-                $tag_key[] = $tag->tag_url_slug;
+        foreach ($items as $item){
+            foreach ($item->getItemTag as $tag){
+                $tag_key[]=$tag->tag_url_slug;
             }
-            foreach ($item[$this->getTagMethod()] as $tm) {
-                $tag_value[] = $tm[$this->getColumn()];
+            foreach ($item[$this->getItemTagMethod()] as $tm){
+                $tag_value[]=$tm[$this->getColumn()];
             }
         }
-        $comb = array_combine($tag_key, $tag_value);
+        $comb = array_combine($tag_key,$tag_value);
         return $comb;
     }
 
@@ -369,17 +376,16 @@ class CSPController extends BaseController
      * @param $item
      * @return array
      */
-    private function itemTagCombine($item)
-    {
+    private function itemTagCombine($item){
         $tag_key = array();
         $tag_value = array();
-        foreach ($item->getItemTag as $tag) {
-            $tag_key[] = $tag->tag_url_slug;
+        foreach ($item->getItemTag as $tag){
+            $tag_key[]=$tag->tag_url_slug;
         }
-        foreach ($item[$this->getTagMethod()] as $tm) {
-            $tag_value[] = $tm[$this->getColumn()];
+        foreach ($item[$this->getItemTagMethod()] as $tm){
+            $tag_value[]=$tm[$this->getColumn()];
         }
-        $comb = array_combine($tag_key, $tag_value);
+        $comb = array_combine($tag_key,$tag_value);
         return $comb;
     }
 

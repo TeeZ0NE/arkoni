@@ -135,38 +135,4 @@
 
     @include('site._services')
 
-    {{--TODO: DELETE--}}
-    {{--<div class="text-center">--}}
-    {{--id:{{$item->id}}<br>--}}
-    {{--name:{{$item->$item_method['name']}}<br>--}}
-    {{--desc:{{$item->$item_method['description']}}<br>--}}
-    {{--price: {{$item->price}}<br>--}}
-    {{--old_price:{{$item->old_price}}<br>--}}
-    {{--brand:{{$item->brand['name']}}<br>--}}
-    {{--tags name: @foreach($tags as $tag_key=>$tag_value)--}}
-    {{--<a href="{{$tag_key}}">{{$tag_value}}</a>--}}
-    {{--@endforeach--}}
-    {{--<br>--}}
-    {{--<img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo" class="img-fluid w-25"><br>--}}
-    {{--shortcuts: @foreach($item->getItemShortcut as $sh){{$sh['name']}}::@endforeach<br>--}}
-    {{--attributes: @foreach($item_attrs as $ia){{$ia->attributesLang[$column]}}-{{$ia->value}}<br>@endforeach<br>--}}
-    {{--</div>--}}
-    {{--<hr>--}}
-    {{--<center>Same products</center>--}}
-    {{--@isset($same_items)--}}
-    {{--<div class="text-center">--}}
-
-    {{--@foreach($same_items as $item)--}}
-    {{--id:{{$item->id}}<br>--}}
-    {{--url: {{$item->item_url_slug}}<br>--}}
-    {{--name:{{$item->$item_method['name']}}<br>--}}
-    {{--desc:{{$item->$item_method['description']}}<br>--}}
-    {{--price: {{$item->price}}<br>--}}
-    {{--old_price:{{$item->old_price}}<br>--}}
-    {{--<br>--}}
-    {{--<img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo" class="img-fluid w-25"><br>--}}
-    {{--@endforeach--}}
-    {{--</div>--}}
-    {{--@endisset--}}
-
 @endsection

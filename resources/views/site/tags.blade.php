@@ -192,7 +192,7 @@
                         </div>
                     </article>
                 @endforeach
-                {{ $items->appends(['sort'=>$sort, 'bs'=>$bs])->links('pagination.default') }}
+                {{ $items->appends(['sort'=>$sort, 'bs'=>$bs])->links() }}
                 @if(count($tags) > 0)
                     <ul class="tags">
                         @foreach($tags as $tag_key => $tag_value)

@@ -120,7 +120,7 @@
                         </article>
                     @endforeach
                     <div class="clearfix d-md-none"></div>
-                    {{ $data['items']->appends(['q'=>$q,'sort'=>$sort])->links('pagination.default') }}
+                    <div>{{ $data['items']->appends(['q'=>$q,'sort'=>$sort])->links() }}</div>
                 @endif
             </div>
         </div>

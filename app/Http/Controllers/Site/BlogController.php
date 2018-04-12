@@ -46,8 +46,8 @@ class BlogController extends BaseController
         return view('site.blog.inside', [
             'class' => 'blog-inside',
             'data' => $this->data,
-            'title' => '',
-            'description' => '',
+            'title' => $this->data['article']->title,
+            'description' => do_excerpt($this->data['article']->body, 25),
             'starts' => false,
             'rating' => $this->stars->index($request),
         ]);

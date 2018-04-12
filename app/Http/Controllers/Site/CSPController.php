@@ -41,14 +41,10 @@ class CSPController extends BaseController
 
     public function catalog(Request $request)
     {
-//        try {
             $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'cat_photo as photo')
                 ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
                 ->orderBy('name')
                 ->get()->toArray();
-//        } catch (\Exception $e) {
-//            abort(404);
-//        }
 
         return view('site.catalog', [
             'class' => 'catalog',
@@ -61,7 +57,6 @@ class CSPController extends BaseController
 
     public function category(Request $request)
     {
-//        try {
             $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
                 ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
                 ->where('cat_url_slug', $request->segment(2))
@@ -73,10 +68,6 @@ class CSPController extends BaseController
                 ->where('cat_url_slug', $request->segment(2))
                 ->orderBy('name')
                 ->get()->toArray();
-
-//        } catch (\Exception $e) {
-//            abort(404);
-//        }
 
         return view('site.category', [
             'class' => 'category',
@@ -114,7 +105,7 @@ class CSPController extends BaseController
             'description' => $this->getSubCategoryData()[$this->getSubCategoryMethod()]['description'],
             'cat' => $this->getCategoryData(),
             'cat_method' => $this->getCategoryMethod(),
-            'tags'=>$this->tagCombine($data['items']),
+            'tags' => $this->tagCombine($data['items']),
         ]);
     }
 
@@ -126,7 +117,7 @@ class CSPController extends BaseController
         $item_method = $this->getItemMethod();
         $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id),$item_id);
         $this->data['same_items'] = ($same_ids)
-            ?   Item::with([$this->getItemMethod(),])->find($same_ids)
+            ? Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
         $this->data['item'] = Item::with([
             $item_method,
@@ -155,7 +146,6 @@ class CSPController extends BaseController
     public function tags(Request $request)
     {
         $sort = ($request->sort) ? $request->sort : 'asc_name';
-        //brand sort
         $bs = ($request->bs) ? $request->bs : Null;
         $i_model = new Item;
         $brand_model = new Brand();
@@ -166,12 +156,14 @@ class CSPController extends BaseController
         //current Tag
         $tag = Tag::with($tag_method)->whereId($tag_id)->first();
         $data = $i_model->getTagItems($tag_id, $sort_config, $bs);
+
         return view('site.tags', [
             'sort' => $sort,
             'class' => 'tags',
             'items' => $data['items']->paginate($this->page_count),
             'segment' => $this->segment,
             'i_method' => $sort_config['method'],
+            't_method' => $this->getTagMethod(),
             'column'=>$this->getColumn(),
             'brands' => $brand_model->getBrands($data['brand_ids']),
             'bs' => $bs,
@@ -206,8 +198,9 @@ class CSPController extends BaseController
      * @param String $segment
      * @return Integer ID
      */
-    private function getItemId($segment){
-        $item_id = Item::where([['item_url_slug','=',$segment],['enabled','=',1]])->first()->id;
+    private function getItemId($segment)
+    {
+        $item_id = Item::where([['item_url_slug', '=', $segment], ['enabled', '=', 1]])->first()->id;
         return $item_id;
     }
 
@@ -427,7 +420,8 @@ class CSPController extends BaseController
      * getting tag ID via segment from URL
      * @return Int tag ID
      */
-    private function getTagId(){
+    private function getTagId()
+    {
         $t = new Tag();
         $tag_id = $t->getTagId($this->segment);
         return $tag_id;

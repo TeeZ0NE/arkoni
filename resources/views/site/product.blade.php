@@ -60,7 +60,8 @@
                         @endif
                         <div class="phone-block">
                             @lang('product.arrange')
-                                <div class="phone"><i class="fas fa-phone"></i>{{ config('contacts.phone-1-alt') }}
+                                <div class="phone"><i class="fas fa-phone"></i>
+                                    <a href="tel:{{config('contacts.phone-1-alt')}}">{{ config('contacts.phone-1-alt') }}</a>
                                 </div>
                         </div>
                     </div>
@@ -93,15 +94,15 @@
 
     <div class="often-buy">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="title">@lang('product.often-buy.title')</div>
                 </div>
                 @if(count($data['same_items']) > 0)
                     @foreach($data['same_items'] as $item)
-                        <div class="col-md-3">
+                        <div class="col-sm-6 col-lg-3">
                             <div class="block">
-                                <img src="{{ asset('storage/img/' . $item->item_photo) }}" alt="">
+                                <img class="img-fluid" src="{{ asset('storage/img/' . $item->item_photo) }}" alt="">
                                 <div class="desc">{{ $item->$item_method['name'] }}</div>
                                 @if($item->price != 0 || $item->old_price != 0)
                                     @if($item->old_price != 0 && $item->price == 0)
@@ -134,39 +135,5 @@
     </div>
 
     @include('site._services')
-
-    {{--TODO: DELETE--}}
-    {{--<div class="text-center">--}}
-    {{--id:{{$item->id}}<br>--}}
-    {{--name:{{$item->$item_method['name']}}<br>--}}
-    {{--desc:{{$item->$item_method['description']}}<br>--}}
-    {{--price: {{$item->price}}<br>--}}
-    {{--old_price:{{$item->old_price}}<br>--}}
-    {{--brand:{{$item->brand['name']}}<br>--}}
-    {{--tags name: @foreach($tags as $tag_key=>$tag_value)--}}
-    {{--<a href="{{$tag_key}}">{{$tag_value}}</a>--}}
-    {{--@endforeach--}}
-    {{--<br>--}}
-    {{--<img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo" class="img-fluid w-25"><br>--}}
-    {{--shortcuts: @foreach($item->getItemShortcut as $sh){{$sh['name']}}::@endforeach<br>--}}
-    {{--attributes: @foreach($item_attrs as $ia){{$ia->attributesLang[$column]}}-{{$ia->value}}<br>@endforeach<br>--}}
-    {{--</div>--}}
-    {{--<hr>--}}
-    {{--<center>Same products</center>--}}
-    {{--@isset($same_items)--}}
-    {{--<div class="text-center">--}}
-
-    {{--@foreach($same_items as $item)--}}
-    {{--id:{{$item->id}}<br>--}}
-    {{--url: {{$item->item_url_slug}}<br>--}}
-    {{--name:{{$item->$item_method['name']}}<br>--}}
-    {{--desc:{{$item->$item_method['description']}}<br>--}}
-    {{--price: {{$item->price}}<br>--}}
-    {{--old_price:{{$item->old_price}}<br>--}}
-    {{--<br>--}}
-    {{--<img src="{{asset('storage/img').'/'.$item->item_photo}}" alt="item photo" class="img-fluid w-25"><br>--}}
-    {{--@endforeach--}}
-    {{--</div>--}}
-    {{--@endisset--}}
 
 @endsection

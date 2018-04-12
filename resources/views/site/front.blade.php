@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <img src="{{ asset('images/front-banner.png') }}" alt="">
+                    <div class="front-banner"></div>
                     <div class="shadow">
                         <h1 class="title">@lang('front.banner.title')</h1>
                         <div class="where">@lang('front.banner.where')</div>
@@ -53,8 +53,9 @@
                                 <div class="title">@lang('front.choice.item-1.title')</div>
                                 <div class="desc">@lang('front.choice.item-1.desc')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/c-podvesnye-potolki') }}">@lang('general.learn-more')<i
-                                            class="far fa-long-arrow-alt-right"></i></a>
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-podvesnye-potolki') }}">@lang('general.learn-more')
+                                        <i
+                                                class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
                         <li class="items item-2">
@@ -62,8 +63,9 @@
                                 <div class="title">@lang('front.choice.item-2.title')</div>
                                 <div class="desc">@lang('front.choice.item-2.desc')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/c-laki-kraski') }}">@lang('general.learn-more')<i
-                                            class="far fa-long-arrow-alt-right"></i></a>
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-laki-kraski') }}">@lang('general.learn-more')
+                                        <i
+                                                class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
                         <li class="items item-3">
@@ -71,8 +73,9 @@
                                 <div class="title">@lang('front.choice.item-3.title')</div>
                                 <div class="desc">@lang('front.choice.item-3.desc')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/c-dobavki-v-beton') }}">@lang('general.learn-more')<i
-                                            class="far fa-long-arrow-alt-right"></i></a>
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-dobavki-v-beton') }}">@lang('general.learn-more')
+                                        <i
+                                                class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
                         <li class="items item-4">
@@ -80,8 +83,9 @@
                                 <div class="title">@lang('front.choice.item-4.title')</div>
                                 <div class="desc">@lang('front.choice.item-4.desc')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/c-stroitelnaya-himiya') }}">@lang('general.learn-more')<i
-                                            class="far fa-long-arrow-alt-right"></i></a>
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-stroitelnaya-himiya') }}">@lang('general.learn-more')
+                                        <i
+                                                class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
                         <li class="items item-5">
@@ -89,8 +93,9 @@
                                 <div class="title">@lang('front.choice.item-5.title')</div>
                                 <div class="desc">@lang('front.choice.item-5.desc')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/c-fasadnye-materialy') }}">@lang('general.learn-more')<i
-                                            class="far fa-long-arrow-alt-right"></i></a>
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-fasadnye-materialy') }}">@lang('general.learn-more')
+                                        <i
+                                                class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
                         <li class="items item-6">
@@ -98,8 +103,9 @@
                                 <div class="title">@lang('front.choice.item-6.title')</div>
                                 <div class="desc">@lang('front.choice.item-6.desc')</div>
                                 <a class="go-to"
-                                   href="{{ LaravelLocalization::LocalizeURL('/c-utepliteli') }}">@lang('general.learn-more')<i
-                                            class="far fa-long-arrow-alt-right"></i></a>
+                                   href="{{ LaravelLocalization::LocalizeURL('/c-utepliteli') }}">@lang('general.learn-more')
+                                        <i
+                                                class="far fa-long-arrow-alt-right"></i></a>
                             </div>
                         </li>
                     </ul>
@@ -111,59 +117,46 @@
     <div class="competitors">
         <div class="container">
             <div class="row justify-content-end">
-                <div class="col col-md-9">
+                <div class="col col-md-12 col-lg-9">
                     <div class="title">@lang('front.competitors.title')</div>
                     <table class="table">
                         <thead>
                         <tr>
                             <th></th>
-                            <th>@lang('front.competitors.drywall')</th>
-                            <th>@lang('front.competitors.paint')</th>
+                            <th>@lang('front.competitors.param-1')</th>
+                            <th>@lang('front.competitors.param-2')</th>
                             <th>@lang('front.competitors.param-3')</th>
                             <th>@lang('front.competitors.param-4')</th>
-                            <th>@lang('front.competitors.wallpaper')</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr class="top">
                             <td><img src="{{ asset('images/competitors-logo-1.png') }}" alt=""></td>
-                            <td>@lang('general.from') <span class="price">134.00</span> @lang('general.uah')</td>
-                            <td>@lang('general.from') <span class="price">134.00</span> @lang('general.uah')</td>
-                            <td>@lang('general.from') <span class="price">134.00</span> @lang('general.uah')</td>
-                            <td>@lang('general.from') <span class="price">134.00</span> @lang('general.uah')</td>
-                            <td>@lang('general.from') <span class="price">134.00</span> @lang('general.uah')</td>
+                            <td>@lang('general.from') <span class="price">35.30</span> @lang('general.uah')</td>
+                            <td>@lang('general.from') <span class="price">38.32</span> @lang('general.uah')</td>
+                            <td>@lang('general.from') <span class="price">35.30</span> @lang('general.uah')</td>
+                            <td>@lang('general.from') <span class="price">40.00</span> @lang('general.uah')</td>
                         </tr>
                         <tr>
-                            <td>Логотип 1</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
+                            <td><img src="{{ asset('images/competitors-logo-2.png') }}" alt=""></td>
+                            <td>@lang('general.from') 37.08 @lang('general.uah')</td>
+                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') 54.96 @lang('general.uah')</td>
+                            <td>@lang('general.from') 66.94 @lang('general.uah')</td>
                         </tr>
                         <tr>
-                            <td>Логотип 2</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
+                            <td><img src="{{ asset('images/competitors-logo-3.png') }}" alt=""></td>
+                            <td>@lang('general.from') 36.17 @lang('general.uah')</td>
+                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') 54.62 @lang('general.uah')</td>
+                            <td>@lang('general.from') 97.32 @lang('general.uah')</td>
                         </tr>
                         <tr>
-                            <td>Логотип 3</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                        </tr>
-                        <tr>
-                            <td>Логотип 4</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
-                            <td>@lang('general.from') 134.00 @lang('general.uah')</td>
+                            <td><img src="{{ asset('images/competitors-logo-4.png') }}" alt=""></td>
+                            <td>@lang('general.from') 36.00 @lang('general.uah')</td>
+                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') - @lang('general.uah')</td>
                         </tr>
                         </tbody>
                     </table>
@@ -175,7 +168,7 @@
 
     <div class="best-offers">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="title">@lang('front.best-offers.title')</div>
                 </div>
@@ -206,7 +199,14 @@
             <div class="row justify-content-end">
                 <div class="col-sm-12 col-lg-10">
                     <h3 class="title">@lang('front.seo.title')</h3>
-                    <div class="body">@lang('front.seo.body')</div>
+                    <div class="body">
+                        <div class="text text-preview">@lang('front.seo.body.preview')</div>
+                        <div class="text text-all">@lang('front.seo.body.all')</div>
+                        <div class="read-all">
+                            <span class="content-show">@lang('general.show-all')</span>
+                            <span class="content-hidden hide">@lang('general.hide-all')</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

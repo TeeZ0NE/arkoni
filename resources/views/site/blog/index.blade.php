@@ -28,7 +28,7 @@
                         </div>
                     </article>
                 @endforeach
-                {{ $data['articles']->links('pagination.default') }}
+                {{ $data['articles']->links() }}
             </main>
             <aside class="col-lg-3 d-none d-lg-block">
                 @include('site.blog.aside')

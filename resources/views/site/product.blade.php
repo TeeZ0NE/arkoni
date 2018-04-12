@@ -35,10 +35,10 @@
                                           class="price">{{ number_format($data['item']->price, 2, '.', '') }} </span>
                                     <span>@lang('general.uah')</span>
                                 @else
-                                    <span class="old-price">{{ number_format($data['item']->price, 2, '.', '') }} </span>
+                                    <span class="old-price">{{ number_format($data['item']->old_price, 2, '.', '') }} </span>
                                     <span>@lang('general.uah')</span>
                                     <span itemprop="price"
-                                          class="price">{{ number_format($data['item']->old_price, 2, '.', '') }} </span>
+                                          class="price">{{ number_format($data['item']->price, 2, '.', '') }} </span>
                                     <span>@lang('general.uah')</span>
                                 @endif
                             @else

@@ -23,7 +23,7 @@
                                 href="mailto:{{ config('contacts.mail') }}">{{ config('contacts.mail') }}</a></li>
                 </ul>
                 <div class="addr">@lang('contacts.addr')</div>
-                <div class="addr-street"><i class="fas fa-map-marker-alt"></i>@lang('general.address-street')</div>
+                <div class="addr-street"><i class="fas fa-map-marker-alt"></i><a target="_blank" href="https://goo.gl/maps/kD2RDPM2KDP2">@lang('general.address-street')</a></div>
             </div>
         </div>
     </div>

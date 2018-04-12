@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Site;
 
 use App;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Site\BaseController;
-use App\Http\Controllers\Site\StarsController;
-use Illuminate\Support\Facades\DB;
+use App\Models\Blog;
 
 class BlogController extends BaseController
 {
+    private $page_count = 6;
+
     public function index(Request $request)
     {
-        $this->data['articles'] = DB::table('blogs')->select('title', 'body', 'photo', 'url_slug as slug', 'views')
-            ->where('published', '=', 1)
-            ->orderBy('created_at')
-            ->paginate(6);
+        $this->data['articles'] = Blog::wherePublished(1)->
+        select('title', 'body', 'photo', 'url_slug as slug', 'views')->
+        orderBy('created_at')->
+        paginate($this->page_count);
 
         return view('site.blog.index', [
             'class' => 'blog',
@@ -28,18 +28,25 @@ class BlogController extends BaseController
 
     public function inside(Request $request)
     {
-        $this->data['article'] = DB::table('blogs')->select('id', 'title', 'body', 'photo', 'views')
-            ->where('url_slug', '=', $request->segment(2))
-            ->get()
-            ->toArray()[0];
-        $this->data['similar'] = DB::table('blogs')->select('title', 'photo', 'url_slug')
-            ->where([
-                ['published', '=', 1],
-                ['url_slug', '!=', $request->segment(2)]
-            ])
-            ->inRandomOrder()
-            ->take(3)
-            ->get();
+        $b = new Blog();
+        $segment = $request->segment(2);
+        $this->data['article'] = $b::where([
+            ['url_slug', $segment],
+            ['published', 1],
+        ])->
+        select('id', 'title', 'body', 'photo', 'views', 'url_slug as slug')->
+        first();
+        if (!$this->data['article']) {
+            return abort(404);
+        }
+        $this->data['similar'] = $b::where([
+            ['published', 1],
+            ['url_slug', '<>', $segment]
+        ])->
+        select('id', 'title', 'body', 'photo', 'views', 'url_slug')->
+        inRandomOrder()->
+        take(3)->
+        get();
 
         app('App\Http\Controllers\Admin\BlogController')->addView($this->data['article']->id);
 

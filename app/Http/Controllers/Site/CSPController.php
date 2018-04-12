@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\ItemAttribute;
 use App\Models\Attribute;
-use App\Models\ItemCategory;
 use App\Models\Tag;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CSPController extends BaseController
 {
@@ -197,7 +198,12 @@ class CSPController extends BaseController
      */
     private function getItemId($segment)
     {
-        $item_id = Item::where([['item_url_slug', '=', $segment], ['enabled', '=', 1]])->first()->id;
+        try {
+            $item_id = Item::where([['item_url_slug', '=', $segment], ['enabled', '=', 1]])->first()->id;
+        }catch(Exception $qe){
+            Log::error('Get item ID',['segment'=>$segment,'msg'=>$qe->getMessage()]);
+            return abort(404);
+    }
         return $item_id;
     }
 
@@ -279,7 +285,12 @@ class CSPController extends BaseController
      */
     private function getCategoryId()
     {
-        return SubCategory::with('getCategory')->where('id', $this->getSubCategoryId())->first()->cat_id;
+        try {
+            return SubCategory::with('getCategory')->where('id', $this->getSubCategoryId())->first()->cat_id;
+        }catch(Exception $qe){
+            Log::error('Get category ID',['msg'=>$qe->getMessage()]);
+            return abort(404);
+        }
     }
 
     /**
@@ -390,7 +401,7 @@ class CSPController extends BaseController
 
     /**
      * getting IDs if exist
-     * @param Int $sub_cat_id
+     * @param Int $cat_id
      * @param  Int $current_id
      * @return null|Array
      */
@@ -420,7 +431,12 @@ class CSPController extends BaseController
     private function getTagId()
     {
         $t = new Tag();
-        $tag_id = $t->getTagId($this->segment);
+        try {
+            $tag_id = $t->getTagId($this->segment);
+        }catch(Exception $e){
+            Log::error('Get tag ID', ['msg'=>$e->getMessage()]);
+            return abort(404);
+        }
         return $tag_id;
     }
 }

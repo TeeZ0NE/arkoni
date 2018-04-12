@@ -8,7 +8,7 @@ class Blog extends Model
 {
     protected $fillable = array('title','url_slug','body','published','photo');
     public function getBlogs2AdminIndex(){
-        return $this->select('id','title','published','created_at','updated_at','views','photo');
+        return $this->select('id','title','published','created_at','updated_at','views','photo','url_slug');
     }
 
     public function search($q){

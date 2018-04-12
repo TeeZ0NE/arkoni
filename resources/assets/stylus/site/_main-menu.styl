@@ -89,6 +89,18 @@
   }
 }
 
+.main-menu.fixed {
+  top: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  .open > ul {
+    visibility: hidden;
+  }
+  nav > ul li:hover > ul {
+    visibility: visible;
+  }
+}
 @media (max-width: 1200px) {
   .main-menu {
     .open:hover .categories-items {

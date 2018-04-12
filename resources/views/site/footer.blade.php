@@ -48,8 +48,28 @@
     </div>
 </footer>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtY8V5eaXIVOjVkhfm-VLaqEyHuSNyvtY"
-        async defer></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9rJLVd79d399U4QBQD3-aHOGxz-TxQ-A&callback=initMap"
+        type="text/javascript"></script>
+<script>
+    function initMap(position) {
+        if (window.innerWidth <= 768) {
+            position = {lat: 49.238323, lng: 28.460862};
+        }
+        if (window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
+            //create map
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 49.237887, lng: 28.460762},
+                zoom: 17
+            });
+            //create marker
+            var marker = new google.maps.Marker({
+                position: position || {lat: 49.238323, lng: 28.463262},
+                map: map
+            });
+        }
+    }
+</script>
 <script src="{{ mix('js/site.js') }}"></script>
 
 </body>

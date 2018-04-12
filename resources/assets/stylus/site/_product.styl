@@ -112,11 +112,13 @@
     .phone {
       font-family bold-family
       font-size 1.5em
+      a {
+        color: #000
+      }
     }
     .fa-phone {
       transform: rotateY(160deg);
     }
-
   }
   .seo {
     background-color seo-bg-color
@@ -133,7 +135,7 @@
     .title {
       block-title(15px)
     }
-    .col-md-3 {
+    row > div {
       display: inline-flex;
     }
     img {
@@ -147,7 +149,9 @@
       padding 15px 15px 120px 15px;
       text-align center
       position relative
-      box-shadow()
+      &:hover {
+        box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.25)
+      }
     }
     .go-to {
       go-to()
@@ -167,5 +171,39 @@
   }
   .services {
     margin-bottom 60px
+  }
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 992px) {
+
+}
+
+@media (max-width: 768px) {
+  .product .item {
+    .title {
+      text-align: center;
+      margin: 4px auto;
+      font-size: 1.125em;
+    }
+    .params {
+      font-size .875em
+    }
+    .price-block {
+      font-size: .875em;
+    }
+    .phone a {
+      font-size .875em
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .product .services {
+    margin-bottom: 30px;
+    padding-top: 0;
   }
 }

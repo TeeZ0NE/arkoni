@@ -27,8 +27,10 @@
     .where {
       font-size: 1.3em;
     }
-    img {
-      width 100%
+    .front-banner {
+      background: url('../images/front-banner.png') no-repeat;
+      background-size: cover;
+      height: 440px;
     }
     .go-to {
       go-to()
@@ -72,6 +74,8 @@
     table {
       border 1px solid #ebebeb
       border-radius 5px
+      position: relative;
+      z-index: 1;
     }
     .top {
       background: #ebebeb;
@@ -209,7 +213,9 @@
       padding 15px 15px 120px 15px;
       text-align center
       position relative
-      box-shadow()
+      &:hover {
+        box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.25)
+      }
     }
     .go-to {
       go-to()
@@ -259,8 +265,29 @@
         content ''
         background url("../images/front-seo-bg.png") no-repeat
         width 525px
-        height 350px
+        height: 300px;
         z-index -1
+      }
+    }
+    .text-all {
+      display none
+    }
+    .read-all {
+      text-align: center;
+      margin: 0 auto 15px;
+      > span {
+        cursor: pointer;
+        text-decoration: none;
+        font-family bold-family
+        &:hover {
+          text-decoration underline
+        }
+      }
+      .hide {
+        display none
+      }
+      .show {
+        display block
       }
     }
     .title {
@@ -450,11 +477,38 @@
   }
 }
 
-@media (max-width: 1200px) {
 
+@media (max-width: 1200px) {
+  .front {
+    .front-banner .shadow {
+      padding-left: 0;
+      padding-top: 80px;
+    }
+    .main-menu .open > ul {
+      visibility hidden
+    }
+    .front-banner .front-banner {
+      height: 370px;
+    }
+  }
 }
 
 @media (max-width: 992px) {
+  .front .front-banner {
+    .title {
+      font-size: 1.5em;
+    }
+    .where {
+      font-size: 1.125em;
+    }
+    .shadow {
+      padding-top: 8%;
+    }
+    .front-banner {
+      height: 270px;
+    }
+  }
+
   .google-map {
     .shadow {
       width 55%
@@ -486,10 +540,24 @@
       }
     }
   }
+  .front .competitors .container:after {
+    display none
+  }
 }
 
 @media (max-width: 768px) {
   .front {
+    .front-banner {
+      .title {
+        font-size: 1.3em;
+      }
+      .where {
+        font-size: 1em;
+      }
+      .go-to {
+        margin-top: 30px;
+      }
+    }
     .row > div > .title {
       font-size 1.125em !important
     }
@@ -535,6 +603,28 @@
 }
 
 @media (max-width: 575px) {
+  .front .front-banner {
+    .container {
+      padding: 0;
+    }
+    .row {
+      margin-right: 0;
+      margin-left: 0;
+    }
+    .shadow {
+      padding-left 0
+      padding-right 0
+    }
+    .where,
+    .title {
+      padding 0 15px
+    }
+    img {
+      width: 575px;
+      height: 250px;
+    }
+  }
+
   .google-map {
     .shadow {
       width 100%
@@ -572,6 +662,7 @@
       margin: 15px 0 0;
     }
   }
+
   .producers {
     display none
   }

@@ -35,7 +35,7 @@
       display: block;
       margin: 15px auto;
     }
-    header {
+    .title {
       font-family: OpenSans-Bold, sans-serif;
       font-size: 1.8em;
       line-height: 1.4em;
@@ -61,6 +61,7 @@
       header {
         font-size 1em
         margin-top 10px
+        font-family bold-family
         a {
           color: base-color
         }
@@ -83,30 +84,6 @@
   .fas {
     margin-right 6px
   }
-//TODO:DELETE
-//.commerce {
-//  list-style: none;
-//  overflow: hidden;
-//  padding-left: 0;
-//  li {
-//    float: left;
-//    border-radius: 5px;
-//    padding: 2px 10px;
-//    border: 1px solid;
-//    font-size: 0.75em;
-//    &:not(:nth-child(1)) {
-//      margin-left: 10px
-//    }
-//  }
-//  .promotion {
-//    color: #de0000;
-//    border-color: #de0000;
-//  }
-//  .material {
-//    color: #0e7200;
-//    border-color: #0e7200;
-//  }
-//}
 }
 
 aside {
@@ -173,5 +150,11 @@ aside {
       line-height 1.8em
       font-size 1.3em
     }
+  }
+}
+
+@media (max-width: 575px) {
+  .blog article img {
+    margin-top: 0;
   }
 }

@@ -2,6 +2,7 @@
 <html lang="{{ config('app.locale') }}" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>@if(isset($title)){{ $title }}@endif</title>
     <meta name="description" content="@if(isset($description)){{ $description }}@endif">

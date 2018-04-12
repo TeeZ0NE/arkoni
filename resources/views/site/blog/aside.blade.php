@@ -2,7 +2,7 @@
 
 <div class="offers-aside-block">
     <a href="{{ LaravelLocalization::LocalizeURL('/') }}">
-        <img width="" src="{{ asset('images/offers-1.png') }}" alt="">
+        <img class="img-fluid" src="{{ asset('images/offers-1.png') }}">
     </a>
 </div>
 

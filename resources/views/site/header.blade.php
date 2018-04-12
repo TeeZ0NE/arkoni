@@ -22,7 +22,7 @@
                 <div class="address"><i class="fas fa-map-marker-alt"></i>
                     <a target="_blank" href="https://goo.gl/maps/kD2RDPM2KDP2">@lang('general.address-street')</a>
                 </div>
-                <div class="work-time"><i class="far fa-clock"></i>@lang('general.work-time')</div>
+                <div class="work-time">@lang('general.work-time')</div>
             </div>
             <div class="col-sm-2 col-md-1 col-lg-4">
                 <ul class="language-switch">

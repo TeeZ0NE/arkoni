@@ -11,7 +11,7 @@
                         <a target="_blank" href="https://goo.gl/maps/kD2RDPM2KDP2">@lang('general.address-street')</a>
                     </div>
                     <div class="work">@lang('front.google-map.work')</div>
-                    <div class="work-time"><i class="far fa-clock"></i>@lang('general.work-time')</div>
+                    <div class="work-time">@lang('general.work-time')</div>
                     <div class="call">@lang('front.google-map.call')</div>
                     <div class="mobil"><i class="fas fa-mobile-alt"></i><a
                                 href="tel:{{ config('contacts.mobil') }}">{{ config('contacts.mobil') }}</a></div>

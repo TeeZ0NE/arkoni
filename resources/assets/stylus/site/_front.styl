@@ -88,6 +88,9 @@
       vertical-align: middle;
       text-align: center;
     }
+    th {
+      font-weight: inherit;
+    }
     td:nth-child(1) {
       text-align left
     }
@@ -203,7 +206,6 @@
     }
     img {
       height 160px
-      width 220px
       display block
       margin 0 auto 15px
     }
@@ -475,8 +477,12 @@
   a {
     color white
   }
+  .work-time {
+    i:nth-child(3) {
+      top: 38px;
+    }
+  }
 }
-
 
 @media (max-width: 1200px) {
   .front {
@@ -540,6 +546,7 @@
       }
     }
   }
+
   .front .competitors .container:after {
     display none
   }

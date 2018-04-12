@@ -53,14 +53,14 @@
                                         <input type="hidden" value="@isset($q){{$q}}@endisset" name="q">
                                         <ul>
                                             <li>
-                                                <input id="a-to-z" type="radio" name="sort" value="asc_iname"
-                                                       @if ($sort=='asc_iname') checked @endif>
-                                                <label for="a-to-z">@lang('sub-category.a-to-z')</label>
+                                                <input id="a--to-z" type="radio" name="sort" value="asc_iname"
+                                                       @if ($sort=='asc_iname') checked @endif>W
+                                                <label for="a--to-z">@lang('sub-category.a-to-z')</label>
                                             </li>
                                             <li>
-                                                <input id="z-to-a" type="radio" name="sort" value="desc_iname"
+                                                <input id="z--to-a" type="radio" name="sort" value="desc_iname"
                                                        @if ($sort=='desc_iname') checked @endif>
-                                                <label for="z-to-a">@lang('sub-category.z-to-a')</label>
+                                                <label for="z--to-a">@lang('sub-category.z-to-a')</label>
                                             </li>
                                         </ul>
                                         <button type="submit" class="btn btn-filter">@lang('general.show')</button>
@@ -74,7 +74,7 @@
                         <article class="item">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-3">
+                                    <div class="col-sm-12 col-md-3 text-center">
                                         <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->item_url_slug) }}">
                                             <img class="img-fluid" src="{{ asset('/storage/img/'.$item->item_photo) }}"
                                                  alt="">

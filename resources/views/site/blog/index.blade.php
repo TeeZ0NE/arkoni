@@ -13,7 +13,7 @@
                 @foreach($data['articles'] as $item)
                     <article>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 text-center">
                                 <a href="{{ LaravelLocalization::LocalizeURL('/' . $item->slug) }}">
                                     <img class="img-fluid" src="{{ asset('/storage/img/' . $item->photo) }}" alt="">
                                 </a>

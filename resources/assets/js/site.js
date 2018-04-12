@@ -68,29 +68,6 @@ $(function () {
         ]
     });
 
-    //google maps
-    //if front page
-    if (window.location.pathname.split('/').length === 2 || window.location.pathname.split('/')[2] === 'contacts') {
-        if ($(window).innerWidth() <= 768) {
-            initMap({lat: 49.238323, lng: 28.460862});
-        } else {
-            initMap();
-        }
-    }
-
-    function initMap(position) {
-        //create map
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 49.237887, lng: 28.460762},
-            zoom: 17
-        });
-        //create marker
-        var marker = new google.maps.Marker({
-            position: position || {lat: 49.238323, lng: 28.463262},
-            map: map
-        });
-    }
-
     //stars
     Stars();
     function Stars() {
@@ -170,25 +147,37 @@ $(function () {
 
     mainMenu();
     function mainMenu() {
-        console.log(window.innerWidth);
         if (window.innerWidth <= 768) {
             var mainMenu = $('.main-menu');
             mainMenu.find(".navbar-toggler").click(function (e) {
                 e.preventDefault();
-                mainMenu.find('.menu-shadow').delay(350).show();
+                mainMenu.find('.menu-shadow').show();
                 mainMenu.find(".collapse").animate({left: '0'}, 350);
             });
 
             mainMenu.find(".menu-shadow").click(function (e) {
                 e.preventDefault();
                 mainMenu.find(".collapse").animate({left: '-240px'}, 350);
-                mainMenu.find('.menu-shadow').delay(350).hide();
+                mainMenu.find('.menu-shadow').hide();
             });
         } else {
             $('.main-menu .navbar-toggler').click(function () {
                 $('.collapse').collapse('toggle');
             });
-
         }
     }
+
+    //fix main menu
+    fixTopMenu();
+    function fixTopMenu() {
+        var menu = $('.main-menu');
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > $('.header').innerHeight() - 20) {
+                menu.addClass('fixed');
+            } else {
+                menu.removeClass('fixed');
+            }
+        });
+    }
+
 });

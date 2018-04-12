@@ -24,7 +24,7 @@ class CSPController extends BaseController
     /**
      * @var int  Page count in Pagination
      */
-    private $page_count = 3;
+    private $page_count = 6;
 
     /**
      * @var String second segment in URL
@@ -171,9 +171,6 @@ class CSPController extends BaseController
             'title' => $tag[$tag_method]->title,
             'description' => $tag[$tag_method]->description,
             'tags'=>$this->tagCombine($data['items']),
-            //TODO:: do are need?
-            'tag_method' => $tag_method,
-            'tag' => $tag,
         ]);
     }
 

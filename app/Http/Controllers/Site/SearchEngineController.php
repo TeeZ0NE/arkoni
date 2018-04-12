@@ -21,7 +21,7 @@ class SearchEngineController extends BaseController
     /**
      * @var int  Page count in Pagination
      */
-    private $page_count = 5;
+    private $page_count = 6;
 
     public function __construct()
     {
@@ -99,7 +99,7 @@ class SearchEngineController extends BaseController
             case 'desc_iname':
                 $orderBy = ([
                     'order' => $order,
-                    'sortBy' => $method . ".$column",
+                    'sortBy' => $method . ".name",
                     'column' => $column,
                     'method' => $method,
                 ]);

@@ -1,7 +1,7 @@
 @extends('site.index')
 
 @section('content')
-    {!! Breadcrumbs::render('tags', $tag->$tag_method->title) !!}
+    {!! Breadcrumbs::render('tags', $title) !!}
 
 
     <div class="container">
@@ -76,8 +76,8 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <h1 class="title">{{ $tag->$tag_method->title }}</h1>
-                                {!! $tag->$tag_method->description !!}
+                                <h1 class="title">{{ $title }}</h1>
+                                {!! $description !!}
                             </div>
                         </div>
                     </div>

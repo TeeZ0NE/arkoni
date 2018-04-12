@@ -58,6 +58,10 @@
                                 @endforeach
                             </ul>
                         @endif
+                        <ul class="params">
+                                    <li><i class="fas fa-check"></i><strong>@lang('product.brand'):</strong>
+                                        <span>{{ $data['item']->brand->name }}</span></li>
+                            </ul>
                         <div class="phone-block">
                             @lang('product.arrange')
                                 <div class="phone"><i class="fas fa-phone"></i>

@@ -24,7 +24,7 @@ class CSPController extends BaseController
     /**
      * @var int  Page count in Pagination
      */
-    private $page_count = 3;
+    private $page_count = 6;
 
     /**
      * @var String second segment in URL

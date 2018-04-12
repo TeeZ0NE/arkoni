@@ -181,8 +181,8 @@
                                         @elseif($item->old_price == 0 && $item->price != 0)
                                             <div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>
                                         @else
-                                            <span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>
-                                            <div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>
+                                            <span class="old-price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</span>
+                                            <div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>
                                         @endif
                                     @else
                                         <div class="specify">@lang('sub-category.specify')</div>

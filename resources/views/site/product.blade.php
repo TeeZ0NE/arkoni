@@ -118,10 +118,10 @@
                                               class="price">{{ number_format($item->price, 2, '.', '') }}
                                             <span>@lang('general.uah')</span></span>
                                     @else
-                                        <span class="old-price">{{ number_format($item->price, 2, '.', '') }}
+                                        <span class="old-price">{{ number_format($item->old_price, 2, '.', '') }}
                                             <span>@lang('general.uah')</span></span>
                                         <span itemprop="price"
-                                              class="price">{{ number_format($item->old_price, 2, '.', '') }}
+                                              class="price">{{ number_format($item->price, 2, '.', '') }}
                                             <span>@lang('general.uah')</span></span>
                                     @endif
                                 @else

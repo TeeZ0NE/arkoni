@@ -155,7 +155,7 @@
                             <td><img src="{{ asset('images/competitors-logo-4.png') }}" alt=""></td>
                             <td>@lang('general.from') 36.00 @lang('general.uah')</td>
                             <td>@lang('general.from') 28.27 @lang('general.uah')</td>
-                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') 60.00 @lang('general.uah')</td>
                             <td>@lang('general.from') 59.00 @lang('general.uah')</td>
                         </tr>
                         </tbody>

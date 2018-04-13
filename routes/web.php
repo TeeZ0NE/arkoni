@@ -78,7 +78,8 @@ Route::prefix('admin')->group(function () {
         Route::get('tags/query', 'Admin\TagController@search')->name('tags.search');
         Route::resource('tags', 'Admin\TagController');
     });
-    Route::get('images', 'Admin\ImagesController')->name('images');
+    Route::get('images', 'Admin\ImagesController@index')->name('images');
+    Route::post('images','Admin\ImagesController@store')->name('image.store');
     // Blog
     Route::group(['middleware' => ['purify']], function () {
         Route::get('blog/query', 'Admin\BlogController@search')->name('blog.search');

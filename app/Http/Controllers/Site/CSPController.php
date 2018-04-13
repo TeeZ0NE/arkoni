@@ -7,14 +7,12 @@ use App\Models\Item;
 use App\Models\SubCategory;
 use App\Models\Brand;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Site\StarsController;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\ItemAttribute;
 use App\Models\Attribute;
 use App\Models\Tag;
 use Exception;
-use Illuminate\Support\Facades\Log;
 
 class CSPController extends BaseController
 {
@@ -63,7 +61,6 @@ class CSPController extends BaseController
             ->where('cat_url_slug', $this->segment)
             ->first();
         if (!$this->data['category']) {
-            Log::error('Category first get error');
             return abort(404);
         }
 
@@ -205,7 +202,6 @@ class CSPController extends BaseController
         try {
             $item_id = Item::where([['item_url_slug', '=', $segment], ['enabled', '=', 1]])->first()->id;
         } catch (Exception $qe) {
-            Log::error('Get item ID', ['segment' => $segment, 'msg' => $qe->getMessage()]);
             return abort(404);
         }
         return $item_id;
@@ -222,7 +218,6 @@ class CSPController extends BaseController
         try {
             $sc_id = $sc->getSubCategoryId($this->segment);
         } catch (Exception $e) {
-            Log::error('Get SubCategory ID', ['msg' => $e]);
             return abort(404);
         }
         return $sc_id;
@@ -235,7 +230,8 @@ class CSPController extends BaseController
      */
     private function getSubCategoryData()
     {
-        $sc_data = SubCategory::with($this->getSubCategoryMethod())->where('id', $this->getSubCategoryId())->first();
+        $sc_data = SubCategory::with($this->getSubCategoryMethod())->
+        whereId($this->getSubCategoryId())->first();
         return $sc_data;
     }
 
@@ -295,9 +291,8 @@ class CSPController extends BaseController
     private function getCategoryId()
     {
         try {
-            return SubCategory::with('getCategory')->where('id', $this->getSubCategoryId())->first()->cat_id;
+            return SubCategory::with('getCategory')->whereId($this->getSubCategoryId())->first()->cat_id;
         } catch (Exception $qe) {
-            Log::error('Get category ID', ['msg' => $qe->getMessage()]);
             return abort(404);
         }
     }
@@ -324,7 +319,7 @@ class CSPController extends BaseController
      */
     private function getCategoryData()
     {
-        $c_data = Category::with($this->getCategoryMethod())->where('id', $this->getCategoryId())->first();
+        $c_data = Category::with($this->getCategoryMethod())->whereId($this->getCategoryId())->first();
         return $c_data;
     }
 
@@ -460,7 +455,6 @@ class CSPController extends BaseController
         try {
             $tag_id = $t->getTagId($this->segment);
         } catch (Exception $e) {
-            Log::error('Get tag ID', ['msg' => $e->getMessage()]);
             return abort(404);
         }
         return $tag_id;

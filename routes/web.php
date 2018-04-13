@@ -105,12 +105,10 @@ Route::group(
         Route::get('/t-{name}', 'Site\CSPController@tags')->name('tags');
         Route::get('/contacts', 'Site\SiteController@contacts')->name('contacts');
         Route::get('/about', 'Site\SiteController@about')->name('about');
+        Route::get('/brigades', 'Site\SiteController@brigades')->name('brigades');
+//        Route::get('/cooperation', 'Site\SiteController@cooperation')->name('cooperation');
         //search engine
         Route::group(['middleware' => ['purify']], function () {
             Route::get('search', 'Site\SearchEngineController')->name('se.search');
         });
-
-
-//        Route::get('/s-{name?}{sort?}', 'Site\CSPController@getSubCategoryItems')->name('sub-category');
-
     });

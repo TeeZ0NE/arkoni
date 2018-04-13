@@ -9,7 +9,7 @@
                     <div class="title">@lang('front.services.block-2.title')</div>
                     <div class="body">@lang('front.services.block-2.body')</div>
                     <a class="go-to"
-                       href="{{ LaravelLocalization::LocalizeURL('/') }}">@lang('front.services.block-2.go-to')<i
+                       href="{{ LaravelLocalization::LocalizeURL('/brigades') }}">@lang('front.services.block-2.go-to')<i
                                 class="far fa-long-arrow-alt-right"></i></a>
                 </div>
             </div>

@@ -151,7 +151,7 @@
                     <article class="item">
                         <div class="container">
                             <div class="row">
-                                <div class="col-sm-12 col-md-3 text-center">
+                                <div class="col-sm-12 col-md-3">
                                     <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->item_url_slug) }}">
                                         <img class="img-fluid" src="{{ asset('/storage/img/'.$item->item_photo) }}"
                                              alt="">
@@ -181,8 +181,8 @@
                                         @elseif($item->old_price == 0 && $item->price != 0)
                                             <div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>
                                         @else
-                                            <span class="old-price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</span>
-                                            <div class="price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</div>
+                                            <span class="old-price">{{ number_format($item->old_price, 2, '.', '') }} @lang('general.uah')</span>
+                                            <div class="price">{{ number_format($item->price, 2, '.', '') }} @lang('general.uah')</div>
                                         @endif
                                     @else
                                         <div class="specify">@lang('sub-category.specify')</div>

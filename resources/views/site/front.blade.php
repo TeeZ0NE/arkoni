@@ -140,23 +140,23 @@
                         <tr>
                             <td><img src="{{ asset('images/competitors-logo-2.png') }}" alt=""></td>
                             <td>@lang('general.from') 37.08 @lang('general.uah')</td>
-                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') 28.95 @lang('general.uah')</td>
                             <td>@lang('general.from') 54.96 @lang('general.uah')</td>
                             <td>@lang('general.from') 66.94 @lang('general.uah')</td>
                         </tr>
                         <tr>
                             <td><img src="{{ asset('images/competitors-logo-3.png') }}" alt=""></td>
                             <td>@lang('general.from') 36.17 @lang('general.uah')</td>
-                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') 35.70 @lang('general.uah')</td>
                             <td>@lang('general.from') 54.62 @lang('general.uah')</td>
                             <td>@lang('general.from') 97.32 @lang('general.uah')</td>
                         </tr>
                         <tr>
                             <td><img src="{{ asset('images/competitors-logo-4.png') }}" alt=""></td>
                             <td>@lang('general.from') 36.00 @lang('general.uah')</td>
+                            <td>@lang('general.from') 28.27 @lang('general.uah')</td>
                             <td>@lang('general.from') - @lang('general.uah')</td>
-                            <td>@lang('general.from') - @lang('general.uah')</td>
-                            <td>@lang('general.from') - @lang('general.uah')</td>
+                            <td>@lang('general.from') 59.00 @lang('general.uah')</td>
                         </tr>
                         </tbody>
                     </table>

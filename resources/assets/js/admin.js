@@ -45,27 +45,7 @@ $('.blog-editor').trumbowyg({
         $("#brand-name-ed").val(old_name);
         $("#id-edited").val(brand_id);
     });
-    // var old_id=null;
-    /* Cstegory rename. Old method
-  $(".change-category").on("click", function(event){
-        // event.preventDefault();
-        var old_name = $(this).attr('data-name');
-        var sub_id = $(this).attr('data-sub-id');
-        var id = $(this).attr("id");
-        $("#edit-form").removeClass('d-none');
-        $("#new-cat-name").val(old_name);
-        $("#id-edited").val(id);
-         //enable or disable category
-        //  if(old_id!=id){
-        //   $("#parent-select option[value=" + id + "]").prop('disabled',true);
-        //   $("#parent-select option[value=" + old_id + "]").prop('disabled',false);
-        // }
-        // else{
-        //   $("#parent-select option[value=" + id + "]").prop('disabled',true);
-        // }
-        // old_id=id;
-        $("#parent-select").val(sub_id).change();
-      })*/
+
     // update attributes
     $(".change-attr-name").on('click', function () {
         // event.preventDefault();
@@ -77,15 +57,6 @@ $('.blog-editor').trumbowyg({
         $("#ru-attr-name-ed").val(old_ru);
         $("#id-edited").val(id);
     });
-    // add category checkbox if multiple
-    // not using
-    // $('.add_cat').on('click',function(event){
-    //   event.preventDefault();
-    //   var id = $('#cats').val();
-    //   if (id=='') return;
-    //   var opt_text = $('#cats :selected').text();
-    //   $('#cat_block').append('<input type="checkbox" name="categories[]" value="'+id+'" checked class="ml-1">'+opt_text);
-    // })
 
     // add input field for adding attributes and own values
     $('.add_attr').on('click', function (event) {

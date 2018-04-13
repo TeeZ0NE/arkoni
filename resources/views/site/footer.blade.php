@@ -18,9 +18,9 @@
                         <li>
                             <a href="{{ LaravelLocalization::LocalizeURL('/brigades') }}">@lang('main-menu.brigades')</a>
                         </li>
-                        <li>
-                            <a href="{{ LaravelLocalization::LocalizeURL('/cooperation') }}">@lang('main-menu.cooperation')</a>
-                        </li>
+                        {{--<li>--}}
+                            {{--<a href="{{ LaravelLocalization::LocalizeURL('/cooperation') }}">@lang('main-menu.cooperation')</a>--}}
+                        {{--</li>--}}
                     </ul>
                 </nav>
             </div>

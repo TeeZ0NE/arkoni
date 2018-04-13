@@ -54,3 +54,13 @@ Breadcrumbs::register('tags', function ($breadcrumbs, $name) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push($name);
 });
+
+Breadcrumbs::register('brigades', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push(__('breadcrumbs.brigades'), route('brigades'));
+});
+
+//Breadcrumbs::register('cooperation', function ($breadcrumbs) {
+//    $breadcrumbs->parent('home');
+//    $breadcrumbs->push(__('breadcrumbs.cooperation'), route('cooperation'));
+//});

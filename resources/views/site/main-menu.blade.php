@@ -72,10 +72,10 @@
                                 <a class="nav-item nav-link"
                                    href="{{ LaravelLocalization::LocalizeURL('/about') }}">@lang('main-menu.about')</a>
                             </li>
-                            <li>
-                                <a class="nav-item nav-link"
-                                   href="{{ LaravelLocalization::LocalizeURL('/cooperation') }}">@lang('main-menu.cooperation')</a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a class="nav-item nav-link"--}}
+                                   {{--href="{{ LaravelLocalization::LocalizeURL('/cooperation') }}">@lang('main-menu.cooperation')</a>--}}
+                            {{--</li>--}}
                             <li>
                                 <a class="nav-item nav-link"
                                    href="{{ LaravelLocalization::LocalizeURL('/blog') }}">@lang('main-menu.blog')</a>
@@ -122,10 +122,10 @@
                             <a class="nav-item nav-link"
                                href="{{ LaravelLocalization::LocalizeURL('/about') }}">@lang('main-menu.about')</a>
                         </li>
-                        <li>
-                            <a class="nav-item nav-link"
-                               href="{{ LaravelLocalization::LocalizeURL('/cooperation') }}">@lang('main-menu.cooperation')</a>
-                        </li>
+                        {{--<li>--}}
+                            {{--<a class="nav-item nav-link"--}}
+                               {{--href="{{ LaravelLocalization::LocalizeURL('/cooperation') }}">@lang('main-menu.cooperation')</a>--}}
+                        {{--</li>--}}
                         <li>
                             <a class="nav-item nav-link"
                                href="{{ LaravelLocalization::LocalizeURL('/blog') }}">@lang('main-menu.blog')</a>

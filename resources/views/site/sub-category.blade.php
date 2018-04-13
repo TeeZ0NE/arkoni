@@ -151,7 +151,7 @@
                     <article class="item">
                         <div class="container">
                             <div class="row">
-                                <div class="col-sm-12 col-md-3 text-center">
+                                <div class="col-sm-12 col-md-3">
                                     <a href="{{ LaravelLocalization::LocalizeURL('/'.$item->item_url_slug) }}">
                                         <img class="img-fluid" src="{{ asset('/storage/img/'.$item->item_photo) }}"
                                              alt="">

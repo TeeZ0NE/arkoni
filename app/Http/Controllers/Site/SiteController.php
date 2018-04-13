@@ -41,10 +41,8 @@ class SiteController extends BaseController
 
     public function contacts(Request $request)
     {
-
         return view('site.contacts', [
             'class' => 'contacts',
-            'data' => $this->data,
             'title' => __('seo.contacts-title'),
             'description' => __('seo.contacts-description'),
             'rating' => $this->stars->index($request),
@@ -55,11 +53,29 @@ class SiteController extends BaseController
     {
         return view('site.about', [
             'class' => 'about',
-            'data' => $this->data,
             'title' => __('seo.about-title'),
             'description' => __('seo.about-description'),
             'rating' => $this->stars->index($request),
         ]);
     }
 
+    public function brigades(Request $request)
+    {
+        return view('site.brigades', [
+            'class' => 'brigades',
+            'title' => __('seo.brigades-title'),
+            'description' => __('seo.brigades-description'),
+            'rating' => $this->stars->index($request),
+        ]);
+    }
+
+//    public function cooperation(Request $request)
+//    {
+//        return view('site.cooperation', [
+//            'class' => 'cooperation',
+//            'title' => __('seo.cooperation-title'),
+//            'description' => __('seo.cooperation-description'),
+//            'rating' => $this->stars->index($request),
+//        ]);
+//    }
 }

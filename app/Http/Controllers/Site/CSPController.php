@@ -42,10 +42,10 @@ class CSPController extends BaseController
 
     public function catalog(Request $request)
     {
-            $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'cat_photo as photo')
-                ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
-                ->orderBy('name')
-                ->get()->toArray();
+        $this->data['category'] = DB::table('categories')->select($this->locale . '_name as name', 'cat_url_slug as slug', 'cat_photo as photo')
+            ->join($this->locale . '_categories', 'categories.id', '=', $this->locale . '_categories.cat_id')
+            ->orderBy('name')
+            ->get()->toArray();
 
         return view('site.catalog', [
             'class' => 'catalog',
@@ -58,17 +58,21 @@ class CSPController extends BaseController
 
     public function category(Request $request)
     {
-            $this->data['category'] = DB::table('categories')->select(config('app.locale') . '_name as name', 'cat_url_slug as slug', 'title', config('app.locale') . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
-                ->join(config('app.locale') . '_categories', 'categories.id', '=', config('app.locale') . '_categories.cat_id')
-                ->where('cat_url_slug', $request->segment(2))
-                ->get()->toArray()[0];
+        $this->data['category'] = DB::table('categories')->select($this->locale . '_name as name', 'cat_url_slug as slug', 'title', $this->locale . '_categories.desc', 'h1', 'seo_text', 'h2', 'seo_text_2')
+            ->join($this->locale . '_categories', 'categories.id', '=', $this->locale . '_categories.cat_id')
+            ->where('cat_url_slug', $this->segment)
+            ->first();
+        if (!$this->data['category']) {
+            Log::error('Category first get error');
+            return abort(404);
+        }
 
-            $this->data['sub-categories'] = DB::table('sub_categories')->select(config('app.locale') . '_name as name', 'sub_cat_url_slug as slug', 'sub_cat_photo as photo')
-                ->join(config('app.locale') . '_sub_categories', 'sub_categories.id', '=', config('app.locale') . '_sub_categories.sub_cat_id')
-                ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
-                ->where('cat_url_slug', $request->segment(2))
-                ->orderBy('name')
-                ->get()->toArray();
+        $this->data['sub-categories'] = DB::table('sub_categories')->select($this->locale . '_name as name', 'sub_cat_url_slug as slug', 'sub_cat_photo as photo')
+            ->join($this->locale . '_sub_categories', 'sub_categories.id', '=', $this->locale . '_sub_categories.sub_cat_id')
+            ->join('categories', 'categories.id', '=', 'sub_categories.cat_id')
+            ->where('cat_url_slug', $this->segment)
+            ->orderBy('name')
+            ->get()->toArray();
 
         return view('site.category', [
             'class' => 'category',
@@ -114,9 +118,9 @@ class CSPController extends BaseController
     {
         $item_model = new Item();
 // with url_slug search item ID
-        $item_id = $this->getItemId($request->segment(2));
+        $item_id = $this->getItemId($this->segment);
         $item_method = $this->getItemMethod();
-        $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id),$item_id);
+        $same_ids = $this->getSameProductsIds($item_model->getItemCategoryId($item_id), $item_id);
         $this->data['same_items'] = ($same_ids)
             ? Item::with([$this->getItemMethod(),])->find($same_ids)
             : Null;
@@ -136,9 +140,9 @@ class CSPController extends BaseController
             'description' => $this->data['item'][$item_method]->description,
             'rating' => $this->stars->index($request),
             'starts' => false, //hide starts in footer
-            'item_method'=>$item_method,
-            'tag_method'=>$this->getItemTagMethod(),
-            'column'=>$this->getColumn(),
+            'item_method' => $item_method,
+            'tag_method' => $this->getItemTagMethod(),
+            'column' => $this->getColumn(),
             "attrs" => Attribute::get(['id', $this->getColumn()]),
             "item_attrs" => ItemAttribute::with('attributesLang')->where('item_id', $item_id)->get(),
         ]);
@@ -165,13 +169,13 @@ class CSPController extends BaseController
             'segment' => $this->segment,
             'i_method' => $sort_config['method'],
             't_method' => $this->getTagMethod(),
-            'column'=>$this->getColumn(),
+            'column' => $this->getColumn(),
             'brands' => $brand_model->getBrands($data['brand_ids']),
             'bs' => $bs,
             'rating' => $this->stars->index($request),
             'title' => $tag[$tag_method]->title,
             'description' => $tag[$tag_method]->description,
-            'tags'=>$this->tagCombine($data['items']),
+            'tags' => $this->tagCombine($data['items']),
         ]);
     }
 
@@ -200,10 +204,10 @@ class CSPController extends BaseController
     {
         try {
             $item_id = Item::where([['item_url_slug', '=', $segment], ['enabled', '=', 1]])->first()->id;
-        }catch(Exception $qe){
-            Log::error('Get item ID',['segment'=>$segment,'msg'=>$qe->getMessage()]);
+        } catch (Exception $qe) {
+            Log::error('Get item ID', ['segment' => $segment, 'msg' => $qe->getMessage()]);
             return abort(404);
-    }
+        }
         return $item_id;
     }
 
@@ -215,7 +219,12 @@ class CSPController extends BaseController
     {
         $sc = new SubCategory();
         // getting SubCategory ID
-        $sc_id = $sc->getSubCategoryId($this->segment);
+        try {
+            $sc_id = $sc->getSubCategoryId($this->segment);
+        } catch (Exception $e) {
+            Log::error('Get SubCategory ID', ['msg' => $e]);
+            return abort(404);
+        }
         return $sc_id;
     }
 
@@ -287,8 +296,8 @@ class CSPController extends BaseController
     {
         try {
             return SubCategory::with('getCategory')->where('id', $this->getSubCategoryId())->first()->cat_id;
-        }catch(Exception $qe){
-            Log::error('Get category ID',['msg'=>$qe->getMessage()]);
+        } catch (Exception $qe) {
+            Log::error('Get category ID', ['msg' => $qe->getMessage()]);
             return abort(404);
         }
     }
@@ -335,13 +344,18 @@ class CSPController extends BaseController
         }
     }
 
-    private function getTagMethod(){
-        $t_methods = array('getRuTag','getUkTag');
-        switch ($this->locale){
-            case 'uk':return $t_methods[1];break;
-            default: return $t_methods[0];
+    private function getTagMethod()
+    {
+        $t_methods = array('getRuTag', 'getUkTag');
+        switch ($this->locale) {
+            case 'uk':
+                return $t_methods[1];
+                break;
+            default:
+                return $t_methods[0];
         }
     }
+
     /**
      * getting column from DB lang columns
      * @return string column name
@@ -365,18 +379,19 @@ class CSPController extends BaseController
      * @param $items
      * @return array
      */
-    private function tagCombine($items){
+    private function tagCombine($items)
+    {
         $tag_key = array();
         $tag_value = array();
-        foreach ($items as $item){
-            foreach ($item->getItemTag as $tag){
-                $tag_key[]=$tag->tag_url_slug;
+        foreach ($items as $item) {
+            foreach ($item->getItemTag as $tag) {
+                $tag_key[] = $tag->tag_url_slug;
             }
-            foreach ($item[$this->getItemTagMethod()] as $tm){
-                $tag_value[]=$tm[$this->getColumn()];
+            foreach ($item[$this->getItemTagMethod()] as $tm) {
+                $tag_value[] = $tm[$this->getColumn()];
             }
         }
-        $comb = array_combine($tag_key,$tag_value);
+        $comb = array_combine($tag_key, $tag_value);
         return $comb;
     }
 
@@ -386,16 +401,17 @@ class CSPController extends BaseController
      * @param $item
      * @return array
      */
-    private function itemTagCombine($item){
+    private function itemTagCombine($item)
+    {
         $tag_key = array();
         $tag_value = array();
-        foreach ($item->getItemTag as $tag){
-            $tag_key[]=$tag->tag_url_slug;
+        foreach ($item->getItemTag as $tag) {
+            $tag_key[] = $tag->tag_url_slug;
         }
-        foreach ($item[$this->getItemTagMethod()] as $tm){
-            $tag_value[]=$tm[$this->getColumn()];
+        foreach ($item[$this->getItemTagMethod()] as $tm) {
+            $tag_value[] = $tm[$this->getColumn()];
         }
-        $comb = array_combine($tag_key,$tag_value);
+        $comb = array_combine($tag_key, $tag_value);
         return $comb;
     }
 
@@ -405,22 +421,32 @@ class CSPController extends BaseController
      * @param  Int $current_id
      * @return null|Array
      */
-    private function getSameProductsIds($cat_id, $current_id){
+    private function getSameProductsIds($cat_id, $current_id)
+    {
         /*$ic=new ItemCategory() ;
         $all_ids = $ic->where([['sub_cat_id','=',$cat_id],['item_id','<>',$current_id]])->pluck('item_id');     */
-        $sub_cat_ids = DB::table('sub_categories')->where('cat_id',$cat_id)->pluck('id');
+        $sub_cat_ids = DB::table('sub_categories')->where('cat_id', $cat_id)->pluck('id');
         $all_ids = DB::table('item_categories')->
-        whereIn('sub_cat_id',$sub_cat_ids)->
-        where('item_id','<>',$current_id)->
+        whereIn('sub_cat_id', $sub_cat_ids)->
+        where('item_id', '<>', $current_id)->
         pluck('item_id');
-        switch($all_ids->count()){
-            case 1: $count = 1;break;
-            case 2: $count = 2;break;
-            case 3: $count = 3;break;
-            case 0: $count = 0;break;
-            default: $count = 4;
+        switch ($all_ids->count()) {
+            case 1:
+                $count = 1;
+                break;
+            case 2:
+                $count = 2;
+                break;
+            case 3:
+                $count = 3;
+                break;
+            case 0:
+                $count = 0;
+                break;
+            default:
+                $count = 4;
         }
-        $same_ids = ($count)?$all_ids->random($count):Null;
+        $same_ids = ($count) ? $all_ids->random($count) : Null;
         return $same_ids;
     }
 
@@ -433,8 +459,8 @@ class CSPController extends BaseController
         $t = new Tag();
         try {
             $tag_id = $t->getTagId($this->segment);
-        }catch(Exception $e){
-            Log::error('Get tag ID', ['msg'=>$e->getMessage()]);
+        } catch (Exception $e) {
+            Log::error('Get tag ID', ['msg' => $e->getMessage()]);
             return abort(404);
         }
         return $tag_id;

@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.ukr.net'),
+    'host' => env('MAIL_HOST', 'localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     | This is the SMTP port used by your application to deliver e-mails to
     | users of the application. Like the host we have set this value to
     | stay compatible with the Mailgun e-mail application by default.
-    |
+    |587
     */
 
     'port' => env('MAIL_PORT', 587),
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'endnet@ukr.net'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@arkony.vn.ua'),
+        'name' => env('MAIL_FROM_NAME', 'admin Arkony'),
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+    'encryption' => env('MAIL_ENCRYPTION', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -96,10 +96,10 @@ return [
     | When using the "sendmail" driver to send e-mails, we will need to know
     | the path to where Sendmail lives on this server. A default path has
     | been provided here, which will work well on most of your systems.
-    |
+    |-bs
     */
 
-    'sendmail' => '/usr/sbin/sendmail -bs',
+    'sendmail' => '/usr/sbin/sendmail -t',
 
     /*
     |--------------------------------------------------------------------------

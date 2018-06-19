@@ -17,6 +17,7 @@ use App\Models\{
 	Tag,
 	ItemTag
 };
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException as QE;
@@ -56,7 +57,6 @@ class ItemsController extends Controller
 			'items' => $items,
 			'total' => $items->total(),
 			'links' => $items->links(),
-
 		]);
 	}
 
@@ -142,7 +142,6 @@ class ItemsController extends Controller
 		Log::info('Item add', ['user' => $user, 'item id' => $item_id]);
 		return redirect(route('items.index'))->with('msg', 'Новий товар додано до бази!');
 	}
-
 
 	/**
 	 * Display the specified resource.
@@ -270,7 +269,7 @@ class ItemsController extends Controller
 	 * @param  int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy(int $id)
 	{
 		$user = Auth::user()->name;
 		try {
@@ -279,7 +278,7 @@ class ItemsController extends Controller
 			$i::findOrFail($id)->delete();
 			$img = new WithImg();
 			$img->delete_photo($photo);
-		} catch (QE $qe) {
+		} catch (ModelNotFoundException $qe) {
 			Log::error('Item delete', ['msg' => $qe->getMessage(), 'user' => $user, 'item id' => $id]);
 			return redirect()->back()->withErrors(['msg' => 'Виникла помилка з видаленням товара']);
 		}
@@ -319,10 +318,49 @@ class ItemsController extends Controller
 	}
 
 	/**
+	 * @param int $id
+	 * copying item with $id
+	 * checking if $idexist -> copy it else return error and log it. Copy image from original with new name as name+copy. In new RU and UK names also plus 'copy" 2 end od title
+	 * @return view with result
+	 */
+	public function copyItem(int $id)
+	{
+		$item = new Item();
+		$user = Auth::user()->name;
+		$image = new WithImg();
+		$def_photo = config('app.img_default');
+		$a_text = "-COPY" . uniqid();
+		try {
+//			$original = $item::with(['getRuItem', 'getUkItem', 'getItemAttributes', 'getItemShortcut', 'getItemCategories'])->findOrFail($id);
+			$original = $item::findOrFail($id);
+		} catch (ModelNotFoundException $me) {
+			Log::error('Item copy', ['msg' => $me->getMessage(), 'user' => $user, 'item id' => $id]);
+			return redirect()->back()->withErrors(['msg' => 'Виникла помилка з копіюванням товара. Такого товара не знайдено в базі']);
+		}
+		try {
+			$new_image = $image->copyImage($original->item_photo);
+			$photo = $new_image ?? $def_photo;
+			$new_id = $this->copyItemMainData($original, $photo, $a_text);
+			$this->copyLang($id, $new_id, $a_text);
+			$this->copyItemCategory($id, $new_id);
+			$this->copyItemAtrributes($id, $new_id);
+				$this->copyItemTags($id, $new_id);
+			$this->copyItemShortcuts($id, $new_id);
+
+		} catch (Exception $e) {
+			Log::error('Item copy', ['msg' => $e->getMessage(), 'user' => $user, 'item id' => $id]);
+			return redirect()->back()->withErrors(['msg' => 'Виникла помилка з копіюванням товара. ' . $e->getMessage()]);
+		}
+		Log::info('Item copy', ['user' => $user, 'item id' => $id, 'new item id' => $new_id]);
+
+		return redirect(route('items.index'))->
+		with('msg', "Товар зкопійовано. Його індентифікатор <b>$new_id</b>.<br>Перейти до <a href=\"".route('items.edit',$new_id)."\">редагування</a>");
+	}
+
+	/**
 	 * storing main new item to DB
 	 * @param  Request $request
-	 * @param  String $namame getting name from get_name method
-	 * @param  String $file_name generated file name of image
+	 * @param string $photo
 	 * @return Int             if stored return item's ID else false
 	 */
 	private function storeNewItem(Request $request, $photo)
@@ -341,10 +379,10 @@ class ItemsController extends Controller
 	/**
 	 * Storing item languages
 	 * @param Request $request
-	 * @param $id item ID
+	 * @param int $id item ID
 	 * @return boolean
 	 */
-	private function storeLang(Request $request, $id)
+	private function storeLang(Request $request, int $id)
 	{
 		$uk_item = new UkItem();
 		$ru_item = new RuItem();
@@ -362,9 +400,9 @@ class ItemsController extends Controller
 	/**
 	 * storing Item Sub-categor-y(-ies)
 	 * first of all deleting existing subcategories then deleting them and store new subcategories
-	 * @param mixed $sub_categories
-	 * @param Int $id item ID
-	 * @return Boolean if store
+	 * @param int[] $sub_categories
+	 * @param int $id item ID
+	 * @return boolean if store
 	 */
 	private function storeItemSubCategories($sub_categories, $id)
 	{
@@ -388,10 +426,10 @@ class ItemsController extends Controller
 	 * Storing item attributes
 	 * @param array $attrs
 	 * @param array $values
-	 * @param $id
+	 * @param  int $id
 	 * @return Integer Boolean if strored
 	 */
-	private function storeItemAttributes(Array $attrs, Array $values, $id)
+	private function storeItemAttributes(array $attrs, array $values, $id)
 	{
 		$ia = new ItemAttribute();
 		# merge 2 arrays. One are keys of another array
@@ -417,11 +455,11 @@ class ItemsController extends Controller
 
 	/**
 	 * Storin' item shortcuts
-	 * @param $shortcuts
-	 * @param $id item ID
+	 * @param int[] $shortcuts
+	 * @param int $id item ID
 	 * @return Bool
 	 */
-	private function storeItemShortcuts($shortcuts, $id)
+	private function storeItemShortcuts($shortcuts, int $id)
 	{
 		$ishrt = new ItemShortcut();
 		try {
@@ -441,11 +479,11 @@ class ItemsController extends Controller
 
 	/**
 	 * Storin' item tags
-	 * @param $tags
-	 * @param $id item ID
+	 * @param int[] $tags
+	 * @param int $id item ID
 	 * @return boolean
 	 */
-	private function storeItemTags($tags, $id)
+	private function storeItemTags($tags, int $id)
 	{
 		$item_tag = new ItemTag();
 		try {
@@ -468,7 +506,7 @@ class ItemsController extends Controller
 	 * @param  int $id ID
 	 * @return boolean
 	 */
-	private function deleteItemShortcuts($id)
+	private function deleteItemShortcuts(int $id)
 	{
 		$ishrt = new ItemShortcut();
 		try {
@@ -485,7 +523,7 @@ class ItemsController extends Controller
 	 * @param int $id item ID
 	 * @return boolean
 	 */
-	private function deleteItemAttributes($id)
+	private function deleteItemAttributes(int $id)
 	{
 		$ia = new ItemAttribute();
 		try {
@@ -499,10 +537,10 @@ class ItemsController extends Controller
 
 	/**
 	 * deletein' tags of item
-	 * @param $id item ID
+	 * @param int $id item ID
 	 * @return boolean does it deleted
 	 */
-	private function deleteItemTags($id)
+	private function deleteItemTags(int $id)
 	{
 		$item_tags = new ItemTag();
 		try {
@@ -516,10 +554,10 @@ class ItemsController extends Controller
 
 	/**
 	 * getting methods and sort order 4 next transformation
-	 * @param String $sort
+	 * @param string $sort
 	 * @return array methods existing in Item model, which columns will be using and order asc or desc
 	 */
-	private function searchConfig($sort)
+	private function searchConfig(string $sort)
 	{
 		/* 'method' => Null,
 			'column' => Null,
@@ -580,5 +618,113 @@ class ItemsController extends Controller
 				break;
 		}
 		return $orderBy;
+	}
+
+	/**
+	 * copying main data 2 table Items
+	 * @param Object $original
+	 * @param string $photo String
+	 * @param string $a_text String adding uniw text
+	 * @return mixed
+	 */
+	private function copyItemMainData(Object $original, string $photo, string $a_text)
+	{
+		$copy = $original->replicate();
+		$copy->item_photo = $photo;
+		$copy->enabled = False;
+		$copy->item_url_slug = $original->item_url_slug . $a_text;
+		$copy->save();
+		return $copy->id;
+	}
+
+	/**
+	 * copying languages and adding uniqid to the end of text
+	 * @param int $id
+	 * @param int $new_id
+	 * @param  string $a_text adding text
+	 */
+	private function copyLang(int $id, int $new_id, string $a_text) : void
+	{
+		$rui = new RuItem();
+		$uki = new UkItem();
+		try {
+			$ru_o = $rui::findOrFail($id)->replicate();
+			$uk_o = $uki::findOrFail($id)->replicate();
+			$ru_o->item_id = $uk_o->item_id = $new_id;
+			$ru_o->ru_name .= $a_text;
+			$uk_o->uk_name .= $a_text;
+			$ru_o->save();
+			$uk_o->save();
+		} catch (ModelNotFoundException $me) {
+			Log::error("Item copy $id -> $new_id", ["msg" => "Назва продукту не зкопійована!"]);
+		}
+	}
+
+	/**
+	 * copying item subcategories
+	 * @param int $id Int
+	 * @param int $new_id Int
+	 */
+	private function copyItemCategory(int $id, int $new_id) : void
+	{
+		$c = new ItemCategory();
+		$c_o = ItemCategory::where('item_id', $id)->get()->pluck('sub_cat_id');
+		# count of elements in array less 1
+		if (!$c_o->count())
+			Log::notice("Item copy $id -> $new_id", ["msg" => "Підкатегоріїї продукту не зкопійовані або скопійовані частково!"]);
+		foreach ($c_o as $k) {
+			$c->insert(['item_id' => $new_id, 'sub_cat_id' => $k]);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @param int $new_id
+	 */
+	private function copyItemAtrributes(int $id, int $new_id) : void
+	{
+		$ia = new ItemAttribute();
+		$ia_o = ItemAttribute::where('item_id', $id)->
+		get(['attr_id', 'value']);
+		# count elements in array less than 1. Nothing 2 copy
+		if (!$ia_o->count())
+			Log::notice("Item copy $id -> $new_id", ["msg" => "Атрибути не зкопійовані"]);
+		foreach ($ia_o as $obj) {
+			$ia->insert([
+				'item_id' => $new_id,
+				'attr_id' => $obj->attr_id,
+				'value' => $obj->value
+			]);
+		}
+	}
+
+	/**
+	 * copying item tags if exists
+	 * @param int $id
+	 * @param int $new_id
+	 */
+	private function copyItemTags(int $id, int $new_id) : void
+	{
+		$it = new ItemTag();
+		$it_o = ItemTag::where("item_id", $id)->get()->pluck('tag_id');
+		if (!$it_o->count()) Log::notice("Item copy $id -> $new_id", ["msg" => "Tags don't copied or not exists"]);
+		foreach ($it_o as $tag) {
+			$it->insert(['item_id' => $new_id, 'tag_id' => $tag]);
+		}
+	}
+
+	/**
+	 * copying item shortcuts if they are exists
+	 * @param int $id copy from
+	 * @param int $new_id
+	 */
+	private function copyItemShortcuts(int $id, int $new_id) : void
+	{
+		$is = new ItemShortcut();
+		$is_o = ItemShortcut::where('item_id', $id)->get()->pluck('shortcut_id');
+		if (!$is_o->count()) Log::notice("Item copy $id -> $new_id", ["msg" => "Shortcuts don't copied or not exists"]);
+		foreach ($is_o as $shortcut) {
+			$is->insert(['item_id' => $new_id, 'shortcut_id' => $shortcut]);
+		}
 	}
 }

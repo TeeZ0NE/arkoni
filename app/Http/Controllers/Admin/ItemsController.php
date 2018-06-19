@@ -573,7 +573,7 @@ class ItemsController extends Controller
 			case 'desc_iname':
 				$orderBy = ([
 					'method' => $methods[1],
-					'sortBy' => $methods[1] . ".$columns[1]",
+					'sortBy' => $methods[1] . ".$columns[0]",
 					'order' => $order,
 					'column' => $columns[1]
 				]);

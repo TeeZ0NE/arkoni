@@ -71,6 +71,7 @@ Route::prefix('admin')->group(function () {
     // Items
     Route::group(['middleware' => ['purify']], function () {
         Route::get('items/query', 'Admin\ItemsController@search')->name('items.search');
+        Route::get('items/{item}/copy','Admin\ItemsController@copyItem')->name('items.copy');
         Route::resource('items', 'Admin\ItemsController');
     });
     // Tags

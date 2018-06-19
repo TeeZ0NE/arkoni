@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class WithImg
 {
     private $blog_path = 'blog/';
+    private $public_path = 'public/img/';
     /**
      *
      * @param $file
@@ -22,7 +23,7 @@ class WithImg
     {
         $file_name = time() . url_slug($ru_name) . '.' . $file_ext;
         $public_path = config('app.img_path');
-        Storage::putFileAs('public/img/'.$blog_path, $file, $file_name);
+        Storage::putFileAs($this->public_path.$blog_path, $file, $file_name);
         $img = Image::make($public_path.$blog_path . $file_name)
             ->resize($width, $width, function ($constraint) {
                 $constraint->AspectRatio();
@@ -48,7 +49,7 @@ class WithImg
     public function delete_photo($photo, $is_blog = False)
     {$blog_path =($is_blog)?$this->blog_path:Null;
         if ($photo !== config('app.img_default')) {
-            Storage::delete('public/img/' .$blog_path. $photo);
+            Storage::delete($this->public_path .$blog_path. $photo);
         }
     }
 
@@ -68,5 +69,19 @@ class WithImg
         $photo = $this->set_image($file, $name, $file_ext, $water_mark, $width, $blog_path);
         return $photo;
     }
+
+	public function copyImage(String $file){
+		#check image and store it with added hash name
+		if (Storage::disk('local')->has($this->public_path.$file)){
+			preg_match("/(?:[-\w\d]+)\.(?P<ext>\w{3,})$/", $file, $output_array);
+			$ext =  !($output_array['ext'])?:$output_array['ext'];
+			$new_file = uniqid().".$ext";
+			$res = Storage::copy($this->public_path.$file, $this->public_path.$new_file);
+			if($res) {
+				return $new_file;
+			};
+		}
+		return Null;
+	}
 }
 
